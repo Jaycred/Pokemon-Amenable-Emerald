@@ -3325,7 +3325,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if (damage == 0)
             damage = 1;
 
-        damage += 2000;
+        damage += 2;
     }
 
     if (type == TYPE_MYSTERY)
@@ -3413,8 +3413,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         // Flash fire triggered
         if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
             damage = (15 * damage) / 10;
-
-        damage = 1;
     }
 
     return damage + 2;

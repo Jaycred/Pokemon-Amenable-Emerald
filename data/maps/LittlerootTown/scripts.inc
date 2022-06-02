@@ -944,6 +944,8 @@ LittlerootTown_Text_ExplainRunningShoes:
 	.string "instructions.\p"
 	.string "“Press the B Button while wearing these\n"
 	.string "RUNNING SHOES to run extra-fast!\p"
+	.string "You may also press the R Button\n"
+	.string "to run automatically.\p"
 	.string "“Slip on these RUNNING SHOES and race\n"
 	.string "in the great outdoors!”$"
 

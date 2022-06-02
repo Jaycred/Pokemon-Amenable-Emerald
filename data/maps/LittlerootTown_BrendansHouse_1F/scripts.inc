@@ -386,6 +386,8 @@ PlayersHouse_1F_Text_RunningShoesManual:
 	.string "RUNNING SHOES.\p"
 	.string "“Press the B Button to run while\n"
 	.string "wearing your RUNNING SHOES.\p"
+	.string "And don't forget to press the R Button\n"
+	.string "to run automatically.\p"
 	.string "“Lace up your RUNNING SHOES and hit\n"
 	.string "the road running!”$"
 

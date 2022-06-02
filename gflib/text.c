@@ -873,7 +873,8 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        //QoL: you can hold A/B to auto-scroll text
+        if (JOY_NEW(A_BUTTON | B_BUTTON) || JOY_HELD(A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -891,7 +892,8 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        //QoL: you can hold A/B to auto-scroll text
+        if (JOY_NEW(A_BUTTON | B_BUTTON) || JOY_HELD(A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);

@@ -350,7 +350,7 @@ static const u8 sSuperRepelDesc[] = _(
 
 static const u8 sMaxRepelDesc[] = _(
     "Repels weak wild\n"
-    "POKéMON for 250\n"
+    "POKéMON for 350\n"
     "steps.");
 
 static const u8 sEscapeRopeDesc[] = _(

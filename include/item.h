@@ -11,7 +11,7 @@ struct Item
     u16 itemId;
     u16 price;
     u8 holdEffect;
-    u8 holdEffectParam;
+    u16 holdEffectParam;
     const u8 *description;
     u8 importance;
     bool8 registrability; // unused
@@ -65,7 +65,7 @@ const u8 *ItemId_GetName(u16 itemId);
 u16 ItemId_GetId(u16 itemId);
 u16 ItemId_GetPrice(u16 itemId);
 u8 ItemId_GetHoldEffect(u16 itemId);
-u8 ItemId_GetHoldEffectParam(u16 itemId);
+u16 ItemId_GetHoldEffectParam(u16 itemId);
 const u8 *ItemId_GetDescription(u16 itemId);
 u8 ItemId_GetImportance(u16 itemId);
 u8 ItemId_GetRegistrability(u16 itemId);

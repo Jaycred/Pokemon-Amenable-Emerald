@@ -81,6 +81,7 @@ static void Task_ExitBuyMenu(u8 taskId);
 static void BuyMenuTryMakePurchase(u8 taskId);
 static void BuyMenuReturnToItemList(u8 taskId);
 static void Task_BuyHowManyDialogueInit(u8 taskId);
+static void Task_BuyHowManyTmDialogueInit(u8 taskId);
 static void BuyMenuConfirmPurchase(u8 taskId);
 static void BuyMenuPrintItemQuantityAndPrice(u8 taskId);
 static void Task_BuyHowManyDialogueHandleInput(u8 taskId);
@@ -957,7 +958,7 @@ static void Task_BuyMenu(u8 taskId)
                     if (ItemId_GetPocket(itemId) == POCKET_TM_HM)
                     {
                         StringCopy(gStringVar2, gMoveNames[ItemIdToBattleMoveId(itemId)]);
-                        BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowMany2, Task_BuyHowManyDialogueInit);
+                        BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowMany2, Task_BuyHowManyTmDialogueInit);
                     }
                     else
                     {
@@ -1008,6 +1009,27 @@ static void Task_BuyHowManyDialogueInit(u8 taskId)
     {
         sShopData->maxQuantity = maxQuantity;
     }
+
+    gTasks[taskId].func = Task_BuyHowManyDialogueHandleInput;
+}
+
+static void Task_BuyHowManyTmDialogueInit(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+
+    u16 quantityInBag = CountTotalItemQuantityInBag(tItemId);
+    u16 maxQuantity;
+
+    DrawStdFrameWithCustomTileAndPalette(3, FALSE, 1, 13);
+    ConvertIntToDecimalStringN(gStringVar1, quantityInBag, STR_CONV_MODE_RIGHT_ALIGN, MAX_ITEM_DIGITS + 1);
+    StringExpandPlaceholders(gStringVar4, gText_InBagVar1);
+    BuyMenuPrint(3, gStringVar4, 0, 1, 0, 0);
+    tItemCount = 1;
+    DrawStdFrameWithCustomTileAndPalette(4, FALSE, 1, 13);
+    BuyMenuPrintItemQuantityAndPrice(taskId);
+    ScheduleBgCopyTilemapToVram(0);
+
+    sShopData->maxQuantity = 1;
 
     gTasks[taskId].func = Task_BuyHowManyDialogueHandleInput;
 }

@@ -1891,6 +1891,7 @@ static void GiveBattlePoints(void)
     points = sBattlePointAwards[challengeNum][facility][battleMode];
     if (gTrainerBattleOpponent_A == TRAINER_FRONTIER_BRAIN)
         points += 10;
+    points *= 4; //Bigger point gain
     gSaveBlock2Ptr->frontier.battlePoints += points;
     ConvertIntToDecimalStringN(gStringVar1, points, STR_CONV_MODE_LEFT_ALIGN, 2);
     if (gSaveBlock2Ptr->frontier.battlePoints > MAX_BATTLE_FRONTIER_POINTS)

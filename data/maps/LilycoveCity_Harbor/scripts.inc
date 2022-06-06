@@ -104,7 +104,7 @@ LilycoveCity_Harbor_EventScript_GoToBattleFrontier::
 
 LilycoveCity_Harbor_EventScript_GetEonTicketState::
 	setvar VAR_TEMP_E, 0
-	goto_if_unset FLAG_ENABLE_SHIP_SOUTHERN_ISLAND, Common_EventScript_NopReturn
+	
 	checkitem ITEM_EON_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NopReturn
 	setvar VAR_TEMP_E, 1
@@ -114,7 +114,7 @@ LilycoveCity_Harbor_EventScript_GetEonTicketState::
 
 LilycoveCity_Harbor_EventScript_GetAuroraTicketState::
 	setvar VAR_TEMP_D, 0
-	goto_if_unset FLAG_ENABLE_SHIP_BIRTH_ISLAND, Common_EventScript_NopReturn
+	
 	checkitem ITEM_AURORA_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NopReturn
 	setvar VAR_TEMP_D, 1
@@ -124,7 +124,7 @@ LilycoveCity_Harbor_EventScript_GetAuroraTicketState::
 
 LilycoveCity_Harbor_EventScript_GetOldSeaMapState::
 	setvar VAR_TEMP_C, 0
-	goto_if_unset FLAG_ENABLE_SHIP_FARAWAY_ISLAND, Common_EventScript_NopReturn
+	
 	checkitem ITEM_OLD_SEA_MAP
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NopReturn
 	setvar VAR_TEMP_C, 1
@@ -134,7 +134,7 @@ LilycoveCity_Harbor_EventScript_GetOldSeaMapState::
 
 LilycoveCity_Harbor_EventScript_GetMysticTicketState::
 	setvar VAR_TEMP_9, 0
-	goto_if_unset FLAG_ENABLE_SHIP_NAVEL_ROCK, Common_EventScript_NopReturn
+	
 	checkitem ITEM_MYSTIC_TICKET
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_NopReturn
 	setvar VAR_TEMP_9, 1

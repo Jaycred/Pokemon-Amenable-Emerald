@@ -349,12 +349,6 @@ PetalburgCity_Gym_EventScript_NormanRematch::
 	end
 
 PetalburgCity_Gym_EventScript_ShouldGiveEnigmaBerry::
-	specialvar VAR_RESULT, IsEnigmaBerryValid
-	goto_if_eq VAR_RESULT, FALSE, PetalburgCity_Gym_EventScript_DontGiveEnigmaBerry
-	checkitem ITEM_ENIGMA_BERRY
-	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_DontGiveEnigmaBerry
-	checkpcitem ITEM_ENIGMA_BERRY
-	goto_if_eq VAR_RESULT, TRUE, PetalburgCity_Gym_EventScript_DontGiveEnigmaBerry
 	goto_if_eq VAR_ENIGMA_BERRY_AVAILABLE, 0, PetalburgCity_Gym_EventScript_DontGiveEnigmaBerry
 	msgbox PetalburgCity_Gym_Text_GiveEnigmaBerry, MSGBOX_DEFAULT
 	setvar VAR_RESULT, TRUE
@@ -390,6 +384,7 @@ PetalburgCity_Gym_EventScript_NormanBattle::
 	clearflag FLAG_HIDE_DEWFORD_HALL_SLUDGE_BOMB_MAN
 	call PetalburgCity_Gym_EventScript_UnlockAllDoors
 	special DrawWholeMapView
+	setvar VAR_ENIGMA_BERRY_AVAILABLE, 1
 	call PetalburgCity_Gym_EventScript_GiveFacade
 	delay 30
 	msgbox PetalburgCity_Gym_Text_DadHappyAndSad, MSGBOX_DEFAULT

@@ -1544,13 +1544,15 @@ static void OpponentHandleYesNoBox(void)
 
 static void OpponentHandleChooseMove(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+    /*
+    if ((gBattleTypeFlags & BATTLE_TYPE_PALACE) && gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_TENT)
     {
         BtlController_EmitTwoReturnValues(BUFFER_B, 10, ChooseMoveAndTargetInBattlePalace());
         OpponentBufferExecCompleted();
     }
-    else
-    {
+    */
+    //else
+    //{
         u8 chosenMoveId;
         struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
 
@@ -1603,7 +1605,7 @@ static void OpponentHandleChooseMove(void)
 
             OpponentBufferExecCompleted();
         }
-    }
+    //}
 }
 
 static void OpponentHandleChooseItem(void)

@@ -17,6 +17,10 @@ MeteorFalls_StevensCave_EventScript_Steven::
 	msgbox MeteorFalls_StevensCave_Text_ShouldKnowHowGoodIAmExpectWorst, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_STEVEN, MeteorFalls_StevensCave_Text_StevenDefeat
 	msgbox MeteorFalls_StevensCave_Text_MyPredictionCameTrue, MSGBOX_DEFAULT
+
+	msgbox MeteorFalls_StevensCave_Text_ThisCanGuideYou, MSGBOX_DEFAULT
+	giveitem ITEM_EON_TICKET
+
 	setflag FLAG_DEFEATED_METEOR_FALLS_STEVEN
 	release
 	end
@@ -57,3 +61,6 @@ MeteorFalls_StevensCave_Text_MyPredictionCameTrue:
 	.string "… … … … … …\p"
 	.string "Fufufu, even I couldn't tell you that.$"
 
+MeteorFalls_StevensCave_Text_ThisCanGuideYou:
+	.string "…But perhaps this can guide you to\n"
+	.string "your next destination.$"

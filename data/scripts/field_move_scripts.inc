@@ -216,6 +216,9 @@ Text_MonUsedWaterfall:
 
 EventScript_UseDive::
 	lockall
+	checkitem ITEM_HM08
+	goto_if_eq VAR_RESULT, FALSE, EventScript_CantDive
+
 	checkpartymove MOVE_DIVE
 	goto_if_unset FLAG_BADGE07_GET, EventScript_CantDive
 	

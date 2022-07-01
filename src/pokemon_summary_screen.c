@@ -313,7 +313,7 @@ static void SummaryScreen_DestroyAnimDelayTask(void);
 
 // const rom data
 #include "data/text/move_descriptions.h"
-#include "data/text/nature_names.h"
+//data/text/nature_names.h was here, now covered by importing tv.h
 
 static const struct BgTemplate sBgTemplates[] =
 {

@@ -115,7 +115,7 @@ struct PartyMenuInternal
     u32 spriteIdCancelPokeball:7;
     u32 messageId:14;
     u8 windowId[3];
-    u8 actions[8];
+    u8 actions[9];
     u8 numActions;
     // In vanilla Emerald, only the first 0xB0 hwords (0x160 bytes) are actually used.
     // However, a full 0x100 hwords (0x200 bytes) are allocated.
@@ -380,6 +380,8 @@ static void ShiftMoveSlot(struct Pokemon*, u8, u8);
 static void BlitBitmapToPartyWindow_LeftColumn(u8, u8, u8, u8, u8, bool8);
 static void BlitBitmapToPartyWindow_RightColumn(u8, u8, u8, u8, u8, bool8);
 static void CursorCb_Summary(u8);
+static void CursorCb_Nickname(u8);
+
 static void CursorCb_Switch(u8);
 static void CursorCb_Cancel1(u8);
 static void CursorCb_Item(u8);
@@ -1377,6 +1379,9 @@ static void Task_HandleCancelChooseMonYesNoInput(u8 taskId)
 static u16 PartyMenuButtonHandler(s8 *slotPtr)
 {
     s8 movementDir;
+
+    if(FlagGet(FLAG_UNUSED_0x8E7)) //Auto-select when using Warp Scarf
+        return 1;
 
     switch (gMain.newAndRepeatedKeys)
     {
@@ -2554,6 +2559,8 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MAIL);
         else
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
+        if (!IsTradedMon(&mons[slotId]))
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
     }
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
@@ -2693,6 +2700,15 @@ static void CursorCb_Summary(u8 taskId)
 {
     PlaySE(SE_SELECT);
     sPartyMenuInternal->exitCallback = CB2_ShowPokemonSummaryScreen;
+    Task_ClosePartyMenu(taskId);
+}
+
+void ChangePokemonNickname(void);
+static void CursorCb_Nickname(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+    gSpecialVar_0x8004 = gPartyMenu.slotId;
+    sPartyMenuInternal->exitCallback = ChangePokemonNickname;
     Task_ClosePartyMenu(taskId);
 }
 
@@ -3623,80 +3639,91 @@ static void Task_HandleSpinTradeYesNoInput(u8 taskId)
 
 static void CursorCb_FieldMove(u8 taskId)
 {
-    u8 fieldMove = sPartyMenuInternal->actions[Menu_GetCursorPos()] - MENU_FIELD_MOVES;
+    u8 fieldMove;
     const struct MapHeader *mapHeader;
 
-    PlaySE(SE_SELECT);
-    if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc == NULL)
-        return;
-
-    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
-    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    if (MenuHelpers_IsLinkActive() == TRUE || InUnionRoom() == TRUE)
+    if(FlagGet(FLAG_UNUSED_0x8E7)) //Check Warp Scarf
     {
-        if (fieldMove == FIELD_MOVE_MILK_DRINK || fieldMove == FIELD_MOVE_SOFT_BOILED)
-            DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
-        else
-            DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
-
-        gTasks[taskId].func = Task_CancelAfterAorBPress;
+        FlagClear(FLAG_UNUSED_0x8E7);
+        gPartyMenu.exitCallback = CB2_OpenFlyMap;
+        Task_ClosePartyMenu(taskId);
     }
     else
     {
-        // All field moves before WATERFALL are HMs.
-        if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(FLAG_BADGE01_GET + fieldMove) != TRUE)
+        PlaySE(SE_SELECT);
+        fieldMove = sPartyMenuInternal->actions[Menu_GetCursorPos()] - MENU_FIELD_MOVES;
+        
+        if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc == NULL)
+            return;
+
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+        if (MenuHelpers_IsLinkActive() == TRUE || InUnionRoom() == TRUE)
         {
-            DisplayPartyMenuMessage(gText_CantUseUntilNewBadge, TRUE);
-            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            if (fieldMove == FIELD_MOVE_MILK_DRINK || fieldMove == FIELD_MOVE_SOFT_BOILED)
+                DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
+            else
+                DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+
+            gTasks[taskId].func = Task_CancelAfterAorBPress;
         }
-        else if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc() == TRUE)
-        {
-            switch (fieldMove)
-            {
-            case FIELD_MOVE_MILK_DRINK:
-            case FIELD_MOVE_SOFT_BOILED:
-                ChooseMonForSoftboiled(taskId);
-                break;
-            case FIELD_MOVE_TELEPORT:
-                mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->lastHealLocation.mapGroup, gSaveBlock1Ptr->lastHealLocation.mapNum);
-                GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
-                StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpot);
-                DisplayFieldMoveExitAreaMessage(taskId);
-                sPartyMenuInternal->data[0] = fieldMove;
-                break;
-            case FIELD_MOVE_DIG:
-                mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
-                GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
-                StringExpandPlaceholders(gStringVar4, gText_EscapeFromHere);
-                DisplayFieldMoveExitAreaMessage(taskId);
-                sPartyMenuInternal->data[0] = fieldMove;
-                break;
-            case FIELD_MOVE_FLY:
-                gPartyMenu.exitCallback = CB2_OpenFlyMap;
-                Task_ClosePartyMenu(taskId);
-                break;
-            default:
-                gPartyMenu.exitCallback = CB2_ReturnToField;
-                Task_ClosePartyMenu(taskId);
-                break;
-            }
-        }
-        // Cant use Field Move
         else
         {
-            switch (fieldMove)
+            // All field moves before WATERFALL are HMs.
+            if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(FLAG_BADGE01_GET + fieldMove) != TRUE)
             {
-            case FIELD_MOVE_SURF:
-                DisplayCantUseSurfMessage();
-                break;
-            case FIELD_MOVE_FLASH:
-                DisplayCantUseFlashMessage();
-                break;
-            default:
-                DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
-                break;
+                DisplayPartyMenuMessage(gText_CantUseUntilNewBadge, TRUE);
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
             }
-            gTasks[taskId].func = Task_CancelAfterAorBPress;
+            else if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc() == TRUE)
+            {
+                switch (fieldMove)
+                {
+                case FIELD_MOVE_MILK_DRINK:
+                case FIELD_MOVE_SOFT_BOILED:
+                    ChooseMonForSoftboiled(taskId);
+                    break;
+                case FIELD_MOVE_TELEPORT:
+                    mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->lastHealLocation.mapGroup, gSaveBlock1Ptr->lastHealLocation.mapNum);
+                    GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
+                    StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpot);
+                    DisplayFieldMoveExitAreaMessage(taskId);
+                    sPartyMenuInternal->data[0] = fieldMove;
+                    break;
+                case FIELD_MOVE_DIG:
+                    mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
+                    GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
+                    StringExpandPlaceholders(gStringVar4, gText_EscapeFromHere);
+                    DisplayFieldMoveExitAreaMessage(taskId);
+                    sPartyMenuInternal->data[0] = fieldMove;
+                    break;
+                case FIELD_MOVE_FLY:
+                    gPartyMenu.exitCallback = CB2_OpenFlyMap;
+                    Task_ClosePartyMenu(taskId);
+                    break;
+                default:
+                    gPartyMenu.exitCallback = CB2_ReturnToField;
+                    Task_ClosePartyMenu(taskId);
+                    break;
+                }
+            }
+            // Cant use Field Move
+            else
+            {
+                switch (fieldMove)
+                {
+                case FIELD_MOVE_SURF:
+                    DisplayCantUseSurfMessage();
+                    break;
+                case FIELD_MOVE_FLASH:
+                    DisplayCantUseFlashMessage();
+                    break;
+                default:
+                    DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+                    break;
+                }
+                gTasks[taskId].func = Task_CancelAfterAorBPress;
+            }
         }
     }
 }
@@ -4923,6 +4950,13 @@ static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)
     AnimatePartySlot(slot, 1);
     ScheduleBgCopyTilemapToVram(0);
 }
+
+
+void ItemUseCB_WarpScarf(u8 taskId, TaskFunc task)
+{
+    CursorCb_FieldMove(taskId);
+}
+
 
 static void Task_DisplayLevelUpStatsPg1(u8 taskId)
 {
@@ -6194,6 +6228,19 @@ static void Task_ChoosePartyMon(u8 taskId)
         InitPartyMenu(PARTY_MENU_TYPE_CHOOSE_MON, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_AND_CLOSE, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, BufferMonSelection);
         DestroyTask(taskId);
     }
+}
+
+void ResetMonCondition(void)
+{
+    u16 zero = 0;
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SHEEN, &zero);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_COOL, &zero);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_BEAUTY, &zero);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_CUTE, &zero);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SMART, &zero);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_TOUGH, &zero);
+    //sMenu->numSparkles[sMenu->curLoadId] = GET_NUM_CONDITION_SPARKLES(sheen);
 }
 
 void ChooseMonForMoveRelearner(void)

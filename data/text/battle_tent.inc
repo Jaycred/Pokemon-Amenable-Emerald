@@ -129,14 +129,8 @@ VerdanturfTown_BattleTentLobby_Text_TakeChallenge:
 
 VerdanturfTown_BattleTentLobby_Text_ExplainVerdanturfTent:
 	.string "In the VERDANTURF BATTLE TENT,\n"
-	.string "there is one crucial rule that must\l"
-	.string "be obeyed.\p"
-	.string "TRAINERS are permitted only to switch\n"
-	.string "their POKéMON in and out.\p"
-	.string "TRAINERS are otherwise forbidden to\n"
-	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "POKéMON are limited in their\l"
+	.string "ability to use their moves.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"

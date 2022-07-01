@@ -274,6 +274,10 @@ Route127_EventScript_ItemRareCandy::
 	finditem ITEM_RARE_CANDY
 	end
 
+Route130_EventScript_ItemOldSeaMap::
+	finditem ITEM_OLD_SEA_MAP
+	end
+
 Route132_EventScript_ItemRareCandy::
 	finditem ITEM_RARE_CANDY
 	end

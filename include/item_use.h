@@ -23,6 +23,11 @@ void ItemUseOutOfBattle_BlackWhiteFlute(u8);
 void ItemUseOutOfBattle_EvolutionStone(u8);
 void ItemUseOutOfBattle_Berry(u8);
 void ItemUseOutOfBattle_EnigmaBerry(u8);
+void ItemUseOutOfBattle_LuckyCharm(u8);
+void ItemUseOutOfBattle_WeavileFig(u8);
+void ItemUseOutOfBattle_LuminousOrb(u8);
+void ItemUseOutOfBattle_WarpScarf(u8);
+
 void ItemUseOutOfBattle_CannotUse(u8);
 void ItemUseInBattle_PokeBall(u8);
 void ItemUseInBattle_StatIncrease(u8);

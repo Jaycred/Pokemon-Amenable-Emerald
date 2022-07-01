@@ -89,6 +89,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DefeatedOpponent::
 	playfanfare MUS_HEAL
 	waitfanfare
 	special HealPlayerParty
+
 BattleFrontier_BattlePalaceBattleRoom_EventScript_AskReadyForOpponent::
 	frontier_getbrainstatus
 	copyvar VAR_TEMP_F, VAR_RESULT
@@ -279,6 +280,7 @@ BattleFrontier_BattlePalaceBattleRoom_EventScript_DoPalaceBattle::
 	setvar VAR_TEMP_2, 0
 	frontier_set FRONTIER_DATA_RECORD_DISABLED, FALSE
 	special HealPlayerParty
+	special SetBattlePalacePartyPp
 	setvar VAR_0x8004, SPECIAL_BATTLE_PALACE
 	setvar VAR_0x8005, 0
 	special DoSpecialTrainerBattle

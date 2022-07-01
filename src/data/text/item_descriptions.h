@@ -947,6 +947,33 @@ static const u8 sStickDesc[] = _(
     "raises FARFETCH'D's\n"
     "critical-hit ratio.");
 
+
+static const u8 sLinkCableDesc[] = _(
+    "Makes certain\n"
+    "species of POK??MON\n"
+    "evolve.");    
+
+static const u8 sLuckyCharmDesc[] = _(
+    "Said to increase\n"
+    "the chance of Shiny\n"
+    "POK??MON and more.");
+
+static const u8 sWeavileFigDesc[] = _(
+    "A POK??MON-shaped\n"
+    "statue that allows\n"
+    "the use of CUT.");
+
+static const u8 sLuminousOrbDesc[] = _(
+    "A mysterious orb\n"
+    "that allows the use\n"
+    "of FLASH.");
+
+static const u8 sWarpScarfDesc[] = _(
+    "A strange scarf\n"
+    "that allows the use\n"
+    "of FLY.");
+
+
 static const u8 sRedScarfDesc[] = _(
     "A hold item that\n"
     "raises COOL in\n"

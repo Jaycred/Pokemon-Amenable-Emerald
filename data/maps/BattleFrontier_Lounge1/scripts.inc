@@ -26,10 +26,12 @@ BattleFrontier_Lounge1_EventScript_AlreadyMetBreeder::
 	msgbox BattleFrontier_Lounge1_Text_LetsLookAtYourPokemon, MSGBOX_DEFAULT
 	return
 
+
 @ BufferVarsForIVRater buffers the following values
 @ VAR_0x8005: Sum of the mons IVs
 @ VAR_0x8006: Stat id of highest IV stat
 @ VAR_0x8007: IV of the highest IV stat
+@ VAR_0x8008: Whether the Pokemon has all perfect IVs
 BattleFrontier_Lounge1_EventScript_ShowMonToBreeder::
 	specialvar VAR_RESULT, ScriptGetPartyMonSpecies
 	goto_if_eq VAR_RESULT, SPECIES_EGG, BattleFrontier_Lounge1_EventScript_ShowEggToBreeder
@@ -39,6 +41,36 @@ BattleFrontier_Lounge1_EventScript_ShowMonToBreeder::
 	goto_if_le VAR_0x8005, 150, BattleFrontier_Lounge1_EventScript_HighTotalIVs         @ Average of 25
 	goto_if_ge VAR_0x8005, 151, BattleFrontier_Lounge1_EventScript_VeryHighTotalIVs     @ Average of > 25
 	end
+
+BattleFrontier_Lounge1_EventScript_CheckRoomForImprovement::
+	goto_if_eq VAR_0x8008, 0, BattleFrontier_Lounge1_EventScript_OfferTraining
+	msgbox BattleFrontier_Lounge1_Text_ItsFlawless, MSGBOX_DEFAULT
+	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
+	end
+
+BattleFrontier_Lounge1_EventScript_OfferTraining::
+	checkitem ITEM_HEART_SCALE
+	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_Lounge1_EventScript_ComeBackWithHeartScale
+
+	msgbox BattleFrontier_Lounge1_Text_TrainForHeartScale, MSGBOX_YESNO
+	switch VAR_RESULT
+	case NO, BattleFrontier_Lounge1_EventScript_ComeBackWithHeartScale
+	fadescreen FADE_TO_BLACK
+	special SetPerfectIVs
+	playfanfare MUS_LEVEL_UP
+	waitfanfare
+	fadescreen FADE_FROM_BLACK
+	msgbox BattleFrontier_Lounge1_Text_ItsDone, MSGBOX_DEFAULT
+	removeitem ITEM_HEART_SCALE
+	msgbox BattleFrontier_Lounge1_Text_HandedOverHeartScale, MSGBOX_DEFAULT
+	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
+	end
+
+BattleFrontier_Lounge1_EventScript_ComeBackWithHeartScale::
+	msgbox BattleFrontier_Lounge1_Text_ComeBackWithHeartScale, MSGBOX_DEFAULT
+	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
+	end
+
 
 BattleFrontier_Lounge1_EventScript_ShowEggToBreeder::
 	msgbox BattleFrontier_Lounge1_Text_EvenICantTell, MSGBOX_DEFAULT
@@ -54,7 +86,6 @@ BattleFrontier_Lounge1_EventScript_HighestIVStat::
 	goto_if_eq VAR_0x8006, STAT_SPATK, BattleFrontier_Lounge1_EventScript_HighestIVSpAtk
 	goto_if_eq VAR_0x8006, STAT_SPDEF, BattleFrontier_Lounge1_EventScript_HighestIVSpDef
 	end
-
 @ Comment on the highest IV value
 BattleFrontier_Lounge1_EventScript_HighestIVValue::
 	goto_if_le VAR_0x8007, 15, BattleFrontier_Lounge1_EventScript_HighestIVLow
@@ -67,80 +98,74 @@ BattleFrontier_Lounge1_EventScript_EndBreederComments::
 	release
 	end
 
+
 BattleFrontier_Lounge1_EventScript_AverageTotalIVs::
 	msgbox BattleFrontier_Lounge1_Text_AverageAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_CheckRoomForImprovement
 	end
 
 BattleFrontier_Lounge1_EventScript_AboveAverageTotalIVs::
 	msgbox BattleFrontier_Lounge1_Text_BetterThanAverageAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_CheckRoomForImprovement
 	end
 
 BattleFrontier_Lounge1_EventScript_HighTotalIVs::
 	msgbox BattleFrontier_Lounge1_Text_ImpressiveAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_CheckRoomForImprovement
 	end
 
 BattleFrontier_Lounge1_EventScript_VeryHighTotalIVs::
 	msgbox BattleFrontier_Lounge1_Text_OutstandingAbility, MSGBOX_DEFAULT
-	goto BattleFrontier_Lounge1_EventScript_HighestIVStat
+	goto BattleFrontier_Lounge1_EventScript_CheckRoomForImprovement
 	end
+
+
 
 BattleFrontier_Lounge1_EventScript_HighestIVHP::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectHP, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVAtk::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectAtk, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVDef::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectDef, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVSpeed::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectSpeed, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVSpAtk::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectSpAtk, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVSpDef::
 	msgbox BattleFrontier_Lounge1_Text_BestAspectSpDef, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_HighestIVValue
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVLow::
 	msgbox BattleFrontier_Lounge1_Text_StatRelativelyGood, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVMid::
 	msgbox BattleFrontier_Lounge1_Text_StatImpressive, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVHigh::
 	msgbox BattleFrontier_Lounge1_Text_StatOutstanding, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
 	end
-
 BattleFrontier_Lounge1_EventScript_HighestIVMax::
 	msgbox BattleFrontier_Lounge1_Text_StatFlawless, MSGBOX_DEFAULT
 	goto BattleFrontier_Lounge1_EventScript_EndBreederComments
 	end
-
 BattleFrontier_Lounge1_EventScript_CancelMonSelect::
 	msgbox BattleFrontier_Lounge1_Text_NoTimeForMyAdvice, MSGBOX_DEFAULT
 	release
 	end
+
 
 BattleFrontier_Lounge1_EventScript_Boy1::
 	msgbox BattleFrontier_Lounge1_Text_SaidMyMonIsOutstanding, MSGBOX_NPC
@@ -156,9 +181,10 @@ BattleFrontier_Lounge1_Text_PokemonBreederIntro:
 	.string "the legendary top POKéMON BREEDER!\p"
 	.string "If you ever become as seasoned as me,\n"
 	.string "you'll see the abilities of POKéMON\l"
-	.string "at a glance.\p"
+	.string "at a glance and know how to\l"
+	.string "unlock their full potential.\p"
 	.string "You're a TRAINER. Doesn't it interest\n"
-	.string "you to know your own POKéMON's\l"
+	.string "you to improve your own POKéMON's\l"
 	.string "abilities?\p"
 	.string "Here!\n"
 	.string "Let's have a look at your POKéMON!$"
@@ -182,6 +208,31 @@ BattleFrontier_Lounge1_Text_OutstandingAbility:
 	.string "…Hmm…\p"
 	.string "This one, overall, I would say is\n"
 	.string "wonderfully outstanding in ability!$"
+
+
+BattleFrontier_Lounge1_Text_TrainForHeartScale:
+	.string "I see there's still room for\n"
+	.string "improvement. Would you allow me\l"
+	.string "to train your POKéMON for a\l"
+	.string "HEART SCALE?$"
+
+BattleFrontier_Lounge1_Text_ItsFlawless:
+	.string "It's flawless! A thing of perfection!\n"
+	.string "It has no need for improvement.$"
+
+BattleFrontier_Lounge1_Text_ItsDone:
+	.string "It's done! Your POKéMON's abilities\n"
+	.string "are now flawless in every aspect.$"
+
+BattleFrontier_Lounge1_Text_HandedOverHeartScale:
+	.string "{PLAYER} handed over one HEART SCALE\n"
+	.string "in exchange.$"
+
+BattleFrontier_Lounge1_Text_ComeBackWithHeartScale:
+	.string "If you wish to improve the potential\n"
+	.string "of your POKéMON, come back with a\l"
+	.string "HEART SCALE.$"
+
 
 BattleFrontier_Lounge1_Text_BestAspectHP:
 	.string "Incidentally, the best aspect of it,\n"

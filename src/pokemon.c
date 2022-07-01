@@ -2101,15 +2101,51 @@ static const u16 sHMMoves[] =
 
 static const struct SpeciesItem sAlteringCaveWildMonHeldItems[] =
 {
-    {SPECIES_NONE,      ITEM_NONE},
-    {SPECIES_MAREEP,    ITEM_GANLON_BERRY},
-    {SPECIES_PINECO,    ITEM_APICOT_BERRY},
-    {SPECIES_HOUNDOUR,  ITEM_BIG_MUSHROOM},
-    {SPECIES_TEDDIURSA, ITEM_PETAYA_BERRY},
-    {SPECIES_AIPOM,     ITEM_BERRY_JUICE},
-    {SPECIES_SHUCKLE,   ITEM_BERRY_JUICE},
-    {SPECIES_STANTLER,  ITEM_PETAYA_BERRY},
-    {SPECIES_SMEARGLE,  ITEM_SALAC_BERRY},
+    {SPECIES_NONE,          ITEM_NONE},
+    {SPECIES_UNOWN,         ITEM_APICOT_BERRY},
+    {SPECIES_NIDORAN_M,     ITEM_PETAYA_BERRY},
+    {SPECIES_NIDORAN_F,     ITEM_GANLON_BERRY},
+    {SPECIES_EKANS,         ITEM_GANLON_BERRY},
+    {SPECIES_TANGELA,       ITEM_APICOT_BERRY},
+    {SPECIES_EXEGGCUTE,     ITEM_PETAYA_BERRY},
+    {SPECIES_TREECKO,       ITEM_SALAC_BERRY},
+    {SPECIES_CHIKORITA,     ITEM_SALAC_BERRY},
+    {SPECIES_BULBASAUR,     ITEM_SALAC_BERRY},
+    {SPECIES_SEEL,          ITEM_LIECHI_BERRY},
+    {SPECIES_KRABBY,        ITEM_LIECHI_BERRY},
+    {SPECIES_SHELLDER,      ITEM_GANLON_BERRY},
+    {SPECIES_MUDKIP,        ITEM_APICOT_BERRY},
+    {SPECIES_TOTODILE,      ITEM_APICOT_BERRY},
+    {SPECIES_SQUIRTLE,      ITEM_APICOT_BERRY},
+    {SPECIES_SUICUNE,       ITEM_GANLON_BERRY},
+    {SPECIES_ARTICUNO,      ITEM_APICOT_BERRY},
+    {SPECIES_PONYTA,        ITEM_LIECHI_BERRY},
+    {SPECIES_GASTLY,        ITEM_GANLON_BERRY},
+    {SPECIES_GROWLITHE,     ITEM_LIECHI_BERRY},
+    {SPECIES_MISDREAVUS,    ITEM_PETAYA_BERRY},
+    {SPECIES_TORCHIC,       ITEM_LIECHI_BERRY},
+    {SPECIES_CYNDAQUIL,     ITEM_LIECHI_BERRY},
+    {SPECIES_CHARMANDER,    ITEM_LIECHI_BERRY},
+    {SPECIES_ENTEI,         ITEM_LIECHI_BERRY},
+    {SPECIES_MOLTRES,       ITEM_LIECHI_BERRY},
+    {SPECIES_CATERPIE,      ITEM_SALAC_BERRY},
+    {SPECIES_WEEDLE,        ITEM_LIECHI_BERRY},
+    {SPECIES_PARAS,         ITEM_SALAC_BERRY},
+    {SPECIES_VENONAT,       ITEM_PETAYA_BERRY},
+    {SPECIES_YANMA,         ITEM_SALAC_BERRY},
+    {SPECIES_DROWZEE,       ITEM_PETAYA_BERRY},
+    {SPECIES_MR_MIME,       ITEM_PETAYA_BERRY},
+    {SPECIES_PORYGON,       ITEM_PETAYA_BERRY},
+    {SPECIES_RATTATA,       ITEM_GANLON_BERRY},
+    {SPECIES_SENTRET,       ITEM_LIECHI_BERRY},
+    {SPECIES_PIDGEY,        ITEM_SALAC_BERRY},
+    {SPECIES_SPEAROW,       ITEM_LIECHI_BERRY},
+    {SPECIES_MANKEY,        ITEM_LIECHI_BERRY},
+    {SPECIES_DIGLETT,       ITEM_SALAC_BERRY},
+    {SPECIES_MURKROW,       ITEM_APICOT_BERRY},
+    {SPECIES_DUNSPARCE,     ITEM_GANLON_BERRY},
+    {SPECIES_RAIKOU,        ITEM_PETAYA_BERRY},
+    {SPECIES_ZAPDOS,        ITEM_PETAYA_BERRY},
 };
 
 static const struct OamData sOamData_64x64 =
@@ -2197,6 +2233,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     u32 personality;
     u32 value;
     u16 checksum;
+    u32 shinyValue;
 
     ZeroBoxMonData(boxMon);
 
@@ -2205,12 +2242,37 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
     else
         personality = Random32();
 
+    //Shiny boost from the Lucky Charm
+    if(otIdType != OT_ID_RANDOM_NO_SHINY && FlagGet(FLAG_LUCKY_CHARM))
+    {
+        u8 i;
+
+        if(otIdType == OT_ID_PRESET)
+            value = fixedOtId;
+        else
+            value = gSaveBlock2Ptr->playerTrainerId[0]
+                | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+                | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+                | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+
+        for(i = 0; i < 3; i++)
+        {
+            shinyValue = GET_SHINY_VALUE(value, personality);
+            if(!(shinyValue < SHINY_ODDS))
+            {
+                personality = Random32();
+                SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
+            }
+            else break;
+        }
+    }
+
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);
 
     // Determine original trainer ID
     if (otIdType == OT_ID_RANDOM_NO_SHINY)
     {
-        u32 shinyValue;
+
         do
         {
             // Choose random OT IDs until one that results in a non-shiny Pokémon
@@ -2286,6 +2348,9 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         value = personality & 1;
         SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
     }
+
+    value = OVERRIDE_NATURE_NONE;
+    SetBoxMonData(boxMon, MON_DATA_OVERRIDE_NATURE, &value);
 
     GiveBoxMonInitialMoveset(boxMon);
 }
@@ -4099,6 +4164,9 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->worldRibbon << 26);
         }
         break;
+    case MON_DATA_OVERRIDE_NATURE:
+        retVal = substruct0->overrideNature;
+        break;
     default:
         break;
     }
@@ -4417,6 +4485,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3->spDefenseIV = (ivs >> 25) & MAX_IV_MASK;
         break;
     }
+    case MON_DATA_OVERRIDE_NATURE:
+        SET8(substruct0->overrideNature);
+        break;
     default:
         break;
     }
@@ -5503,7 +5574,10 @@ u8 *UseStatIncreaseItem(u16 itemId)
 
 u8 GetNature(struct Pokemon *mon)
 {
-    return GetMonData(mon, MON_DATA_PERSONALITY, 0) % NUM_NATURES;
+    if (GetMonData(mon, MON_DATA_OVERRIDE_NATURE, 0) == OVERRIDE_NATURE_NONE)
+        return GetNatureFromPersonality(GetMonData(mon, MON_DATA_PERSONALITY, 0));
+    else
+        return GetMonData(mon, MON_DATA_OVERRIDE_NATURE, 0);
 }
 
 u8 GetNatureFromPersonality(u32 personality)
@@ -6075,7 +6149,7 @@ u16 GetMonEVCount(struct Pokemon *mon)
 void RandomlyGivePartyPokerus(struct Pokemon *party)
 {
     u16 rnd = Random();
-    if (rnd == 0x4000 || rnd == 0x8000 || rnd == 0xC000)
+    if ((FlagGet(FLAG_LUCKY_CHARM) && rnd <= 33) || (rnd == 0x4000 || rnd == 0x8000 || rnd == 0xC000))
     {
         struct Pokemon *mon;
 
@@ -6441,6 +6515,8 @@ u16 GetBattleBGM(void)
                 return MUS_VS_RIVAL;
             if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleWallyName))
                 return MUS_VS_TRAINER;
+            if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleRedName))
+                return MUS_RG_VS_CHAMPION;
             return MUS_VS_RIVAL;
         case TRAINER_CLASS_ELITE_FOUR:
             return MUS_VS_ELITE_FOUR;

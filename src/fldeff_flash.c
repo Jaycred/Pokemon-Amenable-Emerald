@@ -76,14 +76,42 @@ bool8 SetUpFieldMove_Flash(void)
     if (ShouldDoBrailleRegisteelEffect())
     {
         gSpecialVar_Result = GetCursorSelectionMonId();
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = SetUpPuzzleEffectRegisteel;
+        //Check if Luminous Orb is the caller
+        if(FlagGet(FLAG_UNUSED_0x8E6))
+        {
+            FlagClear(FLAG_UNUSED_0x8E6);
+
+            gFieldCallback2 = NULL;
+            gPostMenuFieldCallback = NULL;
+
+            SetUpPuzzleEffectRegisteel();
+        }
+        else
+        {
+            gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+            gPostMenuFieldCallback = SetUpPuzzleEffectRegisteel;
+        }
+        
         return TRUE;
     }
     else if (gMapHeader.cave == TRUE && !FlagGet(FLAG_SYS_USE_FLASH))
     {
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = FieldCallback_Flash;
+        //Check if Luminous Orb is the caller
+        if(FlagGet(FLAG_UNUSED_0x8E6))
+        {
+            FlagClear(FLAG_UNUSED_0x8E6);
+
+            gFieldCallback2 = NULL;
+            gPostMenuFieldCallback = NULL;
+
+            FieldCallback_Flash();
+        }
+        else
+        {
+            gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+            gPostMenuFieldCallback = FieldCallback_Flash;
+        }
+
         return TRUE;
     }
 

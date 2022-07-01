@@ -20,6 +20,8 @@ int GameClear(void)
 
     HealPlayerParty();
 
+    FlagSet(FLAG_RED_AVAILABLE);
+
     if (FlagGet(FLAG_SYS_GAME_CLEAR) == TRUE)
     {
         gHasHallOfFameRecords = TRUE;

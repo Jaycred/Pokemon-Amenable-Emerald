@@ -372,7 +372,7 @@ void SpriteCB_TrainerSlideIn(struct Sprite *sprite)
 {
     if (!(gIntroSlideFlags & 1))
     {
-        sprite->x2 += sprite->sSpeedX;
+        sprite->x2 += sprite->sSpeedX*2;
         if (sprite->x2 == 0)
         {
             if (sprite->y2 != 0)
@@ -1061,7 +1061,10 @@ void HandleLowHpMusicChange(struct Pokemon *mon, u8 battlerId)
         if (!gBattleSpritesDataPtr->battlerData[battlerId].lowHpSong)
         {
             if (!gBattleSpritesDataPtr->battlerData[battlerId ^ BIT_FLANK].lowHpSong)
+            {
                 PlaySE(SE_LOW_HEALTH);
+                m4aMPlayFadeOut(&gMPlayInfo_SE3, 12);
+            }
             gBattleSpritesDataPtr->battlerData[battlerId].lowHpSong = 1;
         }
     }

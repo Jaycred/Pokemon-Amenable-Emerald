@@ -327,17 +327,47 @@ BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem::
 	waitstate
 	special CloseFrontierExchangeCornerItemIconWindow
 	switch VAR_RESULT
-	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_Leftovers
-	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_WhiteHerb
-	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_QuickClaw
-	case 3, BattleFrontier_ExchangeServiceCorner_EventScript_MentalHerb
-	case 4, BattleFrontier_ExchangeServiceCorner_EventScript_Brightpowder
-	case 5, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceBand
-	case 6, BattleFrontier_ExchangeServiceCorner_EventScript_KingsRock
-	case 7, BattleFrontier_ExchangeServiceCorner_EventScript_FocusBand
+	case 0, BattleFrontier_ExchangeServiceCorner_EventScript_MaxRevive
+	case 1, BattleFrontier_ExchangeServiceCorner_EventScript_RareCandy
+	case 2, BattleFrontier_ExchangeServiceCorner_EventScript_PpUp
+	case 3, BattleFrontier_ExchangeServiceCorner_EventScript_PpMax
+
+	case 4, BattleFrontier_ExchangeServiceCorner_EventScript_WhiteHerb
+	case 5, BattleFrontier_ExchangeServiceCorner_EventScript_MentalHerb
+	case 6, BattleFrontier_ExchangeServiceCorner_EventScript_Brightpowder
+	case 7, BattleFrontier_ExchangeServiceCorner_EventScript_ChoiceBand
 	case 8, BattleFrontier_ExchangeServiceCorner_EventScript_ScopeLens
 	case 9, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
 	case MULTI_B_PRESSED, BattleFrontier_ExchangeServiceCorner_EventScript_ClerkGoodbye
+	end
+
+BattleFrontier_ExchangeServiceCorner_EventScript_MaxRevive::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmMaxRevive, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 1
+	setvar VAR_0x8009, ITEM_MAX_REVIVE
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+BattleFrontier_ExchangeServiceCorner_EventScript_RareCandy::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmRareCandy, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 1
+	setvar VAR_0x8009, ITEM_RARE_CANDY
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+BattleFrontier_ExchangeServiceCorner_EventScript_PpUp::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPpUp, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 2
+	setvar VAR_0x8009, ITEM_PP_UP
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
+	end
+BattleFrontier_ExchangeServiceCorner_EventScript_PpMax::
+	msgbox BattleFrontier_ExchangeServiceCorner_Text_ConfirmPpMax, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_ExchangeServiceCorner_EventScript_ChooseHoldItem
+	setvar VAR_0x8008, 5
+	setvar VAR_0x8009, ITEM_PP_MAX
+	goto BattleFrontier_ExchangeServiceCorner_EventScript_TryPurchasePrize
 	end
 
 BattleFrontier_ExchangeServiceCorner_EventScript_Leftovers::
@@ -527,6 +557,19 @@ BattleFrontier_ExchangeServiceCorner_Text_ConfirmCarbos:
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmHPUp:
 	.string "You've chosen the HP UP.\n"
+	.string "Is that correct?$"
+
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmMaxRevive:
+	.string "You've chosen the MAX REVIVE.\n"
+	.string "Is that correct?$"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmRareCandy:
+	.string "You've chosen the RARE CANDY.\n"
+	.string "Is that correct?$"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmPpUp:
+	.string "You've chosen the PP UP.\n"
+	.string "Is that correct?$"
+BattleFrontier_ExchangeServiceCorner_Text_ConfirmPpMax:
+	.string "You've chosen the PP MAX.\n"
 	.string "Is that correct?$"
 
 BattleFrontier_ExchangeServiceCorner_Text_ConfirmBrightpowder:

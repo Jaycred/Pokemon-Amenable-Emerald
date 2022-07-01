@@ -15,8 +15,10 @@ FallarborTown_CozmosHouse_EventScript_PlayerHasMeteorite::
 	call_if_unset FLAG_TEMP_2, FallarborTown_CozmosHouse_EventScript_NoticeMeteorite
 	call_if_set FLAG_TEMP_2, FallarborTown_CozmosHouse_EventScript_AskForMeteorite
 	goto_if_eq VAR_RESULT, NO, FallarborTown_CozmosHouse_EventScript_DeclineGiveMeteorite
-	msgbox FallarborTown_CozmosHouse_Text_PleaseUseThisTM, MSGBOX_DEFAULT
-	giveitem ITEM_TM27
+	msgbox FallarborTown_CozmosHouse_Text_PleaseUseThisItem, MSGBOX_DEFAULT
+
+	giveitem ITEM_LUCKY_CHARM
+
 	goto_if_eq VAR_RESULT, FALSE, Common_EventScript_ShowBagIsFull
 	setvar VAR_0x8004, ITEM_METEORITE
 	call Common_EventScript_PlayerHandedOverTheItem
@@ -80,11 +82,11 @@ FallarborTown_CozmosHouse_Text_IsThatMeteoriteMayIHaveIt:
 	.string "Is it the METEORITE that TEAM MAGMA\n"
 	.string "took from METEOR FALLS?\p"
 	.string "Please, may I have it?\p"
-	.string "I'm not asking for it for free.\n"
-	.string "How about in exchange for this TM?$"
+	.string "I'm not asking for it for free. How\n"
+	.string "about in exchange for this Lucky Charm?$"
 
-FallarborTown_CozmosHouse_Text_PleaseUseThisTM:
-	.string "PROF. COZMO: This TM, it represents\n"
+FallarborTown_CozmosHouse_Text_PleaseUseThisItem:
+	.string "PROF. COZMO: This item, it represents\n"
 	.string "my feeling of gratitude.\l"
 	.string "Please use it!$"
 
@@ -100,8 +102,8 @@ FallarborTown_CozmosHouse_Text_CrushedWithDisappointment:
 FallarborTown_CozmosHouse_Text_MayIHaveMeteorite:
 	.string "PROF. COZMO: Please, may I have that\n"
 	.string "METEORITE?\p"
-	.string "I'm not asking for it for free.\n"
-	.string "How about in exchange for this TM?$"
+	.string "I'm not asking for it for free. How\n"
+	.string "about in exchange for this Lucky Charm?$"
 
 FallarborTown_CozmosHouse_Text_CozmoWentToMeteorFalls:
 	.string "PROF. COZMO went off to METEOR FALLS\n"

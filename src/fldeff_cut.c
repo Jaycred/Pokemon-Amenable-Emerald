@@ -1,4 +1,5 @@
 #include "global.h"
+#include "event_data.h"
 #include "event_object_lock.h"
 #include "event_object_movement.h"
 #include "event_scripts.h"
@@ -140,33 +141,37 @@ bool8 SetUpFieldMove_Cut(void)
     s16 x, y;
     u8 i, j;
     u8 tileBehavior;
-    u8 userAbility;
     bool8 cutTiles[CUT_NORMAL_AREA];
     bool8 ret;
 
     if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUTTABLE_TREE) == TRUE)
     {
-        // Standing in front of cuttable tree.
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = FieldCallback_CutTree;
+        //Check if calling from Weavile Fig.
+        if(FlagGet(FLAG_UNUSED_0x8E5))
+        {
+            FlagClear(FLAG_UNUSED_0x8E5);
+            //Unset callbacks to prevent code from being re-run when loading a new area
+            gFieldCallback2 = NULL;
+            gPostMenuFieldCallback = NULL;
+            FieldCallback_CutTree();
+        }
+        else
+        {
+            // Standing in front of cuttable tree.
+            gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+            gPostMenuFieldCallback = FieldCallback_CutTree;
+        }
         return TRUE;
     }
     else
     {
+        bool8 tileCuttable;
+
         PlayerGetDestCoords(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
-        userAbility = GetMonAbility(&gPlayerParty[GetCursorSelectionMonId()]);
-        if (userAbility == ABILITY_HYPER_CUTTER)
-        {
-            sCutSquareSide = CUT_HYPER_SIDE;
-            sTileCountFromPlayer_X = 2;
-            sTileCountFromPlayer_Y = 2;
-        }
-        else
-        {
-            sCutSquareSide = CUT_NORMAL_SIDE;
-            sTileCountFromPlayer_X = 1;
-            sTileCountFromPlayer_Y = 1;
-        }
+
+        sCutSquareSide = CUT_HYPER_SIDE;
+        sTileCountFromPlayer_X = 2;
+        sTileCountFromPlayer_Y = 2;
 
         for (i = 0; i < CUT_NORMAL_AREA; i++)
             cutTiles[i] = FALSE;
@@ -209,17 +214,6 @@ bool8 SetUpFieldMove_Cut(void)
             }
         }
 
-        if (userAbility != ABILITY_HYPER_CUTTER)
-        {
-            if (ret == TRUE)
-            {
-                gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-                gPostMenuFieldCallback = FieldCallback_CutGrass;
-            }
-        }
-        else
-        {
-            bool8 tileCuttable;
             for (i = 0; i < 16; i++)
             {
                 x = gPlayerFacingPosition.x + sHyperCutStruct[i].x;
@@ -259,12 +253,21 @@ bool8 SetUpFieldMove_Cut(void)
                 }
             }
 
-            if (ret == TRUE)
+            //Check if calling from Weavile Fig.
+            if(FlagGet(FLAG_UNUSED_0x8E5))
+            {
+                FlagClear(FLAG_UNUSED_0x8E5);
+                //Unset callbacks to prevent code from being re-run when loading a new area
+                gFieldCallback2 = NULL;
+                gPostMenuFieldCallback = NULL;
+                if(ret == TRUE)
+                    FieldCallback_CutGrass();
+            }
+            else if (ret == TRUE)
             {
                 gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
                 gPostMenuFieldCallback = FieldCallback_CutGrass;
             }
-        }
 
         return ret;
     }

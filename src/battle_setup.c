@@ -410,7 +410,35 @@ static void DoStandardWildBattle(void)
         VarSet(VAR_TEMP_E, 0);
         gBattleTypeFlags |= BATTLE_TYPE_PYRAMID;
     }
-    CreateBattleStartTask(GetWildBattleTransition(), 0);
+
+    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+    {
+        default:
+            if(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ALTERING_CAVE) &&
+                gSaveBlock1Ptr->location.mapNum == MAP_NUM(ALTERING_CAVE))
+                CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_WILD);
+            else
+                CreateBattleStartTask(GetWildBattleTransition(), 0);
+            break;
+        case SPECIES_ARTICUNO:
+        case SPECIES_MOLTRES:
+        case SPECIES_ZAPDOS:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
+            break;
+        case SPECIES_SUICUNE:
+        case SPECIES_ENTEI:
+        case SPECIES_RAIKOU:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_C_VS_LEGEND_BEAST);
+            break;
+        case SPECIES_JIRACHI:
+        case SPECIES_CELEBI:
+            CreateBattleStartTask(B_TRANSITION_BLUR, 0);
+            break;
+        case SPECIES_MEWTWO:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_MEWTWO);
+            break;
+    }
+    
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     IncrementDailyWildBattles();
@@ -816,6 +844,11 @@ static u8 GetTrainerBattleTransition(void)
 
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
+
+    if (gTrainerBattleOpponent_A == TRAINER_RED_MYSTERY_EVENTS_HOUSE)
+    {
+        return B_TRANSITION_BIG_POKEBALL;
+    }
 
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {

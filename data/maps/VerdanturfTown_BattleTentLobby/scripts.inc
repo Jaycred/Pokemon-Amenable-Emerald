@@ -285,11 +285,8 @@ VerdanturfTown_BattleTentLobby_EventScript_ReadRulesBoard::
 	switch VAR_RESULT
 	case 0, VerdanturfTown_BattleTentLobby_EventScript_RulesLevel
 	case 1, VerdanturfTown_BattleTentLobby_EventScript_RulesBasics
-	case 2, VerdanturfTown_BattleTentLobby_EventScript_RulesNature
-	case 3, VerdanturfTown_BattleTentLobby_EventScript_RulesMoves
-	case 4, VerdanturfTown_BattleTentLobby_EventScript_RulesUnderpowered
-	case 5, VerdanturfTown_BattleTentLobby_EventScript_RulesWhenInDanger
-	case 6, VerdanturfTown_BattleTentLobby_EventScript_ExitRules
+	case 2, VerdanturfTown_BattleTentLobby_EventScript_RulesWhenInDanger
+	case 3, VerdanturfTown_BattleTentLobby_EventScript_ExitRules
 	case MULTI_B_PRESSED, VerdanturfTown_BattleTentLobby_EventScript_ExitRules
 	end
 

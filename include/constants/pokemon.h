@@ -184,6 +184,8 @@
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
 
+#define MON_DATA_OVERRIDE_NATURE   89
+
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0
 #define COOL_RIBBON_NORMAL    1
@@ -260,6 +262,8 @@
 #define MON_MALE       0x00
 #define MON_FEMALE     0xFE
 #define MON_GENDERLESS 0xFF
+
+#define OVERRIDE_NATURE_NONE      26
 
 // Constants for AdjustFriendship
 #define FRIENDSHIP_EVENT_GROW_LEVEL       0

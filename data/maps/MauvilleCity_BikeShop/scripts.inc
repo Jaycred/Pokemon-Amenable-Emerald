@@ -4,7 +4,7 @@ MauvilleCity_BikeShop_MapScripts::
 MauvilleCity_BikeShop_EventScript_Rydel::
 	lock
 	faceplayer
-	goto_if_set FLAG_RECEIVED_BIKE, MauvilleCity_BikeShop_EventScript_AskSwitchBikes
+	goto_if_set FLAG_RECEIVED_BIKE, MauvilleCity_BikeShop_EventScript_Encouragement
 	goto_if_set FLAG_DECLINED_BIKE, MauvilleCity_BikeShop_EventScript_SkipGreeting
 	msgbox MauvilleCity_BikeShop_Text_RydelGreeting, MSGBOX_DEFAULT
 	msgbox MauvilleCity_BikeShop_Text_DidYouComeFromFarAway, MSGBOX_YESNO
@@ -27,6 +27,13 @@ MauvilleCity_BikeShop_EventScript_ChooseBike::
 	case 1, MauvilleCity_BikeShop_EventScript_GetAcroBike
 	end
 
+MauvilleCity_BikeShop_EventScript_GetBikes::
+	msgbox MauvilleCity_BikeShop_Text_ExplainBikesChooseWhichOne, MSGBOX_DEFAULT
+	giveitem ITEM_MACH_BIKE
+	giveitem ITEM_ACRO_BIKE
+	goto MauvilleCity_BikeShop_EventScript_Encouragement
+	end
+
 MauvilleCity_BikeShop_EventScript_NotFar::
 	setflag FLAG_DECLINED_BIKE
 	msgbox MauvilleCity_BikeShop_Text_GuessYouDontNeedBike, MSGBOX_DEFAULT
@@ -35,7 +42,7 @@ MauvilleCity_BikeShop_EventScript_NotFar::
 
 MauvilleCity_BikeShop_EventScript_YesFar::
 	setflag FLAG_RECEIVED_BIKE
-	goto MauvilleCity_BikeShop_EventScript_ChooseBike
+	goto MauvilleCity_BikeShop_EventScript_GetBikes
 	end
 
 MauvilleCity_BikeShop_EventScript_GetMachBike::
@@ -60,6 +67,11 @@ MauvilleCity_BikeShop_EventScript_AskSwitchBikes::
 	msgbox MauvilleCity_BikeShop_Text_WantToSwitchBikes, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, MauvilleCity_BikeShop_EventScript_SwitchBikes
 	goto_if_eq VAR_RESULT, NO, MauvilleCity_BikeShop_EventScript_KeepBike
+	end
+
+MauvilleCity_BikeShop_EventScript_Encouragement::
+	msgbox MauvilleCity_BikeShop_Text_MayTheWind, MSGBOX_DEFAULT
+	release
 	end
 
 @ If the player does not have a bike on them Rydel assumes its stored in the PC
@@ -211,8 +223,11 @@ MauvilleCity_BikeShop_Text_ExplainBikesChooseWhichOne:
 	.string "And an ACRO BIKE is for those who\n"
 	.string "prefer technical rides!\p"
 	.string "I'm a real sweetheart, so you can\n"
-	.string "have whichever one you like!\p"
-	.string "Which one will you choose?$"
+	.string "have both!$"
+
+MauvilleCity_BikeShop_Text_MayTheWind:
+	.string "RYDEL: May the wind always be at\n"
+	.string "your back on your adventure!$"
 
 MauvilleCity_BikeShop_Text_ChoseMachBike:
 	.string "{PLAYER} chose the MACH BIKE.$"

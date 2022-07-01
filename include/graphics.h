@@ -3716,6 +3716,9 @@ extern const u32 gItemIcon_ThickClub[];
 extern const u32 gItemIconPalette_ThickClub[];
 extern const u32 gItemIcon_Stick[];
 extern const u32 gItemIconPalette_Stick[];
+// Link Cable evolution item
+extern const u32 gItemIcon_LinkCable[];
+extern const u32 gItemIconPalette_LinkCable[];
 // Contest hold items
 extern const u32 gItemIcon_Scarf[];
 extern const u32 gItemIconPalette_RedScarf[];
@@ -3724,6 +3727,15 @@ extern const u32 gItemIconPalette_PinkScarf[];
 extern const u32 gItemIconPalette_GreenScarf[];
 extern const u32 gItemIconPalette_YellowScarf[];
 // Key items
+extern const u32 gItemIcon_LuckyCharm[];
+extern const u32 gItemIconPalette_LuckyCharm[];
+extern const u32 gItemIcon_WeavileFig[];
+extern const u32 gItemIconPalette_WeavileFig[];
+extern const u32 gItemIcon_LuminousOrb[];
+extern const u32 gItemIconPalette_LuminousOrb[];
+extern const u32 gItemIcon_WarpScarf[];
+extern const u32 gItemIconPalette_WarpScarf[];
+
 extern const u32 gItemIcon_MachBike[];
 extern const u32 gItemIconPalette_MachBike[];
 extern const u32 gItemIcon_CoinCase[];

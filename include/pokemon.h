@@ -10,7 +10,10 @@ struct PokemonSubstruct0
     u32 experience;
     u8 ppBonuses;
     u8 friendship;
-    u16 filler;
+    
+    u8 overrideNature:5; // 25 natures
+    u8 free_sub0:3;
+    u8 free_sub0_b;
 };
 
 struct PokemonSubstruct1

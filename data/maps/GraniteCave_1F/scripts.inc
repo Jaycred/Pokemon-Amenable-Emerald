@@ -7,6 +7,7 @@ GraniteCave_1F_EventScript_Hiker::
 	goto_if_set FLAG_RECEIVED_HM05, GraniteCave_1F_EventScript_ReceivedFlash
 	msgbox GraniteCave_1F_Text_GetsDarkAheadHereYouGo, MSGBOX_DEFAULT
 	giveitem ITEM_HM05
+	giveitem ITEM_LUMINOUS_ORB
 	setflag FLAG_RECEIVED_HM05
 	msgbox GraniteCave_1F_Text_ExplainFlash, MSGBOX_DEFAULT
 	release

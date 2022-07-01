@@ -4,7 +4,7 @@ SootopolisCity_MysteryEventsHouse_B1F_MapScripts::
 	.byte 0
 
 SootopolisCity_MysteryEventsHouse_B1F_OnTransition:
-	special SetEReaderTrainerGfxId
+	@ special SetEReaderTrainerGfxId
 	end
 
 SootopolisCity_MysteryEventsHouse_B1F_OnFrame:
@@ -15,23 +15,19 @@ SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleVisitingTrainer::
 	lockall
 	applymovement OBJ_EVENT_ID_PLAYER, SootopolisCity_MysteryEventsHouse_B1F_Movement_PlayerEnterBasement
 	waitmovement 0
-	special CopyEReaderTrainerGreeting
-	msgbox gStringVar4, MSGBOX_DEFAULT
-	closemessage
-	setvar VAR_0x8004, SPECIAL_BATTLE_EREADER
-	setvar VAR_0x8005, 0
-	special DoSpecialTrainerBattle
-	waitstate
-	call_if_eq VAR_RESULT, B_OUTCOME_DREW, SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleTie
-	call_if_eq VAR_RESULT, B_OUTCOME_WON, SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleWon
-	call_if_eq VAR_RESULT, B_OUTCOME_LOST, SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleLost
-	closemessage
+
+	msgbox SootopolisCity_MysteryEventsHouse_B1F_Text_Red, MSGBOX_DEFAULT
+	trainerbattle_no_intro TRAINER_RED_MYSTERY_EVENTS_HOUSE, SootopolisCity_MysteryEventsHouse_B1F_Text_RedWon
+
 	special HealPlayerParty
+
+	setflag FLAG_RED_DEFEATED
+	clearflag FLAG_RED_AVAILABLE
+
 	applymovement OBJ_EVENT_ID_PLAYER, SootopolisCity_MysteryEventsHouse_B1F_Movement_PlayerExitBasement
 	waitmovement 0
-	special LoadPlayerParty
-	setvar VAR_TEMP_1, 1
-	warp MAP_SOOTOPOLIS_CITY_MYSTERY_EVENTS_HOUSE_1F, 3, 1
+
+	warp MAP_SOOTOPOLIS_CITY_MYSTERY_EVENTS_HOUSE_1F, 3, 3
 	waitstate
 	releaseall
 	end
@@ -43,14 +39,14 @@ SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleTie::
 
 SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleWon::
 	setvar VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 1
-	special ShowFieldMessageStringVar4
+	message SootopolisCity_MysteryEventsHouse_B1F_Text_RedWon
 	waitmessage
 	waitbuttonpress
 	return
 
 SootopolisCity_MysteryEventsHouse_B1F_EventScript_BattleLost::
 	setvar VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 2
-	special ShowFieldMessageStringVar4
+	message SootopolisCity_MysteryEventsHouse_B1F_Text_RedLost
 	waitmessage
 	waitbuttonpress
 	return
@@ -73,3 +69,9 @@ SootopolisCity_MysteryEventsHouse_B1F_Movement_PlayerExitBasement:
 	delay_8
 	step_end
 
+SootopolisCity_MysteryEventsHouse_B1F_Text_Red:
+	.string "???$"
+SootopolisCity_MysteryEventsHouse_B1F_Text_RedWon:
+	.string "???!$"
+SootopolisCity_MysteryEventsHouse_B1F_Text_RedLost:
+	.string "????$"

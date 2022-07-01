@@ -6266,6 +6266,17 @@ static void Cmd_useitemonopponent(void)
     gBattlescriptCurrInstr += 1;
 }
 
+void battlePalaceRestorePp(void)
+{
+    //New Battle Palace effect: restore 1 PP to all moves when dropping below 50% HP
+    u8 i;
+    for(i = 0; i < MAX_MON_MOVES; i++)
+    {
+        gBattleMons[gActiveBattler].pp[i] += 1;
+    }
+   
+}
+
 static void Cmd_various(void)
 {
     u8 side;
@@ -6345,6 +6356,7 @@ static void Cmd_various(void)
             gBattleStruct->palaceFlags |= gBitTable[gActiveBattler];
             gBattleCommunication[0] = TRUE;
             gBattleCommunication[MULTISTRING_CHOOSER] = sBattlePalaceNatureToFlavorTextId[GetNatureFromPersonality(gBattleMons[gActiveBattler].personality)];
+            battlePalaceRestorePp();
         }
         break;
     case VARIOUS_ARENA_JUDGMENT_WINDOW:
@@ -9792,7 +9804,7 @@ static void Cmd_handleballthrow(void)
         u8 catchRate;
 
         if (gLastUsedItem == ITEM_SAFARI_BALL)
-            catchRate = gBattleStruct->safariCatchFactor * 1275 / 100;
+            catchRate = gBattleStruct->safariCatchFactor * 1275 * 2 / 100;
         else
             catchRate = gBaseStats[gBattleMons[gBattlerTarget].species].catchRate;
 

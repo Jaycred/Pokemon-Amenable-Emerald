@@ -1157,7 +1157,7 @@ static bool8 Blur_Main(struct Task *task)
     }
     else
     {
-        task->tDelay = 4;
+        task->tDelay = 2;
         if (++task->tCounter == 10)
             BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 16, RGB_BLACK);
         SetGpuReg(REG_OFFSET_MOSAIC, (task->tCounter & 15) * 17);
@@ -2865,7 +2865,7 @@ static bool8 ShredSplit_Init(struct Task *task)
 
     task->tDelayTimer = 0;
     task->tExtent = 0;
-    task->tDelay = 7;
+    task->tDelay = 1;
 
     EnableInterrupts(INTR_FLAG_HBLANK);
 
@@ -3788,13 +3788,13 @@ static bool8 GridSquares_Main(struct Task *task)
     if (task->tDelay == 0)
     {
         GetBg0TilemapDst(&tileset);
-        task->tDelay = 3;
+        task->tDelay = 1;
         task->tShrinkStage++;
         CpuSet(&sShrinkingBoxTileset[task->tShrinkStage * 8], tileset, 16);
         if (task->tShrinkStage > 13)
         {
             task->tState++;
-            task->tDelay = 16;
+            task->tDelay = 8;
         }
     }
 

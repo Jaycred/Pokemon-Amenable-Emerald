@@ -2809,7 +2809,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 break;
             case MOVE_EFFECT_ATK_DEF_DOWN: // SuperPower
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
-                gBattlescriptCurrInstr = BattleScript_AtkDefDown;
+                if(!FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    gBattlescriptCurrInstr = BattleScript_SAtkSDefDown;
+                else
+                    gBattlescriptCurrInstr = BattleScript_AtkDefDown;
                 break;
             case MOVE_EFFECT_RECOIL_33: // Double Edge
                 gBattleMoveDamage = gHpDealt / 3;
@@ -2867,7 +2870,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 break;
             case MOVE_EFFECT_SP_ATK_TWO_DOWN: // Overheat
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
-                gBattlescriptCurrInstr = BattleScript_SAtkDown2;
+                if(FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    gBattlescriptCurrInstr = BattleScript_AtkDown2;
+                else
+                    gBattlescriptCurrInstr = BattleScript_SAtkDown2;
                 break;
             }
         }

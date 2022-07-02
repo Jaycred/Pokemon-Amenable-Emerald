@@ -3303,6 +3303,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (doPhysical == 1)
     {
+        FlagSet(FLAG_DID_PHYSICAL_MOVE);
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost attack stat stages then ignore stat drop
@@ -3401,6 +3402,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (doPhysical == 0)
     {
+        FlagClear(FLAG_DID_PHYSICAL_MOVE);
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost sp. attack stat stages then ignore stat drop

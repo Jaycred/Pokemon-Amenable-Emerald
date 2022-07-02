@@ -1325,7 +1325,7 @@
 #define FLAG_DEFEATED_METEOR_FALLS_STEVEN                           0x4F8
 
 #define FLAG_RECEIVED_KANTO_FOSSILS                                 0x4F9 // Steven Fossil Gift
-#define FLAG_UNUSED_0x4FA                                           0x4FA // Unused Flag
+#define FLAG_DID_PHYSICAL_MOVE                                      0x4FA // Last performed move was physical
 
 #define FLAG_DEFEATED_ELITE_4_SIDNEY                                0x4FB
 #define FLAG_DEFEATED_ELITE_4_PHOEBE                                0x4FC

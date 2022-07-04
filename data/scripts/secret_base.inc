@@ -24,6 +24,7 @@ SecretBase_Text_DiscoveredSmallEntrance:
 
 	.include "data/text/secret_base_trainers.inc"
 
+
 SecretBase_EventScript_CheckEntrance::
 	special GetSecretBaseTypeInFrontOfPlayer
 	special CheckPlayerHasSecretBase
@@ -39,14 +40,19 @@ SecretBase_EventScript_CheckEntrance::
 	goto_if_eq VAR_0x8007, SECRET_BASE_SHRUB, SecretBase_EventScript_Shrub
 	end
 
+
 SecretBase_EventScript_Cave::
 	lockall
-	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_CaveNoSecretPower
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_CaveSetDefaultMon
+	goto SecretBase_EventScript_CaveComplete
+	end
+SecretBase_EventScript_CaveSetDefaultMon::
+	setfieldeffectargument 0, 0
+	goto SecretBase_EventScript_CaveComplete
+	end
+SecretBase_EventScript_CaveComplete::
 	msgbox SecretBase_Text_IndentUseSecretPower, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_CancelOnEntrance
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
-	closemessage
 	dofieldeffect FLDEFF_USE_SECRET_POWER_CAVE
 	waitstate
 	goto SecretBase_EventScript_CaveEnter
@@ -58,12 +64,10 @@ SecretBase_EventScript_CaveUseSecretPower::
 	waitstate
 	goto SecretBase_EventScript_CaveEnter
 	end
-
 SecretBase_EventScript_CaveNoSecretPower::
 	msgbox SecretBase_Text_SmallIndentInWall, MSGBOX_DEFAULT
 	releaseall
 	end
-
 SecretBase_EventScript_CaveEnter::
 	msgbox SecretBase_Text_DiscoveredSmallCavern, MSGBOX_DEFAULT
 	goto SecretBase_EventScript_InitSecretBase
@@ -71,12 +75,16 @@ SecretBase_EventScript_CaveEnter::
 
 SecretBase_EventScript_Tree::
 	lockall
-	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_TreeNoSecretPower
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_TreeSetDefaultMon
+	goto SecretBase_EventScript_TreeComplete
+	end
+SecretBase_EventScript_TreeSetDefaultMon::
+	setfieldeffectargument 0, 0
+	goto SecretBase_EventScript_TreeComplete
+	end
+SecretBase_EventScript_TreeComplete::
 	msgbox SecretBase_Text_TreeUseSecretPower, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_CancelOnEntrance
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
-	closemessage
 	dofieldeffect FLDEFF_USE_SECRET_POWER_TREE
 	waitstate
 	goto SecretBase_EventScript_TreeEnter
@@ -88,12 +96,10 @@ SecretBase_EventScript_TreeUseSecretPower::
 	waitstate
 	goto SecretBase_EventScript_TreeEnter
 	end
-
 SecretBase_EventScript_TreeNoSecretPower::
 	msgbox SecretBase_Text_TreeCanBeClimbed, MSGBOX_DEFAULT
 	releaseall
 	end
-
 SecretBase_EventScript_TreeEnter::
 	msgbox SecretBase_Text_VineDroppedDown, MSGBOX_DEFAULT
 	goto SecretBase_EventScript_InitSecretBase
@@ -101,12 +107,16 @@ SecretBase_EventScript_TreeEnter::
 
 SecretBase_EventScript_Shrub::
 	lockall
-	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_ShrubNoSecretPower
-	bufferpartymonnick STR_VAR_1, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_ShrubSetDefaultMon
+	goto SecretBase_EventScript_ShrubComplete
+	end
+SecretBase_EventScript_ShrubSetDefaultMon::
+	setfieldeffectargument 0, 0
+	goto SecretBase_EventScript_ShrubComplete
+	end
+SecretBase_EventScript_ShrubComplete::
 	msgbox SecretBase_Text_ClumpUseSecretPower, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_CancelOnEntrance
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
-	closemessage
 	dofieldeffect FLDEFF_USE_SECRET_POWER_SHRUB
 	waitstate
 	goto SecretBase_EventScript_ShrubEnter
@@ -118,12 +128,10 @@ SecretBase_EventScript_ShrubUseSecretPower::
 	waitstate
 	goto SecretBase_EventScript_ShrubEnter
 	end
-
 SecretBase_EventScript_ShrubNoSecretPower::
 	msgbox SecretBase_Text_ClumpOfGrass, MSGBOX_DEFAULT
 	releaseall
 	end
-
 SecretBase_EventScript_ShrubEnter::
 	msgbox SecretBase_Text_DiscoveredSmallEntrance, MSGBOX_DEFAULT
 	goto SecretBase_EventScript_InitSecretBase
@@ -186,10 +194,6 @@ SecretBase_EventScript_EnterPlayersBase::
 	end
 
 SecretBase_EventScript_AlreadyHasSecretBase::
-	checkpartymove MOVE_SECRET_POWER
-	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_NoSecretPower
-	setfieldeffectargument 0, VAR_RESULT
-	setorcopyvar VAR_0x8004, VAR_RESULT
 	lockall
 	special GetSecretBaseNearbyMapName
 	msgbox SecretBase_Text_WouldYouLikeToMoveBases, MSGBOX_YESNO
@@ -204,9 +208,19 @@ SecretBase_EventScript_AlreadyHasSecretBase::
 	goto_if_eq VAR_RESULT, NO, SecretBase_EventScript_CancelOnEntrance
 	bufferpartymonnick STR_VAR_1, VAR_0x8004
 	buffermovename STR_VAR_2, MOVE_SECRET_POWER
-	msgbox Text_MonUsedFieldMove, MSGBOX_DEFAULT
 	closemessage
-	closemessage
+
+	checkpartymove MOVE_SECRET_POWER
+	setfieldeffectargument 0, VAR_RESULT
+	setorcopyvar VAR_0x8004, VAR_RESULT
+	goto_if_eq VAR_RESULT, PARTY_SIZE, SecretBase_EventScript_AlreadyHasSecretBaseSetDefaultMon
+	goto SecretBase_EventScript_AlreadyHasSecretBaseComplete
+	end
+SecretBase_EventScript_AlreadyHasSecretBaseSetDefaultMon::
+	setfieldeffectargument 0, 0
+	goto SecretBase_EventScript_AlreadyHasSecretBaseComplete
+	end
+SecretBase_EventScript_AlreadyHasSecretBaseComplete::
 	goto_if_eq VAR_0x8007, SECRET_BASE_RED_CAVE, SecretBase_EventScript_CaveUseSecretPower
 	goto_if_eq VAR_0x8007, SECRET_BASE_BROWN_CAVE, SecretBase_EventScript_CaveUseSecretPower
 	goto_if_eq VAR_0x8007, SECRET_BASE_BLUE_CAVE, SecretBase_EventScript_CaveUseSecretPower

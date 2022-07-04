@@ -6,13 +6,10 @@ SootopolisCity_MysteryEventsHouse_1F_MapScripts::
 	.byte 0
 
 SootopolisCity_MysteryEventsHouse_1F_OnTransition:
-	frontier_checkvisittrainer
-	call_if_eq VAR_RESULT, 0, SootopolisCity_MysteryEventsHouse_1F_EventScript_SetTrainerVisitingLayout
-	call_if_ne VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 0, SootopolisCity_MysteryEventsHouse_1F_EventScript_MoveOldManToDoor
+	call_if_set FLAG_SYS_GAME_CLEAR, SootopolisCity_MysteryEventsHouse_1F_EventScript_SetTrainerVisitingLayout
 	end
 
 SootopolisCity_MysteryEventsHouse_1F_EventScript_SetTrainerVisitingLayout::
-	setvar VAR_TEMP_1, 1
 	setobjectxyperm LOCALID_OLD_MAN, 3, 2
 	setobjectmovementtype LOCALID_OLD_MAN, MOVEMENT_TYPE_FACE_DOWN
 	setmaplayoutindex LAYOUT_SOOTOPOLIS_CITY_MYSTERY_EVENTS_HOUSE_1F_STAIRS_UNBLOCKED
@@ -38,17 +35,17 @@ SootopolisCity_MysteryEventsHouse_1F_EventScript_OldManCommentOnBattle::
 	copyobjectxytoperm LOCALID_OLD_MAN
 	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
-	call_if_eq VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 1, SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleWonComment
-	call_if_eq VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 2, SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleLostComment
-	call_if_eq VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 3, SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleTiedComment
-	special LoadPlayerParty
-	setvar VAR_SOOTOPOLIS_MYSTERY_EVENTS_STATE, 0
+
+	call SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleWonComment
+
 	releaseall
 	end
 
 SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleWonComment::
 	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_ThatWasSuperlative, MSGBOX_DEFAULT
-	return
+	clearflag FLAG_RED_DEFEATED
+	release
+	end
 
 SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleLostComment::
 	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_TooBadForYou, MSGBOX_DEFAULT
@@ -70,9 +67,8 @@ SootopolisCity_MysteryEventsHouse_1F_Movement_OldManWalkBehindPlayer:
 SootopolisCity_MysteryEventsHouse_1F_EventScript_OldMan::
 	lock
 	faceplayer
-	frontier_checkvisittrainer
-	goto_if_eq VAR_RESULT, 1, SootopolisCity_MysteryEventsHouse_1F_EventScript_InvalidVisitingTrainer
-	goto_if_eq VAR_TEMP_1, 1, SootopolisCity_MysteryEventsHouse_1F_EventScript_TrainerVisiting
+
+	goto SootopolisCity_MysteryEventsHouse_1F_EventScript_TrainerVisiting
 	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_OnlyAmusementWatchingBattles, MSGBOX_DEFAULT
 	release
 	end
@@ -83,19 +79,13 @@ SootopolisCity_MysteryEventsHouse_1F_EventScript_InvalidVisitingTrainer::
 	end
 
 SootopolisCity_MysteryEventsHouse_1F_EventScript_TrainerVisiting::
-	special SavePlayerParty
-	special BufferEReaderTrainerName
+
+	goto_if_set FLAG_RED_DEFEATED, SootopolisCity_MysteryEventsHouse_1F_EventScript_BattleWonComment
+
+	goto_if_unset FLAG_RED_AVAILABLE, SootopolisCity_MysteryEventsHouse_1F_EventScript_ComeBackLater
+
 	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_ChallengeVisitingTrainer, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, SootopolisCity_MysteryEventsHouse_1F_EventScript_DeclineBattle
-	call SootopolisCity_MysteryEventsHouse_1F_EventScript_ChooseParty
-	goto_if_eq VAR_RESULT, 0, SootopolisCity_MysteryEventsHouse_1F_EventScript_DeclineBattle
-	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_SaveProgressBeforeBattle, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, SootopolisCity_MysteryEventsHouse_1F_EventScript_DeclineBattle
-	special LoadPlayerParty
-	call Common_EventScript_SaveGame
-	goto_if_eq VAR_RESULT, FALSE, SootopolisCity_MysteryEventsHouse_1F_EventScript_DeclineBattle
-	special SavePlayerParty
-	special ReducePlayerPartyToSelectedMons
 	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_HopeToSeeGoodMatch, MSGBOX_DEFAULT
 	closemessage
 	call_if_eq VAR_FACING, DIR_NORTH, SootopolisCity_MysteryEventsHouse_1F_EventScript_EnterBasementNorth
@@ -103,6 +93,11 @@ SootopolisCity_MysteryEventsHouse_1F_EventScript_TrainerVisiting::
 	call_if_eq VAR_FACING, DIR_WEST, SootopolisCity_MysteryEventsHouse_1F_EventScript_EnterBasementWest
 	warp MAP_SOOTOPOLIS_CITY_MYSTERY_EVENTS_HOUSE_B1F, 3, 1
 	waitstate
+	release
+	end
+
+SootopolisCity_MysteryEventsHouse_1F_EventScript_ComeBackLater::
+	msgbox SootopolisCity_MysteryEventsHouse_1F_Text_ComeBackLater, MSGBOX_DEFAULT
 	release
 	end
 
@@ -176,10 +171,13 @@ SootopolisCity_MysteryEventsHouse_1F_Text_DoorAppearsToBeLocked:
 	.string "The door appears to be locked.$"
 
 SootopolisCity_MysteryEventsHouse_1F_Text_ChallengeVisitingTrainer:
-	.string "A TRAINER named {STR_VAR_1}\n"
-	.string "is visiting my home.\p"
-	.string "Would you like to challenge\n"
-	.string "{STR_VAR_1}?$"
+	.string "A TRAINER is visiting my home.\n"
+	.string "Would you like to challenge them?$"
+
+SootopolisCity_MysteryEventsHouse_1F_Text_ComeBackLater:
+	.string "The TRAINER has left.\n"
+	.string "Come back later and they might\l"
+	.string "be here, ready for another battle.$"
 
 SootopolisCity_MysteryEventsHouse_1F_Text_YouWontBattle:
 	.string "You won't battle? I'm disappointed\n"

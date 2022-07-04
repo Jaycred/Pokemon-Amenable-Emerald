@@ -27,6 +27,7 @@
 #include "text.h"
 #include "script_menu.h"
 #include "naming_screen.h"
+#include "data/text/nature_names.h"
 #include "malloc.h"
 #include "region_map.h"
 #include "decoration.h"
@@ -197,34 +198,34 @@ static const struct {
     u8 location;
 } sPokeOutbreakSpeciesList[] = {
     {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_BIDE, MOVE_HARDEN, MOVE_LEECH_SEED},
-        .level = 3,
-        .location = MAP_NUM(ROUTE102)
+        .species = SPECIES_BLISSEY,
+        .moves = {MOVE_PRESENT, MOVE_HEAL_BELL, MOVE_AROMATHERAPY, MOVE_DOUBLE_EDGE},
+        .level = 70,
+        .location = MAP_NUM(VICTORY_ROAD_1F),
     },
     {
-        .species = SPECIES_NUZLEAF,
-        .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 15,
-        .location = MAP_NUM(ROUTE114),
+        .species = SPECIES_BLISSEY,
+        .moves = {MOVE_PRESENT, MOVE_HEAL_BELL, MOVE_AROMATHERAPY, MOVE_DOUBLE_EDGE},
+        .level = 70,
+        .location = MAP_NUM(VICTORY_ROAD_B1F),
     },
     {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 13,
-        .location = MAP_NUM(ROUTE117),
+        .species = SPECIES_BLISSEY,
+        .moves = {MOVE_PRESENT, MOVE_HEAL_BELL, MOVE_AROMATHERAPY, MOVE_DOUBLE_EDGE},
+        .level = 70,
+        .location = MAP_NUM(VICTORY_ROAD_B2F)
     },
     {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_GIGA_DRAIN, MOVE_FRUSTRATION, MOVE_SOLAR_BEAM, MOVE_LEECH_SEED},
-        .level = 25,
-        .location = MAP_NUM(ROUTE120),
+        .species = SPECIES_BLISSEY,
+        .moves = {MOVE_PRESENT, MOVE_HEAL_BELL, MOVE_AROMATHERAPY, MOVE_DOUBLE_EDGE},
+        .level = 70,
+        .location = MAP_NUM(ALTERING_CAVE)
     },
     {
-        .species = SPECIES_SKITTY,
-        .moves = {MOVE_GROWL, MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_ATTRACT},
-        .level = 8,
-        .location = MAP_NUM(ROUTE116),
+        .species = SPECIES_BLISSEY,
+        .moves = {MOVE_PRESENT, MOVE_HEAL_BELL, MOVE_AROMATHERAPY, MOVE_DOUBLE_EDGE},
+        .level = 70,
+        .location = MAP_NUM(DESERT_UNDERPASS)
     }
 };
 
@@ -3326,6 +3327,23 @@ void BufferMonNickname(void)
 {
     GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar1);
     StringGet_Nickname(gStringVar1);
+}
+
+void BufferMonNature(void)
+{
+    StringCopy(gStringVar1, gNatureNamePointers[GetNature(&gPlayerParty[gSpecialVar_0x8004])]);
+}
+void SetMonNature(void)
+{
+    u16 var = gSpecialVar_0x8004;
+    struct Pokemon *mon = &gPlayerParty[VarGet(VAR_TEMP_0)];
+
+    //VAR_TEMP_1 denotes whether the mon's currently assigned nature was chosen
+    if(GetNature(mon) == var) VarSet(VAR_TEMP_1, 1);
+    else VarSet(VAR_TEMP_1, 0);
+
+    SetMonData(mon, MON_DATA_OVERRIDE_NATURE, &var);
+    CalculateMonStats(mon);
 }
 
 void IsMonOTIDNotPlayers(void)

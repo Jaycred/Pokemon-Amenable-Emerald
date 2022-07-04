@@ -243,12 +243,13 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_METAL_POWDER] = {gItemIcon_MetalPowder, gItemIconPalette_MetalPowder},
     [ITEM_THICK_CLUB] = {gItemIcon_ThickClub, gItemIconPalette_ThickClub},
     [ITEM_STICK] = {gItemIcon_Stick, gItemIconPalette_Stick},
+
+    [ITEM_LUCKY_CHARM] = {gItemIcon_LuckyCharm, gItemIconPalette_LuckyCharm},
+    [ITEM_WEAVILE_FIG] = {gItemIcon_WeavileFig, gItemIconPalette_WeavileFig},
+    [ITEM_LUMINOUS_ORB] = {gItemIcon_LuminousOrb, gItemIconPalette_LuminousOrb},
+    [ITEM_WARP_SCARF] = {gItemIcon_WarpScarf, gItemIconPalette_WarpScarf},
+    [ITEM_LINK_CABLE] = {gItemIcon_LinkCable, gItemIconPalette_LinkCable},
     // ????????
-    [ITEM_0E2] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
-    [ITEM_0E3] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
-    [ITEM_0E4] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
-    [ITEM_0E5] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
-    [ITEM_0E6] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
     [ITEM_0E7] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
     [ITEM_0E8] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},
     [ITEM_0E9] = {gItemIcon_QuestionMark, gItemIconPalette_QuestionMark},

@@ -3,6 +3,7 @@
 .set LOCALID_LINK_RECEPTIONIST, 2
 .set LOCALID_ARTIST, 4
 .set LOCALID_ARTIST_LINK, 11
+.set LOCALID_FAT_MAN, 13
 
 LilycoveCity_ContestLobby_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, LilycoveCity_ContestLobby_OnTransition
@@ -487,8 +488,39 @@ LilycoveCity_ContestLobby_EventScript_Artist::
 	end
 
 LilycoveCity_ContestLobby_EventScript_FatMan::
-	msgbox LilycoveCity_ContestLobby_Text_ToughContestIsExtreme, MSGBOX_NPC
+	lockall
+	applymovement LOCALID_FAT_MAN, Common_Movement_FacePlayer
+	waitmovement 0
+	msgbox LilycoveCity_ContestLobby_Text_DontYouWish, MSGBOX_YESNO
+	switch VAR_RESULT
+	case YES, LilycoveCity_ContestLobby_EventScript_ChooseMonToReset
+	case NO, LilycoveCity_ContestLobby_EventScript_DeclineReset
 	end
+LilycoveCity_ContestLobby_EventScript_ChooseMonToReset::
+	msgbox LilycoveCity_ContestLobby_Text_WhichMonToReset, MSGBOX_DEFAULT
+	special ChoosePartyMon
+	waitstate
+	goto_if_eq VAR_0x8004, PARTY_NOTHING_CHOSEN, LilycoveCity_ContestLobby_EventScript_DeclineReset
+	special IsSelectedMonEgg
+	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_ContestLobby_EventScript_ChoseEgg
+	goto LilycoveCity_ContestLobby_EventScript_DoConditionReset
+	end
+LilycoveCity_ContestLobby_EventScript_DeclineReset::
+	msgbox LilycoveCity_ContestLobby_Text_OhOkay, MSGBOX_DEFAULT
+	releaseall
+	end
+LilycoveCity_ContestLobby_EventScript_ChoseEgg::
+	msgbox LilycoveCity_ContestLobby_Text_ThatsAnEgg, MSGBOX_DEFAULT
+	releaseall
+	end
+LilycoveCity_ContestLobby_EventScript_DoConditionReset::
+	special ResetMonCondition
+	playfanfare MUS_MOVE_DELETED
+	waitfanfare
+	msgbox LilycoveCity_ContestLobby_Text_ResetDone, MSGBOX_DEFAULT
+	releaseall
+	end
+
 
 LilycoveCity_ContestLobby_EventScript_Fisherman::
 	msgbox LilycoveCity_ContestLobby_Text_LavishedCareOnMon, MSGBOX_NPC
@@ -1071,6 +1103,22 @@ LilycoveCity_ContestLobby_Text_ToughContestIsExtreme:
 	.string "extreme, man!\p"
 	.string "Those muscular appeals…\n"
 	.string "Cascading sweat… I swoon!$"
+LilycoveCity_ContestLobby_Text_DontYouWish:
+	.string "Don't you wish you could reset a\n"
+	.string "POKéMON's CONDITION?\p"
+	.string "Well, I can help you with that.$"
+LilycoveCity_ContestLobby_Text_WhichMonToReset:
+	.string "Cool! Which POKéMON\n"
+	.string "do you want to reset?$"
+LilycoveCity_ContestLobby_Text_OhOkay:
+	.string "Oh, okay.$"
+LilycoveCity_ContestLobby_Text_ThatsAnEgg:
+	.string "That's an EGG!\n"
+	.string "It can't even eat {POKEBLOCK}S yet!$"
+LilycoveCity_ContestLobby_Text_ResetDone:
+	.string "Done! Now it's ready\n"
+	.string "to eat some more {POKEBLOCK}S!$"	
+
 
 LilycoveCity_ContestLobby_Text_LavishedCareOnMon:
 	.string "Day in and day out, I lavished my care\n"

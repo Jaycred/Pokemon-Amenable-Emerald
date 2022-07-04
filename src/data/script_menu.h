@@ -262,7 +262,9 @@ static const struct MenuAction MultichoiceList_GameCornerDolls[] =
     {gText_TreeckoDollAndPrice},
     {gText_TorchicDollAndPrice},
     {gText_MudkipDollAndPrice},
-    {gText_Exit},
+    {gText_RegirockDollAndPrice},
+    {gText_RegiceDollAndPrice},
+    {gText_RegisteelDollAndPrice},
 };
 
 static const struct MenuAction MultichoiceList_GameCornerTMs[] =
@@ -272,7 +274,6 @@ static const struct MenuAction MultichoiceList_GameCornerTMs[] =
     {gText_TM35AndPrice},
     {gText_TM24AndPrice},
     {gText_TM13AndPrice},
-    {gText_Exit},
 };
 
 static const struct MenuAction MultichoiceList_GameCornerCoins[] =
@@ -602,6 +603,9 @@ static const struct MenuAction MultichoiceList_Fossil[] =
 {
     {gText_ClawFossil},
     {gText_RootFossil},
+    {gText_OldAmber},
+    {gText_HelixFossil},
+    {gText_DomeFossil},
     {gText_Exit},
 };
 
@@ -668,9 +672,6 @@ static const struct MenuAction MultichoiceList_BattleFactoryRules[] =
 static const struct MenuAction MultichoiceList_BattlePalaceRules[] =
 {
     {gText_BattleBasics},
-    {gText_PokemonNature},
-    {gText_PokemonMoves},
-    {gText_Underpowered},
     {gText_WhenInDanger},
     {gText_Exit},
 };

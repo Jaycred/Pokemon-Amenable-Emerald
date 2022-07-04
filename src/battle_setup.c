@@ -410,7 +410,35 @@ static void DoStandardWildBattle(void)
         VarSet(VAR_TEMP_E, 0);
         gBattleTypeFlags |= BATTLE_TYPE_PYRAMID;
     }
-    CreateBattleStartTask(GetWildBattleTransition(), 0);
+
+    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+    {
+        default:
+            if(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ALTERING_CAVE) &&
+                gSaveBlock1Ptr->location.mapNum == MAP_NUM(ALTERING_CAVE))
+                CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_WILD);
+            else
+                CreateBattleStartTask(GetWildBattleTransition(), 0);
+            break;
+        case SPECIES_ARTICUNO:
+        case SPECIES_MOLTRES:
+        case SPECIES_ZAPDOS:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
+            break;
+        case SPECIES_SUICUNE:
+        case SPECIES_ENTEI:
+        case SPECIES_RAIKOU:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_C_VS_LEGEND_BEAST);
+            break;
+        case SPECIES_JIRACHI:
+        case SPECIES_CELEBI:
+            CreateBattleStartTask(B_TRANSITION_BLUR, 0);
+            break;
+        case SPECIES_MEWTWO:
+            CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_MEWTWO);
+            break;
+    }
+    
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     IncrementDailyWildBattles();
@@ -817,6 +845,11 @@ static u8 GetTrainerBattleTransition(void)
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         return B_TRANSITION_CHAMPION;
 
+    if (gTrainerBattleOpponent_A == TRAINER_RED_MYSTERY_EVENTS_HOUSE)
+    {
+        return B_TRANSITION_BIG_POKEBALL;
+    }
+
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_ELITE_FOUR)
     {
         if (gTrainerBattleOpponent_A == TRAINER_SIDNEY)
@@ -953,13 +986,13 @@ static void CB2_EndFirstBattle(void)
 
 static void TryUpdateGymLeaderRematchFromWild(void)
 {
-    if (GetGameStat(GAME_STAT_WILD_BATTLES) % 60 == 0)
+    if (GetGameStat(GAME_STAT_WILD_BATTLES) % 10 == 0)
         UpdateGymLeaderRematch();
 }
 
 static void TryUpdateGymLeaderRematchFromTrainer(void)
 {
-    if (GetGameStat(GAME_STAT_TRAINER_BATTLES) % 20 == 0)
+    if (GetGameStat(GAME_STAT_TRAINER_BATTLES) % 10 == 0)
         UpdateGymLeaderRematch();
 }
 
@@ -1614,8 +1647,7 @@ static bool32 UpdateRandomTrainerRematches(const struct RematchTrainer *table, u
                 // Trainer already wants a rematch. Don't bother updating it.
                 ret = TRUE;
             }
-            else if (FlagGet(FLAG_MATCH_CALL_REGISTERED + i)
-             && (Random() % 100) <= 30)  // 31% chance of getting a rematch.
+            else if (FlagGet(FLAG_MATCH_CALL_REGISTERED + i))  // 100% chance of getting a rematch.
             {
                 SetRematchIdForTrainer(table, i);
                 ret = TRUE;
@@ -1787,7 +1819,7 @@ static bool32 HasAtLeastFiveBadges(void)
     return FALSE;
 }
 
-#define STEP_COUNTER_MAX 255
+#define STEP_COUNTER_MAX 100
 
 void IncrementRematchStepCounter(void)
 {

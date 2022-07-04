@@ -316,7 +316,10 @@ static u16 GetCurrentMapWildMonHeaderId(void)
             {
                 u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
                 if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
+                {
                     alteringCaveId = 0;
+                    VarSet(VAR_ALTERING_CAVE_WILD_SET, 0);
+                }
 
                 i += alteringCaveId;
             }
@@ -463,6 +466,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
         return FALSE;
 
     CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
+
     for (i = 0; i < MAX_MON_MOVES; i++)
         SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
 

@@ -40,6 +40,7 @@
 #include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "random.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -1730,6 +1731,15 @@ static s16 StorageSystemGetNextMonIndex(struct BoxPokemon *box, s8 startIdx, u8 
     return -1;
 }
 
+void SetRandomWaldaWallpaper(void)
+{
+    gSaveBlock1Ptr->waldaPhrase.iconId = Random() % 30;
+    gSaveBlock1Ptr->waldaPhrase.patternId = Random() % 16;
+    gSaveBlock1Ptr->waldaPhrase.patternUnlocked = TRUE;
+    gSaveBlock1Ptr->waldaPhrase.colors[0] = RGB(Random() % 32, Random() % 32, Random() % 32);
+    gSaveBlock1Ptr->waldaPhrase.colors[1] = RGB(Random() % 32, Random() % 32, Random() % 32);
+    gSaveBlock1Ptr->waldaPhrase.text[0] = EOS;
+}
 void ResetPokemonStorageSystem(void)
 {
     u16 boxId, boxPosition;
@@ -1750,6 +1760,7 @@ void ResetPokemonStorageSystem(void)
         SetBoxWallpaper(boxId, boxId % (MAX_DEFAULT_WALLPAPER + 1));
 
     ResetWaldaWallpaper();
+    SetRandomWaldaWallpaper();
 }
 
 

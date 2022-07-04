@@ -1215,6 +1215,12 @@ static void Task_BagMenu_HandleInput(u8 taskId)
     u16* cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
     s32 listPosition;
 
+    if(FlagGet(FLAG_UNUSED_0x8E7)) //Warp Scarf registered use
+    {
+        gSpecialVar_ItemId = ITEM_NONE;
+        gTasks[taskId].func = Task_FadeAndCloseBagMenu;
+    }
+
     if (MenuHelpers_ShouldWaitForLinkRecv() != TRUE && !gPaletteFade.active)
     {
         switch (GetSwitchBagPocketDirection())
@@ -1674,7 +1680,8 @@ static void PrintContextMenuItems(u8 windowId)
 static void PrintContextMenuItemGrid(u8 windowId, u8 columns, u8 rows)
 {
     PrintMenuActionGrid(windowId, FONT_NARROW, 8, 1, 56, columns, rows, sItemMenuActions, gBagMenu->contextMenuItemsPtr);
-    InitMenuActionGrid(windowId, 56, columns, rows, 0);
+    if(gBagPosition.pocket == BERRIES_POCKET && gBagMenu->contextMenuItemsPtr == sContextMenuItems_BerriesPocket) InitMenuActionGrid(windowId, 56, columns, rows, 2);
+    else InitMenuActionGrid(windowId, 56, columns, rows, 0);
 }
 
 static void Task_ItemContext_Normal(u8 taskId)
@@ -2068,7 +2075,7 @@ static void Task_ItemContext_Sell(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (ItemId_GetPrice(gSpecialVar_ItemId) == 0)
+    if (ItemId_GetPrice(gSpecialVar_ItemId) == 0 || ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_HM)
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
         StringExpandPlaceholders(gStringVar4, gText_CantBuyKeyItem);

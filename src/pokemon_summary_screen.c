@@ -313,7 +313,7 @@ static void SummaryScreen_DestroyAnimDelayTask(void);
 
 // const rom data
 #include "data/text/move_descriptions.h"
-#include "data/text/nature_names.h"
+//data/text/nature_names.h was here, now covered by importing tv.h
 
 static const struct BgTemplate sBgTemplates[] =
 {
@@ -2224,7 +2224,7 @@ static bool8 CanReplaceMove(void)
 {
     if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
         || sMonSummaryScreen->newMove == MOVE_NONE
-        || IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
+        || sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex])
         return TRUE;
     else
         return FALSE;

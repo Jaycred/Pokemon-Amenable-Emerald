@@ -4,6 +4,7 @@
 #include "overworld.h"
 #include "random.h"
 #include "battle_tower.h"
+#include "battle_palace.h"
 #include "frontier_util.h"
 #include "item.h"
 #include "string_util.h"
@@ -12,6 +13,7 @@
 #include "constants/battle_palace.h"
 #include "constants/frontier_util.h"
 #include "constants/trainers.h"
+#include "constants/moves.h"
 
 // This file's functions.
 static void InitPalaceChallenge(void);
@@ -208,5 +210,24 @@ static void GivePalacePrize(void)
     else
     {
         gSpecialVar_Result = FALSE;
+    }
+}
+
+void SetBattlePalacePartyPp(void)
+{
+    //New Battle Palace effect: set all party Pokemon to 1 PP for all their moves
+    u8 i;
+    u32 pp = 1;
+    struct Pokemon *mon = NULL;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        mon = &gPlayerParty[i];
+        if(mon != NULL)
+        {
+            SetMonData(mon, MON_DATA_PP1, &pp);
+            SetMonData(mon, MON_DATA_PP2, &pp);
+            SetMonData(mon, MON_DATA_PP3, &pp);
+            SetMonData(mon, MON_DATA_PP4, &pp);
+        }
     }
 }

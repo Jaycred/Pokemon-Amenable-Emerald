@@ -184,6 +184,8 @@
 #define MON_DATA_SPATK2            87
 #define MON_DATA_SPDEF2            88
 
+#define MON_DATA_OVERRIDE_NATURE   89
+
 // Ribbon IDs used by TV and Pokénav
 #define CHAMPION_RIBBON       0
 #define COOL_RIBBON_NORMAL    1
@@ -261,6 +263,8 @@
 #define MON_FEMALE     0xFE
 #define MON_GENDERLESS 0xFF
 
+#define OVERRIDE_NATURE_NONE      26
+
 // Constants for AdjustFriendship
 #define FRIENDSHIP_EVENT_GROW_LEVEL       0
 #define FRIENDSHIP_EVENT_VITAMIN          1 // unused, handled by PokemonUseItemEffects
@@ -279,9 +283,9 @@
 #define MAX_PER_STAT_IVS 31
 #define MAX_IV_MASK 31
 #define USE_RANDOM_IVS (MAX_PER_STAT_IVS + 1)
-#define MAX_PER_STAT_EVS 255
+#define MAX_PER_STAT_EVS 252
 #define MAX_TOTAL_EVS 510
-#define EV_ITEM_RAISE_LIMIT 100
+#define EV_ITEM_RAISE_LIMIT 252
 
 // Battle move flags
 #define FLAG_MAKES_CONTACT          (1 << 0)

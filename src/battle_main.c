@@ -2661,7 +2661,7 @@ static void SpriteCb_MoveWildMonToRight(struct Sprite *sprite)
 {
     if ((gIntroSlideFlags & 1) == 0)
     {
-        sprite->x2 += 2;
+        sprite->x2 += 2*2;
         if (sprite->x2 == 0)
         {
             sprite->callback = SpriteCb_WildMonShowHealthbox;
@@ -4567,7 +4567,7 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
     u8 speedMultiplierBattler1 = 0, speedMultiplierBattler2 = 0;
     u32 speedBattler1 = 0, speedBattler2 = 0;
     u8 holdEffect = 0;
-    u8 holdEffectParam = 0;
+    u16 holdEffectParam = 0;
     u16 moveBattler1 = 0, moveBattler2 = 0;
 
     if (WEATHER_HAS_EFFECT)

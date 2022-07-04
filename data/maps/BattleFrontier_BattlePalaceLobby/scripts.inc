@@ -337,11 +337,8 @@ BattleFrontier_BattlePalaceLobby_EventScript_ReadRulesBoard::
 	multichoice 16, 0, MULTI_BATTLE_PALACE_RULES, FALSE
 	switch VAR_RESULT
 	case 0, BattleFrontier_BattlePalaceLobby_EventScript_RulesBasics
-	case 1, BattleFrontier_BattlePalaceLobby_EventScript_RulesNature
-	case 2, BattleFrontier_BattlePalaceLobby_EventScript_RulesMoves
-	case 3, BattleFrontier_BattlePalaceLobby_EventScript_RulesUnderpowered
-	case 4, BattleFrontier_BattlePalaceLobby_EventScript_RulesWhenInDanger
-	case 5, BattleFrontier_BattlePalaceLobby_EventScript_ExitRules
+	case 1, BattleFrontier_BattlePalaceLobby_EventScript_RulesWhenInDanger
+	case 2, BattleFrontier_BattlePalaceLobby_EventScript_ExitRules
 	case MULTI_B_PRESSED, BattleFrontier_BattlePalaceLobby_EventScript_ExitRules
 	end
 
@@ -390,14 +387,9 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainSingleBattleChallenge:
 	.string "several auditoriums for SINGLE BATTLES\l"
 	.string "that are named SINGLE BATTLE HALLS.\p"
 	.string "The SINGLE BATTLES are conducted in\n"
-	.string "the usual way, except with one crucial\l"
-	.string "rule that must be obeyed.\p"
-	.string "TRAINERS are permitted only to switch\n"
-	.string "their POKéMON in and out.\p"
-	.string "TRAINERS are otherwise forbidden to\n"
-	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "the usual way.\p"
+	.string "However, POKéMON are limited in their\n"
+	.string "ability to use their moves.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"
@@ -560,14 +552,9 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainDoubleBattleChallenge:
 	.string "several auditoriums for DOUBLE BATTLES\l"
 	.string "that are named DOUBLE BATTLE HALLS.\p"
 	.string "The DOUBLE BATTLES are conducted in\n"
-	.string "the usual way, except with one crucial\l"
-	.string "rule that must be obeyed.\p"
-	.string "TRAINERS are permitted only to switch\n"
-	.string "their POKéMON in and out.\p"
-	.string "TRAINERS are otherwise forbidden to\n"
-	.string "command their POKéMON.\p"
-	.string "The POKéMON are to behave according\n"
-	.string "to their nature and battle on their own.\p"
+	.string "the usual way.\p"
+	.string "However, POKéMON are limited in their\n"
+	.string "ability to use their moves.\p"
 	.string "You must put your trust in your\n"
 	.string "POKéMON and watch over them.\p"
 	.string "If you achieve the honor of beating\n"
@@ -599,11 +586,8 @@ BattleFrontier_BattlePalaceLobby_Text_ReadWhichHeading:
 	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesBasics:
-	.string "Here, POKéMON are required to think\n"
-	.string "and battle by themselves.\p"
-	.string "Unlike in the wild, POKéMON that live\n"
-	.string "with people behave differently\l"
-	.string "depending on their nature.$"
+	.string "Here, POKéMON are required to battle\n"
+	.string "with limited access to their moves.$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesNature:
 	.string "Depending on its nature, a POKéMON\n"
@@ -642,9 +626,6 @@ BattleFrontier_BattlePalaceLobby_Text_ExplainRulesUnderpowered:
 	.string "be unable to live up to its potential.$"
 
 BattleFrontier_BattlePalaceLobby_Text_ExplainRulesWhenInDanger:
-	.string "Depending on its nature, a POKéMON may\n"
-	.string "start using moves that don't match its\l"
-	.string "nature when it is in trouble.\p"
-	.string "If a POKéMON begins behaving oddly\n"
-	.string "in a pinch, watch it carefully.$"
+	.string "A POKéMON will recover a bit of its\n"
+	.string "energy when it is in trouble.$"
 

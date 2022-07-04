@@ -897,7 +897,7 @@ u8 ItemId_GetHoldEffect(u16 itemId)
     return gItems[SanitizeItemId(itemId)].holdEffect;
 }
 
-u8 ItemId_GetHoldEffectParam(u16 itemId)
+u16 ItemId_GetHoldEffectParam(u16 itemId)
 {
     return gItems[SanitizeItemId(itemId)].holdEffectParam;
 }

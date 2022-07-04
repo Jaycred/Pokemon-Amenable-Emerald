@@ -253,11 +253,11 @@
 #define ITEM_METAL_POWDER 223
 #define ITEM_THICK_CLUB 224
 #define ITEM_STICK 225
-#define ITEM_0E2 226
-#define ITEM_0E3 227
-#define ITEM_0E4 228
-#define ITEM_0E5 229
-#define ITEM_0E6 230
+#define ITEM_LUCKY_CHARM 226 //Lucky Charm
+#define ITEM_WEAVILE_FIG 227
+#define ITEM_LUMINOUS_ORB 228
+#define ITEM_WARP_SCARF 229
+#define ITEM_LINK_CABLE 230
 #define ITEM_0E7 231
 #define ITEM_0E8 232
 #define ITEM_0E9 233
@@ -533,6 +533,6 @@
 #define ITEM_B_USE_OTHER    2
 
 // Check if the item is one that can be used on a Pokemon.
-#define ITEM_HAS_EFFECT(item) ((item) >= ITEM_POTION && (item) <= MAX_BERRY_INDEX)
+#define ITEM_HAS_EFFECT(item) (((item) >= ITEM_POTION && (item) <= MAX_BERRY_INDEX) || (item) == ITEM_LINK_CABLE || (item) == ITEM_KINGS_ROCK || (item) == ITEM_METAL_COAT || (item) == ITEM_DRAGON_SCALE || (item) == ITEM_UP_GRADE || (item) == ITEM_DEEP_SEA_SCALE || (item) == ITEM_DEEP_SEA_TOOTH)
 
 #endif  // GUARD_CONSTANTS_ITEMS_H

@@ -899,6 +899,25 @@ static const u16 sRecordTrainerSpeechLost[] =
 };
 
 // code
+void SetBattlePalaceEnemyPp(void)
+{
+    //New Battle Palace effect: set all party Pokemon to 1 PP for all their moves
+    u8 i;
+    u32 pp = 1;
+    struct Pokemon *mon = NULL;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        mon = &gEnemyParty[i];
+        if(mon != NULL)
+        {
+            SetMonData(mon, MON_DATA_PP1, &pp);
+            SetMonData(mon, MON_DATA_PP2, &pp);
+            SetMonData(mon, MON_DATA_PP3, &pp);
+            SetMonData(mon, MON_DATA_PP4, &pp);
+        }
+    }
+}
+
 void CallBattleTowerFunc(void)
 {
     sBattleTowerFuncs[gSpecialVar_0x8004]();
@@ -1971,7 +1990,7 @@ static void HandleSpecialTrainerBattleEnd(void)
         if (gSaveBlock2Ptr->frontier.battlesCount < 0xFFFFFF)
         {
             gSaveBlock2Ptr->frontier.battlesCount++;
-            if (gSaveBlock2Ptr->frontier.battlesCount % 20 == 0)
+            if (gSaveBlock2Ptr->frontier.battlesCount % 10 == 0)
                 UpdateGymLeaderRematch();
         }
         else
@@ -2075,6 +2094,7 @@ void DoSpecialTrainerBattle(void)
             FillFrontierTrainerParty(FRONTIER_PARTY_SIZE);
         else
             FillTentTrainerParty(FRONTIER_PARTY_SIZE);
+        SetBattlePalaceEnemyPp();
         CreateTask(Task_StartBattleAfterTransition, 1);
         PlayMapChosenOrBattleBGM(0);
         BattleTransition_StartOnField(GetSpecialBattleTransition(B_TRANSITION_GROUP_B_PALACE));

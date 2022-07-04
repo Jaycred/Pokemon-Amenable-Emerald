@@ -350,7 +350,7 @@ static const u8 sSuperRepelDesc[] = _(
 
 static const u8 sMaxRepelDesc[] = _(
     "Repels weak wild\n"
-    "POKéMON for 250\n"
+    "POKéMON for 350\n"
     "steps.");
 
 static const u8 sEscapeRopeDesc[] = _(
@@ -946,6 +946,33 @@ static const u8 sStickDesc[] = _(
     "A hold item that\n"
     "raises FARFETCH'D's\n"
     "critical-hit ratio.");
+
+
+static const u8 sLinkCableDesc[] = _(
+    "Makes certain\n"
+    "species of POKéMON\n"
+    "evolve.");    
+
+static const u8 sLuckyCharmDesc[] = _(
+    "Said to increase\n"
+    "the chance of Shiny\n"
+    "POKéMON and more.");
+
+static const u8 sWeavileFigDesc[] = _(
+    "A POKéMON-shaped\n"
+    "statue that allows\n"
+    "the use of CUT.");
+
+static const u8 sLuminousOrbDesc[] = _(
+    "A mysterious orb\n"
+    "that allows the use\n"
+    "of FLASH.");
+
+static const u8 sWarpScarfDesc[] = _(
+    "A strange scarf\n"
+    "that allows the use\n"
+    "of FLY.");
+
 
 static const u8 sRedScarfDesc[] = _(
     "A hold item that\n"

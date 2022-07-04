@@ -17,6 +17,7 @@
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
 #include "field_weather.h"
+#include "fldeff.h"
 #include "item.h"
 #include "item_menu.h"
 #include "item_use.h"
@@ -30,6 +31,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "region_map.h"
 #include "script.h"
 #include "sound.h"
 #include "strings.h"
@@ -40,6 +42,7 @@
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/rgb.h"
 #include "constants/songs.h"
 
 static void SetUpItemUseCallback(u8);
@@ -1119,6 +1122,152 @@ void ItemUseInBattle_EnigmaBerry(u8 taskId)
     default:
         ItemUseOutOfBattle_CannotUse(taskId);
         break;
+    }
+}
+
+void ItemUseOutOfBattle_LuckyCharm(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        if(FlagGet(FLAG_LUCKY_CHARM))
+        {
+            FlagClear(FLAG_LUCKY_CHARM);
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_LuckyCharmDisabled, CloseItemMessage);
+        }
+        else
+        {
+            FlagSet(FLAG_LUCKY_CHARM);
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_LuckyCharmEnabled, CloseItemMessage);
+        }
+    }
+    else
+    {
+        if(FlagGet(FLAG_LUCKY_CHARM))
+        {
+            FlagClear(FLAG_LUCKY_CHARM);
+            DisplayItemMessageOnField(taskId, gText_LuckyCharmDisabled, Task_CloseCantUseKeyItemMessage);
+        }
+        else
+        {
+            FlagSet(FLAG_LUCKY_CHARM);
+            DisplayItemMessageOnField(taskId, gText_LuckyCharmEnabled, Task_CloseCantUseKeyItemMessage);
+        }
+    }
+}
+
+void ItemUseOnFieldCB_WeavileFig(u8 taskId)
+{
+    FlagSet(FLAG_UNUSED_0x8E5); //Used to indicate Weavile Fig. is calling Cut function
+    if(!SetUpFieldMove_Cut())
+        DisplayItemMessageOnField(taskId, gText_NothingToCutPause, Task_CloseCantUseKeyItemMessage);
+    else
+        DestroyTask(taskId);
+}
+void ItemUseOutOfBattle_WeavileFig(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        //Badge check
+        if(FlagGet(FLAG_BADGE01_GET) != TRUE)
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantUseUntilNewBadge, CloseItemMessage);
+        }
+        else
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_WeavileFig; //Need to call this because it receives taskId
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+    }
+    else
+    {
+        if(FlagGet(FLAG_BADGE01_GET) != TRUE)
+        {
+            DisplayItemMessageOnField(taskId, gText_CantUseUntilNewBadge, Task_CloseCantUseKeyItemMessage);
+        }
+        else
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_WeavileFig;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+    }
+}
+
+void ItemUseOnFieldCB_LuminousOrb(u8 taskId)
+{
+    FlagSet(FLAG_UNUSED_0x8E6); //Used to indicate Luminous Orb is calling Flash function
+    if(!SetUpFieldMove_Flash())
+        DisplayItemMessageOnField(taskId, gText_CantUseHerePause, Task_CloseCantUseKeyItemMessage);
+    else
+        DestroyTask(taskId);
+}
+void ItemUseOutOfBattle_LuminousOrb(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        //Badge check
+        if(FlagGet(FLAG_BADGE02_GET) != TRUE)
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantUseUntilNewBadge, CloseItemMessage);
+        }
+        else
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_LuminousOrb; //Need to call this because it receives taskId
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+    }
+    else
+    {
+        if(FlagGet(FLAG_BADGE02_GET) != TRUE)
+        {
+            DisplayItemMessageOnField(taskId, gText_CantUseUntilNewBadge, Task_CloseCantUseKeyItemMessage);
+        }
+        else
+        {
+            sItemUseOnFieldCB = ItemUseOnFieldCB_LuminousOrb;
+            SetUpItemUseOnFieldCallback(taskId);
+        }
+    }
+}
+
+
+void ItemUseOutOfBattle_WarpScarf(u8 taskId)
+{
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+    {
+        if(FlagGet(FLAG_BADGE06_GET) != TRUE)
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantUseUntilNewBadge, CloseItemMessage);
+        }
+        else if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE)
+        {
+            FlagSet(FLAG_UNUSED_0x8E7);
+            gItemUseCB = ItemUseCB_WarpScarf;
+            SetUpItemUseCallback(taskId);
+        }
+        else
+        {
+            DisplayItemMessage(taskId, FONT_NORMAL, gText_CantUseHerePause, CloseItemMessage);
+        }
+    }
+    else
+    {
+        if(FlagGet(FLAG_BADGE06_GET) != TRUE)
+        {
+            DisplayItemMessageOnField(taskId, gText_CantUseUntilNewBadge, Task_CloseCantUseKeyItemMessage);
+        }
+        else if (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE)
+        {
+            FlagSet(FLAG_UNUSED_0x8E7);
+
+            BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
+            GoToBagMenu(ITEMMENULOCATION_FIELD, POCKETS_COUNT, CB2_ReturnToFieldWithOpenMenu);
+            gItemUseCB = ItemUseCB_WarpScarf;
+            SetUpItemUseCallback(taskId);
+        }
+        else
+        {
+            DisplayItemMessageOnField(taskId, gText_CantUseHerePause, Task_CloseCantUseKeyItemMessage);
+        }
     }
 }
 

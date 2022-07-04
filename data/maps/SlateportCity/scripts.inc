@@ -148,12 +148,12 @@ SlateportCity_EventScript_EnergyGuru::
 
 	.align 2
 SlateportCity_Pokemart_EnergyGuru:
-	.2byte ITEM_PROTEIN
-	.2byte ITEM_IRON
-	.2byte ITEM_CARBOS
-	.2byte ITEM_ZINC
-	.2byte ITEM_CALCIUM
-	.2byte ITEM_HP_UP
+	.2byte ITEM_KELPSY_BERRY
+	.2byte ITEM_QUALOT_BERRY
+	.2byte ITEM_TAMATO_BERRY
+	.2byte ITEM_GREPA_BERRY
+	.2byte ITEM_HONDEW_BERRY
+	.2byte ITEM_POMEG_BERRY
 	.2byte ITEM_NONE
 	release
 	end
@@ -566,8 +566,8 @@ SlateportCity_EventScript_PowerTMClerk::
 
 	.align 2
 SlateportCity_Pokemart_PowerTMs:
-	.2byte ITEM_TM10  @ Hidden Power
-	.2byte ITEM_TM43  @ Secret Power
+	.2byte ITEM_POKE_DOLL
+	.2byte ITEM_LINK_CABLE
 	.2byte ITEM_NONE
 	release
 	end
@@ -1120,8 +1120,8 @@ SlateportCity_Text_BuyTooMuch:
 
 SlateportCity_Text_GetNameRaterToHelpYou:
 	.string "If you want to change your POKéMON's\n"
-	.string "nickname, you'll have to get the NAME\l"
-	.string "RATER to help you.$"
+	.string "nature, you'll have to get the\l"
+	.string "NATURE RATER to help you.$"
 
 SlateportCity_Text_CantChangeTradeMonName:
 	.string "Any POKéMON you get in a trade,\n"
@@ -1280,8 +1280,8 @@ SlateportCity_Text_HarborSign:
 	.string "the ferry S.S. TIDAL.”$"
 
 SlateportCity_Text_NameRatersHouseSign:
-	.string "NAME RATER'S HOUSE\n"
-	.string "“POKéMON nicknames rated.”$"
+	.string "NATURE RATER'S HOUSE\n"
+	.string "“POKéMON natures rated.”$"
 
 SlateportCity_Text_ExplainBerries:
 	.string "If a wild POKéMON gets hurt, it heals\n"

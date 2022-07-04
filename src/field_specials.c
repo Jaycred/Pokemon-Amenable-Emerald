@@ -1895,6 +1895,7 @@ static void Task_MoveElevatorWindowLights(u8 taskId)
 void BufferVarsForIVRater(void)
 {
     u8 i;
+    u8 allPerfect = 1;
     u32 ivStorage[NUM_STATS];
 
     ivStorage[STAT_HP] = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP_IV);
@@ -1929,7 +1930,31 @@ void BufferVarsForIVRater(void)
             }
         }
     }
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        if(ivStorage[i] != 31)
+        {
+            allPerfect = 0;
+            break;
+        }
+    }
+    if(allPerfect == 1) gSpecialVar_0x8008 = 1;
+    else gSpecialVar_0x8008 = 0;
 }
+
+void SetPerfectIVs(void)
+{
+    u32 perfectIV = 31;
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_HP_IV, &perfectIV);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_ATK_IV, &perfectIV);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_DEF_IV, &perfectIV);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPEED_IV, &perfectIV);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPATK_IV, &perfectIV);
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPDEF_IV, &perfectIV);
+    CalculateMonStats(&gPlayerParty[gSpecialVar_0x8004]);
+}
+
 
 bool8 UsedPokemonCenterWarp(void)
 {
@@ -2298,10 +2323,20 @@ void ShowScrollableMultichoice(void)
         break;
     case SCROLL_MULTI_BATTLE_TENT_RULES:
         task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
-        task->tNumItems = 7;
+        task->tNumItems = 4;
         task->tLeft = 17;
         task->tTop = 1;
         task->tWidth = 12;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
+    case SCROLL_MULTI_NATURE_RATER:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = 19;
+        task->tLeft = 19;
+        task->tTop = 1;
+        task->tWidth = 10;
         task->tHeight = 12;
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
@@ -2380,14 +2415,15 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
     },
     [SCROLL_MULTI_BF_EXCHANGE_CORNER_HOLD_ITEM_VENDOR] =
     {
-        gText_Leftovers48BP,
+        gText_MaxRevive1BP,
+        gText_RareCandy1BP,
+        gText_PpUp2BP,
+        gText_PpMax5BP,
+
         gText_WhiteHerb48BP,
-        gText_QuickClaw48BP,
         gText_MentalHerb48BP,
         gText_BrightPowder64BP,
         gText_ChoiceBand64BP,
-        gText_KingsRock64BP,
-        gText_FocusBand64BP,
         gText_ScopeLens64BP,
         gText_Exit
     },
@@ -2461,10 +2497,33 @@ static const u8 *const sScrollableMultichoiceOptions[][MAX_SCROLL_MULTI_LENGTH] 
     {
         gText_BattleTrainers,
         gText_BattleBasics,
-        gText_PokemonNature,
-        gText_PokemonMoves,
-        gText_Underpowered,
         gText_WhenInDanger,
+        gText_Exit
+    },
+    [SCROLL_MULTI_NATURE_RATER] =
+    {
+        gText_LonelyNature,
+        gText_AdamantNature,
+        gText_NaughtyNature,
+        gText_BraveNature,
+
+        gText_BoldNature,
+        gText_ImpishNature,
+        gText_RelaxedNature,
+
+        gText_ModestNature,
+        gText_MildNature,
+        gText_RashNature,
+        gText_QuietNature,
+
+        gText_CalmNature,
+        gText_CarefulNature,
+        gText_SassyNature,
+
+        gText_TimidNature,
+        gText_HastyNature,
+        gText_JollyNature,
+        gText_NaiveNature,
         gText_Exit
     }
 };

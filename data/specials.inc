@@ -136,6 +136,10 @@ gSpecials::
 	def_special CompareLotadSize
 	def_special TryPutNameRaterShowOnTheAir
 	def_special BufferMonNickname
+	def_special BufferMonNature
+	def_special SetMonNature
+	def_special ResetMonCondition
+
 	def_special IsMonOTIDNotPlayers
 	def_special BufferTrendyPhraseString
 	def_special IsTrendyPhraseBoring
@@ -535,3 +539,6 @@ gSpecials::
 	def_special RemoveRecordsWindow
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
+
+	def_special SetPerfectIVs
+	def_special SetBattlePalacePartyPp

@@ -334,6 +334,19 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     pokerus = GetMonData(egg, MON_DATA_POKERUS);
     isEventLegal = GetMonData(egg, MON_DATA_EVENT_LEGAL);
 
+    //Lucky Charm, reroll personality up to 3 times if not shiny
+    if(FLAG_LUCKY_CHARM)
+    {
+        for (i = 0; i < 3; i++)
+        {
+            if(!IsShinyOtIdPersonality(OT_ID_PLAYER_ID, personality))
+            {
+                personality = Random32();
+            }
+            else break;
+        }
+    }
+
     CreateMon(temp, species, EGG_HATCH_LEVEL, USE_RANDOM_IVS, TRUE, personality, OT_ID_PLAYER_ID, 0);
 
     for (i = 0; i < MAX_MON_MOVES; i++)

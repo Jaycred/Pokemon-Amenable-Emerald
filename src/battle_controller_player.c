@@ -2628,16 +2628,18 @@ static void PlayerChooseMoveInBattlePalace(void)
 
 static void PlayerHandleChooseMove(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
+    /*
+    if ((gBattleTypeFlags & BATTLE_TYPE_PALACE) && gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_TENT)
     {
         *(gBattleStruct->arenaMindPoints + gActiveBattler) = 8;
         gBattlerControllerFuncs[gActiveBattler] = PlayerChooseMoveInBattlePalace;
     }
-    else
-    {
+    */
+    //else
+    //{
         InitMoveSelectionsVarsAndStrings();
         gBattlerControllerFuncs[gActiveBattler] = HandleChooseMoveAfterDma3;
-    }
+    //}
 }
 
 void InitMoveSelectionsVarsAndStrings(void)

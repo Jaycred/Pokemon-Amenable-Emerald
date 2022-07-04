@@ -950,16 +950,16 @@ static const u8 sStickDesc[] = _(
 
 static const u8 sLinkCableDesc[] = _(
     "Makes certain\n"
-    "species of POK??MON\n"
+    "species of POKéMON\n"
     "evolve.");    
 
 static const u8 sLuckyCharmDesc[] = _(
     "Said to increase\n"
     "the chance of Shiny\n"
-    "POK??MON and more.");
+    "POKéMON and more.");
 
 static const u8 sWeavileFigDesc[] = _(
-    "A POK??MON-shaped\n"
+    "A POKéMON-shaped\n"
     "statue that allows\n"
     "the use of CUT.");
 

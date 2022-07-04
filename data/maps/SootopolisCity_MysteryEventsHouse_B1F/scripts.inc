@@ -70,8 +70,8 @@ SootopolisCity_MysteryEventsHouse_B1F_Movement_PlayerExitBasement:
 	step_end
 
 SootopolisCity_MysteryEventsHouse_B1F_Text_Red:
-	.string "???$"
+	.string "…$"
 SootopolisCity_MysteryEventsHouse_B1F_Text_RedWon:
-	.string "???!$"
+	.string "…!$"
 SootopolisCity_MysteryEventsHouse_B1F_Text_RedLost:
-	.string "????$"
+	.string "…?$"

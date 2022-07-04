@@ -1,3 +1,5 @@
+This is a romhack of Pokémon Emerald built off of [pokeemerald](https://github.com/pret/pokeemerald).
+
 # Pokemon Amenable Emerald
 
 This is my first romhack, and my goal with it was to build on the Pokemon Emerald experience while largely preserving the vanilla game’s campaign. It repurposes unused/underutilized features, inserts a few new features and content I wanted to see in the game, and adds some quality of life improvements to enhance the gameplay.
@@ -276,3 +278,29 @@ Gen 3 isn't the most interesting competitively, but I may as well destroy the co
 # Credits
 * The [pokeemerald decomp project](https://github.com/pret/pokeemerald) and its [wiki tutorials](https://github.com/pret/pokeemerald/wiki/Tutorials) made by the community, such as [auto-run](https://www.pokecommunity.com/showpost.php?p=10161076&postcount=72), [nickname from party menu](https://github.com/shinny456/pokeemerald/commit/c92e5861e3ba85abaf53af81aa0bb70acae505af), [quick Nurse Joy heal](https://github.com/pret/pokeemerald/wiki/Speedy-Nurse-Joy)
 * The [YouTube video](https://www.youtube.com/watch?v=pA_4emRVq3w) that incidentally pointed me in this direction.
+
+# pokeemerald README stuff
+
+To set up the repository, see [INSTALL.md](https://github.com/pret/pokeemerald/blob/master/INSTALL.md).
+
+
+## See also
+
+Other disassembly and/or decompilation projects:
+* [**Pokémon Red and Blue**](https://github.com/pret/pokered)
+* [**Pokémon Gold and Silver (Space World '97 demo)**](https://github.com/pret/pokegold-spaceworld)
+* [**Pokémon Yellow**](https://github.com/pret/pokeyellow)
+* [**Pokémon Trading Card Game**](https://github.com/pret/poketcg)
+* [**Pokémon Pinball**](https://github.com/pret/pokepinball)
+* [**Pokémon Stadium**](https://github.com/pret/pokestadium)
+* [**Pokémon Gold and Silver**](https://github.com/pret/pokegold)
+* [**Pokémon Crystal**](https://github.com/pret/pokecrystal)
+* [**Pokémon Ruby and Sapphire**](https://github.com/pret/pokeruby)
+* [**Pokémon Pinball: Ruby & Sapphire**](https://github.com/pret/pokepinballrs)
+* [**Pokémon FireRed and LeafGreen**](https://github.com/pret/pokefirered)
+* [**Pokémon Mystery Dungeon: Red Rescue Team**](https://github.com/pret/pmd-red)
+
+
+## Contacts
+
+You can find us on [Discord](https://discord.gg/d5dubZ3) and [IRC](https://web.libera.chat/?#pret).

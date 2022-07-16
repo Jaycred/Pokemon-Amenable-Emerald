@@ -34,6 +34,7 @@ This is my first romhack, and my goal with it was to build on the Pokemon Emeral
 Physical/special split is great for the later generations, but this is an alternate idea I wanted to try that mixes up the original battle system just enough to fix Pokemon that were stunted by their typing not synergizing with their stats. You’re welcome, Flareon. And Gengar.
 * When a Pokemon gets Same-Type Attack Bonus, the move is converted to physical or special to use the Pokemon’s higher attack stat. The higher attack stat is determined after boosts from abilities and items but before stat changes and the Attack drop from burn.
 * For balance, Overheat and Psycho Boost lower whichever attack stat they use, and Superpower likewise lowers attack and defense stats adaptively.
+* (v1.0.1) Acid, Iron Tail, Rock Smash, Crush Claw, Psychic, Crunch, Shadow Ball, and Luster Purge lower the foe's corresponding defense stat based on whether the move is physical or special.
 * I haven’t tested this with Counter/Mirror Coat, but I believe they still function based on the type of the move, regardless of whether it was converted.
 ## Battle Palace Format
 I think most would agree that the Battle Palace format is boring at best. You’re at the mercy of random move selection, even if you can set your team up for better odds of getting the outcome you want. I reworked it into something that’s maybe not as flavorful but mechanically more engaging.

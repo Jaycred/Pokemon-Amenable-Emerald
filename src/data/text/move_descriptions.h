@@ -203,7 +203,7 @@ static const u8 sDisableDescription[] = _(
 
 static const u8 sAcidDescription[] = _(
     "Sprays a hide-melting acid.\n"
-    "May lower DEFENSE.");
+    "May lower defenses.");
 
 static const u8 sEmberDescription[] = _(
     "A weak fire attack that may\n"
@@ -375,7 +375,7 @@ static const u8 sConfusionDescription[] = _(
 
 static const u8 sPsychicDescription[] = _(
     "A powerful psychic attack\n"
-    "that may lower SP. DEF.");
+    "that may lower defenses.");
 
 static const u8 sHypnosisDescription[] = _(
     "A hypnotizing move that\n"
@@ -923,7 +923,7 @@ static const u8 sSweetScentDescription[] = _(
 
 static const u8 sIronTailDescription[] = _(
     "Attacks with a rock-hard\n"
-    "tail. May lower DEFENSE.");
+    "tail. May lower defenses.");
 
 static const u8 sMetalClawDescription[] = _(
     "A claw attack that may\n"
@@ -967,7 +967,7 @@ static const u8 sSunnyDayDescription[] = _(
 
 static const u8 sCrunchDescription[] = _(
     "Crunches with sharp fangs.\n"
-    "May lower SP. DEF.");
+    "May lower defenses.");
 
 static const u8 sMirrorCoatDescription[] = _(
     "Counters the foe's special\n"
@@ -987,7 +987,7 @@ static const u8 sAncientPowerDescription[] = _(
 
 static const u8 sShadowBallDescription[] = _(
     "Hurls a black blob that may\n"
-    "lower the foe's SP. DEF.");
+    "lower the foe's defenses.");
 
 static const u8 sFutureSightDescription[] = _(
     "Heightens inner power to\n"
@@ -995,7 +995,7 @@ static const u8 sFutureSightDescription[] = _(
 
 static const u8 sRockSmashDescription[] = _(
     "A rock-crushing attack\n"
-    "that may lower DEFENSE.");
+    "that may lower defenses.");
 
 static const u8 sWhirlpoolDescription[] = _(
     "Traps and hurts the foe in\n"
@@ -1102,7 +1102,7 @@ static const u8 sIngrainDescription[] = _(
     "The user can't switch out.");
 
 static const u8 sSuperpowerDescription[] = _(
-    "Boosts strength sharply,\n"
+    "A high-power strike,\n"
     "but lowers abilities.");
 
 static const u8 sMagicCoatDescription[] = _(
@@ -1179,7 +1179,7 @@ static const u8 sTailGlowDescription[] = _(
 
 static const u8 sLusterPurgeDescription[] = _(
     "Attacks with a burst of\n"
-    "light. May lower SP. DEF.");
+    "light. May lower defenses.");
 
 static const u8 sMistBallDescription[] = _(
     "Attacks with a flurry of\n"
@@ -1223,7 +1223,7 @@ static const u8 sPoisonFangDescription[] = _(
 
 static const u8 sCrushClawDescription[] = _(
     "Tears at the foe with sharp\n"
-    "claws. May lower DEFENSE.");
+    "claws. May lower defenses.");
 
 static const u8 sBlastBurnDescription[] = _(
     "Powerful, but leaves the\n"
@@ -1258,8 +1258,8 @@ static const u8 sAirCutterDescription[] = _(
     "High critical-hit ratio.");
 
 static const u8 sOverheatDescription[] = _(
-    "Allows a full-power attack,\n"
-    "but sharply lowers SP. ATK.");
+    "Allows a full-power blow,\n"
+    "but lowers the user's attack.");
 
 static const u8 sOdorSleuthDescription[] = _(
     "Negates the foe's efforts\n"
@@ -1414,8 +1414,8 @@ static const u8 sDoomDesireDescription[] = _(
     "attack 2 turns later.");
 
 static const u8 sPsychoBoostDescription[] = _(
-    "Allows a full-power attack,\n"
-    "but sharply lowers SP. ATK.");
+    "Allows a full-power blow,\n"
+    "but lowers the user's attack.");
 
 // MOVE_NONE is ignored in this table. Make sure to always subtract 1 before getting the right pointer.
 const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] =

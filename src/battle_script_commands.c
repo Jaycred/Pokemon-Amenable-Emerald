@@ -2496,6 +2496,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
         }
         else
         {
+            u8 moveEffect = gBattleCommunication[MOVE_EFFECT_BYTE];
             u8 side;
             switch (gBattleCommunication[MOVE_EFFECT_BYTE])
             {
@@ -2632,15 +2633,18 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     gBattlescriptCurrInstr = BattleScript_StatUp;
                 }
                 break;
-            case MOVE_EFFECT_ATK_MINUS_1:
             case MOVE_EFFECT_DEF_MINUS_1:
+            case MOVE_EFFECT_SP_DEF_MINUS_1:
+                if(FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    moveEffect = MOVE_EFFECT_DEF_MINUS_1;
+                else moveEffect = MOVE_EFFECT_SP_DEF_MINUS_1;
+            case MOVE_EFFECT_ATK_MINUS_1:
             case MOVE_EFFECT_SPD_MINUS_1:
             case MOVE_EFFECT_SP_ATK_MINUS_1:
-            case MOVE_EFFECT_SP_DEF_MINUS_1:
             case MOVE_EFFECT_ACC_MINUS_1:
             case MOVE_EFFECT_EVS_MINUS_1:
                 if (ChangeStatBuffs(SET_STAT_BUFF_VALUE(1) | STAT_BUFF_NEGATIVE,
-                                    gBattleCommunication[MOVE_EFFECT_BYTE] - MOVE_EFFECT_ATK_MINUS_1 + 1,
+                                    moveEffect - MOVE_EFFECT_ATK_MINUS_1 + 1,
                                      affectsUser, 0))
                 {
                     gBattlescriptCurrInstr++;

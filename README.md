@@ -3,6 +3,9 @@ This is a romhack of Pokémon Emerald built off of [pokeemerald](https://github.
 # Pokemon Amenable Emerald
 
 This is my first romhack, and my goal with it was to build on the Pokemon Emerald experience while largely preserving the vanilla game’s campaign. It repurposes unused/underutilized features, inserts a few new features and content I wanted to see in the game, and adds some quality of life improvements to enhance the gameplay.
+
+If you want to try this hack, you could clone this repo and build the rom yourself, but I would recommend using [xdelta UI](https://www.romhacking.net/utilities/598/) if you're running Windows or [xdelta](https://github.com/jmacd/xdelta) to patch your base Pokemon Emerald rom (MD5 checksum 605b89b67018abcea91e693a4dd25be3) with PokemonAmenableEmeraldPatch.xdelta downloaded from this repo. The result should have MD5 dde1c05ba108eb62244a1bd19398065d.
+
 ## General QoL/UI Improvements
 
 #### Text Boxes

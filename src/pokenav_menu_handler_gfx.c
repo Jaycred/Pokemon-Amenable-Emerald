@@ -202,7 +202,6 @@ struct
         .deltaY = 20,
         .gfx = {
             sOptionsLabelGfx_RegionMap,
-            sOptionsLabelGfx_Condition,
             sOptionsLabelGfx_SwitchOff
         }
     },

@@ -127,7 +127,7 @@ static void ClearFrontierRecord(void)
 static void WarpToTruck(void)
 {
     FlagSet(FLAG_SYS_B_DASH); //Start with Running Shoes
-    SetWarpDestination(MAP_GROUP(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY), MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY), WARP_ID_NONE, 7, 17);
+    SetWarpDestination(MAP_GROUP(BATTLE_FRONTIER_OUTSIDE_EAST), MAP_NUM(BATTLE_FRONTIER_OUTSIDE_EAST), WARP_ID_NONE, 43, 11);
     WarpIntoMap();
 }
 

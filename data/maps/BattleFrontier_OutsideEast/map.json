@@ -2,15 +2,15 @@
   "id": "MAP_BATTLE_FRONTIER_OUTSIDE_EAST",
   "name": "BattleFrontier_OutsideEast",
   "layout": "LAYOUT_BATTLE_FRONTIER_OUTSIDE_EAST",
-  "music": "MUS_B_FRONTIER",
+  "music": "MUS_ABANDONED_SHIP",
   "region_map_section": "MAPSEC_BATTLE_FRONTIER",
   "requires_flash": false,
-  "weather": "WEATHER_NONE",
+  "weather": "WEATHER_SANDSTORM",
   "map_type": "MAP_TYPE_ROUTE",
   "allow_cycling": true,
   "allow_escaping": false,
   "allow_running": true,
-  "show_map_name": true,
+  "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
@@ -34,55 +34,16 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MAN_3",
-      "x": 42,
-      "y": 15,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
-      "movement_range_x": 1,
-      "movement_range_y": 3,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Man1",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "x": 53,
-      "y": 6,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
-      "movement_range_x": 2,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Hiker",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_HEX_MANIAC",
       "x": 54,
       "y": 16,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
-      "movement_range_x": 2,
+      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
+      "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "BattleFrontier_OutsideEast_EventScript_HexManiac",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "x": 37,
-      "y": 32,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_BlackBelt1",
       "flag": "0"
     },
     {
@@ -138,19 +99,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CYCLING_TRIATHLETE_F",
-      "x": 59,
-      "y": 35,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WALK_DOWN_AND_UP",
-      "movement_range_x": 1,
-      "movement_range_y": 6,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_TriathleteF",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_TWIN",
       "x": 18,
       "y": 40,
@@ -203,19 +151,6 @@
       "flag": "FLAG_HIDE_BATTLE_FRONTIER_SUDOWOODO"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
-      "x": 42,
-      "y": 34,
-      "elevation": 3,
-      "movement_type": "MOVEMENT_TYPE_LOOK_AROUND",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Maniac1",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_GIRL_3",
       "x": 51,
       "y": 53,
@@ -226,19 +161,6 @@
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "BattleFrontier_OutsideEast_EventScript_Girl",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_PSYCHIC_M",
-      "x": 62,
-      "y": 18,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_WALK_SEQUENCE_DOWN_RIGHT_UP_LEFT",
-      "movement_range_x": 2,
-      "movement_range_y": 6,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_PsychicM",
       "flag": "0"
     },
     {
@@ -281,45 +203,6 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "x": 33,
-      "y": 14,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 0,
-      "movement_range_y": 0,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_BlackBelt2",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_MANIAC",
-      "x": 54,
-      "y": 31,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_LEFT",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Maniac2",
-      "flag": "0"
-    },
-    {
-      "graphics_id": "OBJ_EVENT_GFX_WOMAN_4",
-      "x": 54,
-      "y": 32,
-      "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
-      "trainer_type": "TRAINER_TYPE_NONE",
-      "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Woman3",
-      "flag": "0"
-    },
-    {
       "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN",
       "x": 58,
       "y": 55,
@@ -346,17 +229,56 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "x": 29,
+      "graphics_id": "OBJ_EVENT_GFX_SS_TIDAL",
+      "x": 42,
       "y": 14,
       "elevation": 0,
-      "movement_type": "MOVEMENT_TYPE_FACE_UP",
-      "movement_range_x": 1,
-      "movement_range_y": 1,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
       "trainer_type": "TRAINER_TYPE_NONE",
       "trainer_sight_or_berry_tree_id": "0",
-      "script": "BattleFrontier_OutsideEast_EventScript_Camper",
+      "script": "NULL",
       "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SAILOR",
+      "x": 42,
+      "y": 11,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_FACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "BattleFrontier_OutsideEast_EventScript_Hiker",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_MART_EMPLOYEE",
+      "x": 50,
+      "y": 11,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WALK_UP_AND_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 3,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "BattleFrontier_OutsideEast_EventScript_TriathleteF",
+      "flag": "0"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
+      "x": 64,
+      "y": 21,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "BattleFrontier_OutsideEast_EventScript_ItemItemfinder",
+      "flag": "FLAG_ITEM_BATTLE_FRONTIER_ITEMFINDER"
     }
   ],
   "warp_events": [
@@ -365,13 +287,6 @@
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_TOWER_LOBBY",
-      "dest_warp_id": "0"
-    },
-    {
-      "x": 39,
-      "y": 29,
-      "elevation": 0,
-      "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_ARENA_LOBBY",
       "dest_warp_id": "0"
     },
     {
@@ -386,13 +301,6 @@
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY",
-      "dest_warp_id": "0"
-    },
-    {
-      "x": 35,
-      "y": 12,
-      "elevation": 3,
-      "dest_map": "MAP_BATTLE_FRONTIER_RANKING_HALL",
       "dest_warp_id": "0"
     },
     {
@@ -424,13 +332,6 @@
       "dest_warp_id": "0"
     },
     {
-      "x": 65,
-      "y": 31,
-      "elevation": 0,
-      "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE3",
-      "dest_warp_id": "0"
-    },
-    {
       "x": 14,
       "y": 51,
       "elevation": 0,
@@ -450,16 +351,11 @@
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F",
       "dest_warp_id": "0"
-    },
-    {
-      "x": 28,
-      "y": 7,
-      "elevation": 0,
-      "dest_map": "MAP_ARTISAN_CAVE_1F",
-      "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+
+  ],
   "bg_events": [
     {
       "type": "sign",
@@ -479,14 +375,6 @@
     },
     {
       "type": "sign",
-      "x": 36,
-      "y": 34,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BattleFrontier_OutsideEast_EventScript_BattleArenaSign"
-    },
-    {
-      "type": "sign",
       "x": 62,
       "y": 15,
       "elevation": 0,
@@ -503,14 +391,6 @@
     },
     {
       "type": "sign",
-      "x": 32,
-      "y": 13,
-      "elevation": 0,
-      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
-      "script": "BattleFrontier_OutsideEast_EventScript_RankingHallSign"
-    },
-    {
-      "type": "sign",
       "x": 4,
       "y": 51,
       "elevation": 0,
@@ -524,6 +404,22 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "Common_EventScript_ShowPokemonCenterSign"
+    },
+    {
+      "type": "hidden_item",
+      "x": 40,
+      "y": 5,
+      "elevation": 0,
+      "item": "ITEM_TOWN_MAP",
+      "flag": "FLAG_SYS_POKENAV_GET"
+    },
+    {
+      "type": "hidden_item",
+      "x": 57,
+      "y": 23,
+      "elevation": 0,
+      "item": "ITEM_METEORITE",
+      "flag": "FLAG_ITEM_BATTLE_FRONTIER_METEORITE"
     }
   ]
 }

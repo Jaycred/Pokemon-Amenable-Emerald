@@ -1073,8 +1073,9 @@ static const u8 sGoGogglesDesc[] = _(
     "desert sandstorms.");
 
 static const u8 sMeteoriteDesc[] = _(
-    "A meteorite found\n"
-    "at METEOR FALLS.");
+    "A meteorite that\n"
+    "radiates a\n"
+    "mysterious power.");
 
 static const u8 sRoom1KeyDesc[] = _(
     "A key that opens a\n"
@@ -1470,9 +1471,9 @@ static const u8 sBicycleDesc[] = _(
     "the RUNNING SHOES.");
 
 static const u8 sTownMapDesc[] = _(
-    "Can be viewed\n"
-    "anytime. Shows your\n"
-    "present location.");
+    "Shredded by sand,\n"
+    "but it had a\n"
+    "POKéNAV inside.");
 
 static const u8 sVSSeekerDesc[] = _(
     "A rechargeable unit\n"

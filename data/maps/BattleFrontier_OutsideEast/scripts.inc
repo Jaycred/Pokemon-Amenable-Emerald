@@ -38,7 +38,15 @@ BattleFrontier_OutsideEast_EventScript_BattleArenaSign::
 	end
 
 BattleFrontier_OutsideEast_EventScript_BattlePyramidSign::
-	msgbox BattleFrontier_OutsideEast_Text_BattlePyramidSign, MSGBOX_SIGN
+	msgbox BattleFrontier_OutsideEast_Text_BattlePyramidSign1, MSGBOX_SIGN
+	lockall
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 1  @ horizontal pan
+	setvar VAR_0x8006, 8  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	msgbox BattleFrontier_OutsideEast_Text_BattlePyramidSign2, MSGBOX_SIGN
 	end
 
 BattleFrontier_OutsideEast_EventScript_NinjaBoy::
@@ -246,9 +254,12 @@ BattleFrontier_OutsideEast_Text_BattleArenaSign:
 	.string "This is the BATTLE ARENA!\n"
 	.string "Let the toughest teams gather!$"
 
-BattleFrontier_OutsideEast_Text_BattlePyramidSign:
-	.string "This is the BATTLE PYRAMID!\n"
-	.string "Advance through the Battle Quest!$"
+BattleFrontier_OutsideEast_Text_BattlePyramidSign1:
+	.string "BATTLE PYRAMID participants:\n"
+	.string "Beware of tremors.$"
+BattleFrontier_OutsideEast_Text_BattlePyramidSign2:
+	.string "The recent increase in seismic activity\n"
+	.string "poses a risk of falling debris.$"
 
 BattleFrontier_OutsideEast_Text_RankingHallSign:
 	.string "BATTLE FRONTIER RANKING HALL\n"
@@ -273,10 +284,10 @@ BattleFrontier_OutsideEast_Text_ConquerLeagueAndFrontier:
 	.string "if she will be friends with me!$"
 
 BattleFrontier_OutsideEast_Text_PyramidTooHarsh:
-	.string "The BATTLE PYRAMID's too harsh!\n"
-	.string "I just can't make it to the top!\p"
-	.string "Since I'm out of options, maybe I can\n"
-	.string "climb the outside…$"
+	.string "We're lucky we got here in one piece!\p"
+	.string "I'm afraid I can't bring anyone home\n"
+	.string "until the raging winds have calmed down.\p"
+	.string "Never seen a sandstorm like this before…$"
 
 BattleFrontier_OutsideEast_Text_ThriveInDarkness:
 	.string "I thrive in darkness…\n"
@@ -324,10 +335,12 @@ BattleFrontier_OutsideEast_Text_OnceBeatGymLeader:
 	.string "another shot at glory.$"
 
 BattleFrontier_OutsideEast_Text_FastOnBikeAndBattles:
-	.string "I'm fast on my BIKE, and that goes for\n"
-	.string "the way I battle, too.\p"
-	.string "I win matches in the blink of\n"
-	.string "an eye!$"
+	.string "I thought the PYRAMID challengers\n"
+	.string "could use some help, so I sailed over\l"
+	.string "to set up shop.\p"
+	.string "But any wares that survived the sand\n"
+	.string "were confiscated by staff members.\l"
+	.string "I'm ruined!$"
 
 BattleFrontier_OutsideEast_Text_BetterThanDaddyAtPokemon:
 	.string "I'm better than my daddy\n"

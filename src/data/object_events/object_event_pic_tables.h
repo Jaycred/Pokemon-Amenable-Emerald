@@ -96,16 +96,6 @@ static const struct SpriteFrameImage sPicTable_BrendanFieldMove[] = {
     overworld_frame(gObjectEventPic_BrendanFieldMove, 4, 4, 4),
 };
 
-static const struct SpriteFrameImage sPicTable_QuintyPlump[] = {
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 0),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 1),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 2),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 3),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 4),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 5),
-    overworld_frame(gObjectEventPic_QuintyPlump, 4, 4, 6),
-};
-
 static const struct SpriteFrameImage sPicTable_NinjaBoy[] = {
     overworld_frame(gObjectEventPic_NinjaBoy, 2, 2, 0),
     overworld_frame(gObjectEventPic_NinjaBoy, 2, 2, 1),

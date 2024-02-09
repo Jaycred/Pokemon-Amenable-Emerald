@@ -5,7 +5,7 @@
 #define OBJ_EVENT_GFX_BRENDAN_MACH_BIKE            1
 #define OBJ_EVENT_GFX_BRENDAN_SURFING              2
 #define OBJ_EVENT_GFX_BRENDAN_FIELD_MOVE           3
-#define OBJ_EVENT_GFX_QUINTY_PLUMP                 4
+#define OBJ_EVENT_GFX_QUINTY_PLUMP                 4 // Unused
 #define OBJ_EVENT_GFX_NINJA_BOY                    5
 #define OBJ_EVENT_GFX_TWIN                         6
 #define OBJ_EVENT_GFX_BOY_1                        7
@@ -120,8 +120,8 @@
 #define OBJ_EVENT_GFX_DEVON_EMPLOYEE             116
 #define OBJ_EVENT_GFX_AQUA_MEMBER_M              117
 #define OBJ_EVENT_GFX_AQUA_MEMBER_F              118
-#define OBJ_EVENT_GFX_MAGMA_MEMBER_M             119
-#define OBJ_EVENT_GFX_MAGMA_MEMBER_F             120
+#define OBJ_EVENT_GFX_MAGMA_MEMBER_M             119 // Re-purposed for rocket_m
+#define OBJ_EVENT_GFX_MAGMA_MEMBER_F             120 // Re-purposed for rocket_f
 #define OBJ_EVENT_GFX_SIDNEY                     121
 #define OBJ_EVENT_GFX_PHOEBE                     122
 #define OBJ_EVENT_GFX_GLACIA                     123

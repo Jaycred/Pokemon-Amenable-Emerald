@@ -205,6 +205,32 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+
+    //Give National Dex and set starting Pokedex data
+    FlagSet(FLAG_SYS_POKEDEX_GET);
+    EnableNationalPokedex();
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_BULBASAUR), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_BULBASAUR), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHARMANDER), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHARMANDER), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SQUIRTLE), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_SQUIRTLE), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_PICHU), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_PICHU), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_EEVEE), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_EEVEE), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CHIKORITA), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_CYNDAQUIL), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TOTODILE), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TREECKO), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TREECKO), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TORCHIC), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_TORCHIC), FLAG_SET_CAUGHT);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MUDKIP), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MUDKIP), FLAG_SET_CAUGHT);
 }
 
 static void ResetMiniGamesRecords(void)

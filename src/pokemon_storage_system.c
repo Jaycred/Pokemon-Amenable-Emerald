@@ -40,6 +40,7 @@
 #include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "pokedex.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -1323,6 +1324,247 @@ static const u8 sHandCursorShadow_Gfx[] = INCBIN_U8("graphics/pokemon_storage/ha
 //  SECTION: Misc utility
 //------------------------------------------------------------------------------
 
+// Used to determine which unevolved Pokemon to generate in LoadTemplePokemonStorage.
+// Theoretical 2nd dimension should be 6 for Eeveelutions, but Eevee is a starter.
+// Starters can be trimmed to 1 element since they are registered on New Game.
+const u16 evoLines[203][5] =
+{
+    [0] = {[0] = SPECIES_BULBASAUR},
+    [1] = {[0] = SPECIES_CHARMANDER},
+    [2] = {[0] = SPECIES_SQUIRTLE},
+    [3] = {[0] = SPECIES_CATERPIE, [1] = SPECIES_METAPOD, [2] = SPECIES_BUTTERFREE},
+    [4] = {[0] = SPECIES_WEEDLE, [1] = SPECIES_KAKUNA, [2] = SPECIES_BEEDRILL},
+    [5] = {[0] = SPECIES_PIDGEY, [1] = SPECIES_PIDGEOTTO, [2] = SPECIES_PIDGEOT},
+    [6] = {[0] = SPECIES_RATTATA, [1] = SPECIES_RATICATE},
+    [7] = {[0] = SPECIES_SPEAROW, [1] = SPECIES_FEAROW},
+    [8] = {[0] = SPECIES_EKANS, [1] = SPECIES_ARBOK},
+    [9] = {[0] = SPECIES_PICHU},
+    [10] = {[0] = SPECIES_SANDSHREW, [1] = SPECIES_SANDSLASH},
+    [11] = {[0] = SPECIES_NIDORAN_F, [1] = SPECIES_NIDORINA, [2] = SPECIES_NIDOQUEEN},
+    [12] = {[0] = SPECIES_NIDORAN_M, [1] = SPECIES_NIDORINO, [2] = SPECIES_NIDOKING},
+    [13] = {[0] = SPECIES_CLEFFA, [1] = SPECIES_CLEFAIRY, [2] = SPECIES_CLEFABLE},
+    [14] = {[0] = SPECIES_VULPIX, [1] = SPECIES_NINETALES},
+    [15] = {[0] = SPECIES_IGGLYBUFF, [1] = SPECIES_JIGGLYPUFF, [2] = SPECIES_WIGGLYTUFF},
+    [16] = {[0] = SPECIES_ZUBAT, [1] = SPECIES_GOLBAT, [2] = SPECIES_CROBAT},
+    [17] = {[0] = SPECIES_ODDISH, [1] = SPECIES_GLOOM, [2] = SPECIES_VILEPLUME, [3] = SPECIES_BELLOSSOM},
+    [18] = {[0] = SPECIES_PARAS, [1] = SPECIES_PARASECT},
+    [19] = {[0] = SPECIES_VENONAT, [1] = SPECIES_VENOMOTH},
+    [20] = {[0] = SPECIES_DIGLETT, [1] = SPECIES_DUGTRIO},
+    [21] = {[0] = SPECIES_MEOWTH, [1] = SPECIES_PERSIAN},
+    [22] = {[0] = SPECIES_PSYDUCK, [1] = SPECIES_GOLDUCK},
+    [23] = {[0] = SPECIES_MANKEY, [1] = SPECIES_PRIMEAPE},
+    [24] = {[0] = SPECIES_GROWLITHE, [1] = SPECIES_ARCANINE},
+    [25] = {[0] = SPECIES_POLIWAG, [1] = SPECIES_POLIWHIRL, [2] = SPECIES_POLIWRATH, [3] = SPECIES_POLITOED},
+    [26] = {[0] = SPECIES_ABRA, [1] = SPECIES_KADABRA, [2] = SPECIES_ALAKAZAM},
+    [27] = {[0] = SPECIES_MACHOP, [1] = SPECIES_MACHOKE, [2] = SPECIES_MACHAMP},
+    [28] = {[0] = SPECIES_BELLSPROUT, [1] = SPECIES_WEEPINBELL, [2] = SPECIES_VICTREEBEL},
+    [29] = {[0] = SPECIES_TENTACOOL, [1] = SPECIES_TENTACRUEL},
+    [30] = {[0] = SPECIES_GEODUDE, [1] = SPECIES_GRAVELER, [2] = SPECIES_GOLEM},
+    [31] = {[0] = SPECIES_PONYTA, [1] = SPECIES_RAPIDASH},
+    [32] = {[0] = SPECIES_SLOWPOKE, [1] = SPECIES_SLOWBRO, [2] = SPECIES_SLOWKING},
+    [33] = {[0] = SPECIES_MAGNEMITE, [1] = SPECIES_MAGNETON},
+    [34] = {[0] = SPECIES_FARFETCHD},
+    [35] = {[0] = SPECIES_DODUO, [1] = SPECIES_DODRIO},
+    [36] = {[0] = SPECIES_SEEL, [1] = SPECIES_DEWGONG},
+    [37] = {[0] = SPECIES_GRIMER, [1] = SPECIES_MUK},
+    [38] = {[0] = SPECIES_SHELLDER, [1] = SPECIES_CLOYSTER},
+    [39] = {[0] = SPECIES_GASTLY, [1] = SPECIES_HAUNTER, [2] = SPECIES_GENGAR},
+    [40] = {[0] = SPECIES_ONIX, [1] = SPECIES_STEELIX},
+    [41] = {[0] = SPECIES_DROWZEE, [1] = SPECIES_HYPNO},
+    [42] = {[0] = SPECIES_KRABBY, [1] = SPECIES_KINGLER},
+    [43] = {[0] = SPECIES_VOLTORB, [1] = SPECIES_ELECTRODE},
+    [44] = {[0] = SPECIES_EXEGGCUTE, [1] = SPECIES_EXEGGUTOR},
+    [45] = {[0] = SPECIES_CUBONE, [1] = SPECIES_MAROWAK},
+    [46] = {[0] = SPECIES_TYROGUE, [1] = SPECIES_HITMONLEE, [2] = SPECIES_HITMONCHAN, [3] = SPECIES_HITMONTOP},
+    [47] = {[0] = SPECIES_LICKITUNG},
+    [48] = {[0] = SPECIES_KOFFING, [1] = SPECIES_WEEZING},
+    [49] = {[0] = SPECIES_RHYHORN, [1] = SPECIES_RHYDON},
+    [50] = {[0] = SPECIES_CHANSEY, [1] = SPECIES_BLISSEY},
+    [51] = {[0] = SPECIES_TANGELA},
+    [52] = {[0] = SPECIES_KANGASKHAN},
+    [53] = {[0] = SPECIES_HORSEA, [1] = SPECIES_SEADRA, [2] = SPECIES_KINGDRA},
+    [54] = {[0] = SPECIES_GOLDEEN, [1] = SPECIES_SEAKING},
+    [55] = {[0] = SPECIES_STARYU, [1] = SPECIES_STARMIE},
+    [56] = {[0] = SPECIES_MR_MIME},
+    [57] = {[0] = SPECIES_SCYTHER, [1] = SPECIES_SCIZOR},
+    [58] = {[0] = SPECIES_SMOOCHUM, [1] = SPECIES_JYNX},
+    [59] = {[0] = SPECIES_ELEKID, [1] = SPECIES_ELECTABUZZ},
+    [60] = {[0] = SPECIES_MAGBY, [1] = SPECIES_MAGMAR},
+    [61] = {[0] = SPECIES_PINSIR},
+    [62] = {[0] = SPECIES_TAUROS},
+    [63] = {[0] = SPECIES_MAGIKARP, [1] = SPECIES_GYARADOS},
+    [64] = {[0] = SPECIES_LAPRAS},
+    [65] = {[0] = SPECIES_DITTO},
+    [66] = {[0] = SPECIES_EEVEE},
+    [67] = {[0] = SPECIES_PORYGON, [1] = SPECIES_PORYGON2},
+    [68] = {[0] = SPECIES_OMANYTE, [1] = SPECIES_OMASTAR},
+    [69] = {[0] = SPECIES_KABUTO, [1] = SPECIES_KABUTOPS},
+    [70] = {[0] = SPECIES_AERODACTYL},
+    [71] = {[0] = SPECIES_SNORLAX},
+    [72] = {[0] = SPECIES_ARTICUNO, [1] = SPECIES_ZAPDOS, [2] = SPECIES_MOLTRES},
+    [73] = {[0] = SPECIES_DRATINI, [1] = SPECIES_DRAGONAIR, [2] = SPECIES_DRAGONITE},
+    [74] = {[0] = SPECIES_MEWTWO},
+    [75] = {[0] = SPECIES_MEW},
+    [76] = {[0] = SPECIES_CHIKORITA},
+    [77] = {[0] = SPECIES_CYNDAQUIL},
+    [78] = {[0] = SPECIES_TOTODILE},
+    [79] = {[0] = SPECIES_SENTRET, [1] = SPECIES_FURRET},
+    [80] = {[0] = SPECIES_HOOTHOOT, [1] = SPECIES_NOCTOWL},
+    [81] = {[0] = SPECIES_LEDYBA, [1] = SPECIES_LEDIAN},
+    [82] = {[0] = SPECIES_SPINARAK, [1] = SPECIES_ARIADOS},
+    [83] = {[0] = SPECIES_CHINCHOU, [1] = SPECIES_LANTURN},
+    [84] = {[0] = SPECIES_TOGEPI, [1] = SPECIES_TOGETIC},
+    [85] = {[0] = SPECIES_NATU, [1] = SPECIES_XATU},
+    [86] = {[0] = SPECIES_MAREEP, [1] = SPECIES_FLAAFFY, [2] = SPECIES_AMPHAROS},
+    [87] = {[0] = SPECIES_AZURILL, [1] = SPECIES_MARILL, [2] = SPECIES_AZUMARILL},
+    [88] = {[0] = SPECIES_SUDOWOODO},
+    [89] = {[0] = SPECIES_HOPPIP, [1] = SPECIES_SKIPLOOM, [2] = SPECIES_JUMPLUFF},
+    [90] = {[0] = SPECIES_AIPOM},
+    [91] = {[0] = SPECIES_SUNKERN, [1] = SPECIES_SUNFLORA},
+    [92] = {[0] = SPECIES_YANMA},
+    [93] = {[0] = SPECIES_WOOPER, [1] = SPECIES_QUAGSIRE},
+    [94] = {[0] = SPECIES_MURKROW},
+    [95] = {[0] = SPECIES_MISDREAVUS},
+    [96] = {[0] = SPECIES_UNOWN},
+    [97] = {[0] = SPECIES_WYNAUT, [1] = SPECIES_WOBBUFFET},
+    [98] = {[0] = SPECIES_GIRAFARIG},
+    [99] = {[0] = SPECIES_PINECO, [1] = SPECIES_FORRETRESS},
+    [100] = {[0] = SPECIES_DUNSPARCE},
+    [101] = {[0] = SPECIES_GLIGAR},
+    [102] = {[0] = SPECIES_SNUBBULL, [1] = SPECIES_GRANBULL},
+    [103] = {[0] = SPECIES_QWILFISH},
+    [104] = {[0] = SPECIES_SHUCKLE},
+    [105] = {[0] = SPECIES_HERACROSS},
+    [106] = {[0] = SPECIES_SNEASEL},
+    [107] = {[0] = SPECIES_TEDDIURSA, [1] = SPECIES_URSARING},
+    [108] = {[0] = SPECIES_SLUGMA, [1] = SPECIES_MAGCARGO},
+    [109] = {[0] = SPECIES_SWINUB, [1] = SPECIES_PILOSWINE},
+    [110] = {[0] = SPECIES_CORSOLA},
+    [111] = {[0] = SPECIES_REMORAID, [1] = SPECIES_OCTILLERY},
+    [112] = {[0] = SPECIES_DELIBIRD},
+    [113] = {[0] = SPECIES_MANTINE},
+    [114] = {[0] = SPECIES_SKARMORY},
+    [115] = {[0] = SPECIES_HOUNDOUR, [1] = SPECIES_HOUNDOOM},
+    [116] = {[0] = SPECIES_PHANPY, [1] = SPECIES_DONPHAN},
+    [117] = {[0] = SPECIES_STANTLER},
+    [118] = {[0] = SPECIES_SMEARGLE},
+    [119] = {[0] = SPECIES_MILTANK},
+    [120] = {[0] = SPECIES_RAIKOU},
+    [121] = {[0] = SPECIES_ENTEI},
+    [122] = {[0] = SPECIES_SUICUNE},
+    [123] = {[0] = SPECIES_LARVITAR, [1] = SPECIES_PUPITAR, [2] = SPECIES_TYRANITAR},
+    [124] = {[0] = SPECIES_LUGIA},
+    [125] = {[0] = SPECIES_HO_OH},
+    [126] = {[0] = SPECIES_CELEBI},
+    [127] = {[0] = SPECIES_TREECKO},
+    [128] = {[0] = SPECIES_TORCHIC},
+    [129] = {[0] = SPECIES_MUDKIP},
+    [130] = {[0] = SPECIES_POOCHYENA, [1] = SPECIES_MIGHTYENA},
+    [131] = {[0] = SPECIES_ZIGZAGOON, [1] = SPECIES_LINOONE},
+    [132] = {[0] = SPECIES_WURMPLE, [1] = SPECIES_SILCOON, [2] = SPECIES_CASCOON, [3] = SPECIES_BEAUTIFLY, [4] = SPECIES_DUSTOX},
+    [133] = {[0] = SPECIES_LOTAD, [1] = SPECIES_LOMBRE, [2] = SPECIES_LUDICOLO},
+    [134] = {[0] = SPECIES_SEEDOT, [1] = SPECIES_NUZLEAF, [2] = SPECIES_SHIFTRY},
+    [135] = {[0] = SPECIES_TAILLOW, [1] = SPECIES_SWELLOW},
+    [136] = {[0] = SPECIES_WINGULL, [1] = SPECIES_PELIPPER},
+    [137] = {[0] = SPECIES_RALTS, [1] = SPECIES_KIRLIA, [2] = SPECIES_GARDEVOIR},
+    [138] = {[0] = SPECIES_SURSKIT, [1] = SPECIES_MASQUERAIN},
+    [139] = {[0] = SPECIES_SHROOMISH, [1] = SPECIES_BRELOOM},
+    [140] = {[0] = SPECIES_SLAKOTH, [1] = SPECIES_VIGOROTH, [2] = SPECIES_SLAKING},
+    [141] = {[0] = SPECIES_NINCADA, [1] = SPECIES_NINJASK},
+    [142] = {[0] = SPECIES_SHEDINJA},
+    [143] = {[0] = SPECIES_WHISMUR, [1] = SPECIES_LOUDRED, [2] = SPECIES_EXPLOUD},
+    [144] = {[0] = SPECIES_MAKUHITA, [1] = SPECIES_HARIYAMA},
+    [145] = {[0] = SPECIES_NOSEPASS},
+    [146] = {[0] = SPECIES_SKITTY, [1] = SPECIES_DELCATTY},
+    [147] = {[0] = SPECIES_SABLEYE},
+    [148] = {[0] = SPECIES_MAWILE},
+    [149] = {[0] = SPECIES_ARON, [1] = SPECIES_LAIRON, [2] = SPECIES_AGGRON},
+    [150] = {[0] = SPECIES_GEODUDE, [1] = SPECIES_GRAVELER, [2] = SPECIES_GOLEM},
+    [151] = {[0] = SPECIES_ARON, [1] = SPECIES_LAIRON, [2] = SPECIES_AGGRON},
+    [152] = {[0] = SPECIES_MEDITITE, [1] = SPECIES_MEDICHAM},
+    [153] = {[0] = SPECIES_ELECTRIKE, [1] = SPECIES_MANECTRIC},
+    [154] = {[0] = SPECIES_PLUSLE},
+    [155] = {[0] = SPECIES_MINUN},
+    [156] = {[0] = SPECIES_VOLBEAT},
+    [157] = {[0] = SPECIES_ILLUMISE},
+    [158] = {[0] = SPECIES_ROSELIA},
+    [159] = {[0] = SPECIES_GULPIN, [1] = SPECIES_SWALOT},
+    [160] = {[0] = SPECIES_CARVANHA, [1] = SPECIES_SHARPEDO},
+    [161] = {[0] = SPECIES_WAILMER, [1] = SPECIES_WAILORD},
+    [162] = {[0] = SPECIES_NUMEL, [1] = SPECIES_CAMERUPT},
+    [163] = {[0] = SPECIES_TORKOAL},
+    [164] = {[0] = SPECIES_SPOINK, [1] = SPECIES_GRUMPIG},
+    [165] = {[0] = SPECIES_SPINDA},
+    [166] = {[0] = SPECIES_TRAPINCH, [1] = SPECIES_VIBRAVA, [2] = SPECIES_FLYGON},
+    [167] = {[0] = SPECIES_CACNEA, [1] = SPECIES_CACTURNE},
+    [168] = {[0] = SPECIES_SWABLU, [1] = SPECIES_ALTARIA},
+    [169] = {[0] = SPECIES_ZANGOOSE},
+    [170] = {[0] = SPECIES_SEVIPER},
+    [171] = {[0] = SPECIES_LUNATONE},
+    [172] = {[0] = SPECIES_SOLROCK},
+    [173] = {[0] = SPECIES_BARBOACH, [1] = SPECIES_WHISCASH},
+    [174] = {[0] = SPECIES_CORPHISH, [1] = SPECIES_CRAWDAUNT},
+    [175] = {[0] = SPECIES_BALTOY, [1] = SPECIES_CLAYDOL},
+    [176] = {[0] = SPECIES_LILEEP, [1] = SPECIES_CRADILY},
+    [177] = {[0] = SPECIES_ANORITH, [1] = SPECIES_ARMALDO},
+    [178] = {[0] = SPECIES_FEEBAS, [1] = SPECIES_MILOTIC},
+    [179] = {[0] = SPECIES_CASTFORM},
+    [180] = {[0] = SPECIES_KECLEON},
+    [181] = {[0] = SPECIES_SHUPPET, [1] = SPECIES_BANETTE},
+    [182] = {[0] = SPECIES_DUSKULL, [1] = SPECIES_DUSCLOPS},
+    [183] = {[0] = SPECIES_TROPIUS},
+    [184] = {[0] = SPECIES_CHIMECHO},
+    [185] = {[0] = SPECIES_ABSOL},
+    [186] = {[0] = SPECIES_SNORUNT, [1] = SPECIES_GLALIE},
+    [187] = {[0] = SPECIES_SPHEAL, [1] = SPECIES_SEALEO, [2] = SPECIES_WALREIN},
+    [188] = {[0] = SPECIES_CLAMPERL, [1] = SPECIES_HUNTAIL, [2] = SPECIES_GOREBYSS},
+    [189] = {[0] = SPECIES_RELICANTH},
+    [190] = {[0] = SPECIES_LUVDISC},
+    [191] = {[0] = SPECIES_BAGON, [1] = SPECIES_SHELGON, [2] = SPECIES_SALAMENCE},
+    [192] = {[0] = SPECIES_BELDUM, [1] = SPECIES_METANG, [2] = SPECIES_METAGROSS},
+    [193] = {[0] = SPECIES_REGIROCK},
+    [194] = {[0] = SPECIES_REGICE},
+    [195] = {[0] = SPECIES_REGISTEEL},
+    [196] = {[0] = SPECIES_LATIAS},
+    [197] = {[0] = SPECIES_LATIOS},
+    [198] = {[0] = SPECIES_KYOGRE},
+    [199] = {[0] = SPECIES_GROUDON},
+    [200] = {[0] = SPECIES_RAYQUAZA},
+    [201] = {[0] = SPECIES_JIRACHI},
+    [202] = {[0] = SPECIES_DEOXYS}
+};
+
+// Emerald Temple - load PC from Pokedex, to be called each time PC is opened
+void LoadTemplePokemonStorage(void)
+{
+    u8 i;
+    u8 j;
+    u8 berry[2];
+        berry[0] = ITEM_ORAN_BERRY;
+        berry[1] = ITEM_ORAN_BERRY >> 8;
+
+    // Empty PC Boxes and Party
+    ResetPokemonStorageSystem();
+    ZeroPlayerPartyMons();
+
+    // For each evo line registered, add the lowest evo to the PC
+    for(i = 0; i < 203; i++)
+    {
+        for(j = 0; j < 5; j++)
+        {
+            if(evoLines[i][j] == SPECIES_NONE)
+                break;
+            if(GetSetPokedexFlag(SpeciesToNationalPokedexNum(evoLines[i][j]), FLAG_GET_CAUGHT))
+            {
+                // gEnemyParty[0] should be overwritten in next battle?
+                CreateMon(&gEnemyParty[0], evoLines[i][0], 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
+                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, berry);
+                CopyMonToPC(&gEnemyParty[0]);
+                break;
+            }
+        }
+    }
+}
 
 void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero2, s32 bytesToBuffer)
 {
@@ -1637,6 +1879,7 @@ static void Task_PCMainMenu(u8 taskId)
     case STATE_ENTER_PC:
         if (!gPaletteFade.active)
         {
+            LoadTemplePokemonStorage();
             CleanupOverworldWindowsAndTilemaps();
             EnterPokeStorage(task->tInput);
             RemoveWindow(task->tWindowId);

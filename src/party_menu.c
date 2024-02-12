@@ -5564,8 +5564,7 @@ static void TryGiveMailToSelectedMon(u8 taskId)
 void InitChooseHalfPartyForBattle(u8 unused)
 {
     ClearSelectedPartyOrder();
-    InitPartyMenu(PARTY_MENU_TYPE_CHOOSE_HALF, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, gMain.savedCallback);
-    gPartyMenu.task = Task_ValidateChosenHalfParty;
+    CreateTask(Task_PCMainMenu, 80);
 }
 
 void ClearSelectedPartyOrder(void)

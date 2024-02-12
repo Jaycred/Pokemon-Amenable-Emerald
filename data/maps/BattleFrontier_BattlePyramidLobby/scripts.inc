@@ -1,4 +1,4 @@
-.set LOCALID_ATTENDANT, 1
+.set LOCALID_ATTENDANT, 5
 .set LOCALID_HINT_GIVER, 2
 
 BattleFrontier_BattlePyramidLobby_MapScripts::
@@ -121,19 +121,9 @@ BattleFrontier_BattlePyramidLobby_EventScript_AskTakeChallenge::
 	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
 
 BattleFrontier_BattlePyramidLobby_EventScript_TryEnterChallenge::
-	message BattleFrontier_BattlePyramidLobby_Text_WhichLevelMode
-	waitmessage
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
-	switch VAR_RESULT
-	case FRONTIER_LVL_TENT, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
-	frontier_checkineligible
-	goto_if_eq VAR_0x8004, TRUE, BattleFrontier_BattlePyramidLobby_EventScript_NotEnoughValidMons
-	frontier_set FRONTIER_DATA_LVL_MODE, VAR_RESULT
+	frontier_set FRONTIER_DATA_LVL_MODE, FRONTIER_LVL_OPEN
 	msgbox BattleFrontier_BattlePyramidLobby_Text_SelectThreeMons, MSGBOX_DEFAULT
-	fadescreen FADE_TO_BLACK
 	call BattleFrontier_EventScript_GetLvlMode
-	copyvar VAR_0x8004, VAR_RESULT
 	setvar VAR_0x8005, FRONTIER_PARTY_SIZE
 	special ChoosePartyForBattleFrontier
 	waitstate
@@ -153,15 +143,12 @@ BattleFrontier_BattlePyramidLobby_EventScript_SaveBeforeChallenge::
 	frontier_set FRONTIER_DATA_PAUSED, FALSE
 	pyramid_seedfloor
 	pyramid_settrainers
-	special LoadPlayerParty
 	closemessage
 	delay 2
 	call Common_EventScript_SaveGame
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
 	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallengeSaveFailed
 BattleFrontier_BattlePyramidLobby_EventScript_EnterChallenge::
-	special SavePlayerParty
-	frontier_setpartyorder FRONTIER_PARTY_SIZE
 	msgbox BattleFrontier_BattlePyramidLobby_Text_ShowYouIntoPyramid, MSGBOX_DEFAULT
 	closemessage
 	call BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag
@@ -192,7 +179,7 @@ BattleFrontier_BattlePyramidLobby_EventScript_NotEnoughValidMonsLvOpen::
 
 BattleFrontier_BattlePyramidLobby_EventScript_CancelChallengeSaveFailed::
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, 0
-	goto BattleFrontier_BattlePyramidLobby_EventScript_CancelChallenge
+	goto BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge
 
 BattleFrontier_BattlePyramidLobby_EventScript_LoadPartyAndCancelChallenge::
 	special LoadPlayerParty
@@ -366,9 +353,6 @@ BattleFrontier_BattlePyramidLobby_EventScript_ShowResults::
 	end
 
 BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag::
-	applymovement LOCALID_ATTENDANT, BattleFrontier_BattlePyramidLobby_Movement_AttendantWalkToPanel
-	applymovement OBJ_EVENT_ID_PLAYER, BattleFrontier_BattlePyramidLobby_Movement_PlayerWalkToPanel
-	waitmovement 0
 	msgbox BattleFrontier_BattlePyramidLobby_Text_WeWillHoldBagForSafekeeping, MSGBOX_DEFAULT
 	pyramid_get PYRAMID_DATA_WIN_STREAK
 	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePyramidLobby_EventScript_ReceiveNewBattleBag
@@ -390,33 +374,15 @@ BattleFrontier_BattlePyramidLobby_EventScript_ReceiveBattleBag::
 	waitmovement 0
 	return
 
-BattleFrontier_BattlePyramidLobby_Movement_AttendantWalkToPanel:
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	face_down
-	step_end
-
-BattleFrontier_BattlePyramidLobby_Movement_PlayerWalkToPanel:
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	step_end
 
 BattleFrontier_BattlePyramidLobby_Movement_AttendantMoveAside:
+	walk_up
 	walk_right
 	face_left
 	step_end
 
 BattleFrontier_BattlePyramidLobby_Movement_PlayerStepOnPanel:
+	walk_up
 	walk_up
 	walk_up
 	step_end
@@ -525,37 +491,29 @@ BattleFrontier_BattlePyramidLobby_EventScript_ExitRules::
 	end
 
 BattleFrontier_BattlePyramidLobby_Text_WelcomeToBattlePyramid:
-	.string "Where the courage of TRAINERS\n"
-	.string "is put to the test!\p"
-	.string "Welcome to the BATTLE PYRAMID!\p"
-	.string "I am your guide to\n"
-	.string "the Battle Quest.$"
+	.string "Welcome to the BATTLE PYRAMID!$"
 
 BattleFrontier_BattlePyramidLobby_Text_EmbarkOnChallenge:
-	.string "Have you the courage to embark on\n"
-	.string "the Battle Quest challenge?$"
+	.string "You ready to start the challenge?$"
 
 BattleFrontier_BattlePyramidLobby_Text_AwaitFutureChallenge:
 	.string "We await your challenge in the future!$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExplainBattlePyramid:
-	.string "The Battle Quest is a battling\n"
-	.string "event in which you must explore\l"
-	.string "the PYRAMID and try to reach the top.\p"
-	.string "In the PYRAMID are seven floors of\n"
-	.string "mazes, all of them filled with not only\l"
-	.string "skilled TRAINERS but also wild POKéMON.\p"
-	.string "You must enter with three POKéMON,\n"
-	.string "none of them holding an item.\p"
-	.string "On your ascent, you will be provided\n"
-	.string "with a BATTLE BAG for items.\p"
-	.string "If you fail in your challenge, any item\n"
-	.string "placed in the BATTLE BAG disappears.\p"
+	.string "In the PYRAMID are thirty floors of\n"
+	.string "mazes, all of them filled with TRAINERS\l"
+	.string "and wild POKéMON.\p"
+	.string "You enter with two POKéMON, and you\n"
+	.string "can catch more to fill your party.\p"
+	.string "On your ascent, you will be given\n"
+	.string "a BATTLE BAG for items.\p"
+	.string "At the end of your challenge, any item\n"
+	.string "in the BATTLE BAG disappears.\p"
 	.string "If you want to interrupt your\n"
-	.string "challenge, you must select “REST”\l"
+	.string "challenge, you have to “REST”\l"
 	.string "and save the game.\p"
 	.string "If you don't save before interrupting,\n"
-	.string "you will be disqualified.$"
+	.string "you'll be kicked back to the lobby.$"
 
 BattleFrontier_BattlePyramidLobby_Text_WhichLevelMode:
 	.string "The PYRAMID offers two courses,\n"
@@ -563,8 +521,8 @@ BattleFrontier_BattlePyramidLobby_Text_WhichLevelMode:
 	.string "Which will you enter?$"
 
 BattleFrontier_BattlePyramidLobby_Text_SelectThreeMons:
-	.string "Very good. Now, please select the three\n"
-	.string "POKéMON you wish to accompany you.$"
+	.string "Great. Now, please select the two\n"
+	.string "POKéMON you want to start with.$"
 
 BattleFrontier_BattlePyramidLobby_Text_NotEnoughValidMonsLvOpen:
 	.string "A slight problem, adventurer!\p"
@@ -598,7 +556,7 @@ BattleFrontier_BattlePyramidLobby_Text_ShowYouIntoPyramid:
 
 BattleFrontier_BattlePyramidLobby_Text_WeWillHoldBagForSafekeeping:
 	.string "We will hold your BAG for safekeeping,\n"
-	.string "{PLAYER}, while you are exploring.$"
+	.string "{PLAYER}, while you're exploring.$"
 
 BattleFrontier_BattlePyramidLobby_Text_PleaseTakePreviousBattleBag:
 	.string "In exchange, please take this BATTLE\n"
@@ -862,25 +820,29 @@ BattleFrontier_BattlePyramidLobby_Text_GiveYouTheseBattlePoints:
 	.string "we give you these Battle Point(s)!$"
 
 BattleFrontier_BattlePyramidLobby_Text_RulesAreListed:
-	.string "The Battle Quest rules are listed.$"
+	.string "Rules and explanations are listed,\n"
+	.string "recently scrawled across the board.$"
 
 BattleFrontier_BattlePyramidLobby_Text_ReadWhichHeading:
 	.string "Which heading do you want to read?$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExplainMonRules:
-	.string "When the PYRAMID is conquered,\n"
-	.string "the wild POKéMON that appear in it\l"
-	.string "are replaced by different kinds.\p"
-	.string "Explore, observe, and learn what kinds\n"
-	.string "of wild POKéMON you may encounter.$"
+	.string "Don't have any POKéMON? Don't worry!\n"
+	.string "There's a limitless supply to catch here,\l"
+	.string "and you start by bringing two inside.\p"
+	.string "Fill out your POKéDEX and you'll have\n"
+	.string "more options to start with!\p"
+	.string "Your party's still limited to six though,\n"
+	.string "and they're left behind when you fail.$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExplainTrainerRules:
-	.string "TRAINERS are lying in wait for you\n"
-	.string "inside the PYRAMID.\p"
+	.string "TRAINERS don't do SINGLE BATTLES here,\n"
+	.string "no way! They go for DOUBLE BATTLES.\p"
 	.string "On each floor, there are up to\n"
-	.string "eight TRAINERS.\p"
-	.string "When you defeat a TRAINER, you will\n"
-	.string "get a helpful hint for your adventure.$"
+	.string "eight TRAINERS. They'll each give hints\l"
+	.string "when you defeat them.\p"
+	.string "Every five floors, you'll fight a\n"
+	.string "powerful TRAINER.$"
 
 BattleFrontier_BattlePyramidLobby_Text_ExplainMazeRules:
 	.string "The mazes in the PYRAMID rearrange\n"
@@ -893,11 +855,8 @@ BattleFrontier_BattlePyramidLobby_Text_ExplainMazeRules:
 BattleFrontier_BattlePyramidLobby_Text_ExplainBagRules:
 	.string "The BATTLE BAG serves as your BAG\n"
 	.string "while in the PYRAMID.\p"
-	.string "There are two separate BATTLE BAGS--\n"
-	.string "one each for the Level 50 and\l"
-	.string "Open Level adventures.\p"
-	.string "They each can hold up to 99 pieces\n"
-	.string "of ten kinds of items.\p"
+	.string "It can hold up to 99 pieces\n"
+	.string "of twenty kinds of items.\p"
 	.string "The contents of the BATTLE BAG are\n"
-	.string "lost if you fail in your quest.$"
+	.string "lost when you return to the lobby.$"
 

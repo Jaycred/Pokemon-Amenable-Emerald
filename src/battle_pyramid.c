@@ -1364,8 +1364,7 @@ void GenerateBattlePyramidWildMon(void)
     if (lvl != FRONTIER_LVL_50)
     {
         lvl = SetFacilityPtrsGetLevel();
-        lvl -= wildMons[id].lvl;
-        lvl = lvl - 5 + (Random() % 11);
+        lvl = lvl - 3 + (Random() % 3);
     }
     else
     {

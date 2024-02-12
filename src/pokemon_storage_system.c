@@ -1776,7 +1776,7 @@ enum {
 #define tNextOption     data[3]
 #define tWindowId       data[15]
 
-static void Task_PCMainMenu(u8 taskId)
+void Task_PCMainMenu(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -1784,12 +1784,6 @@ static void Task_PCMainMenu(u8 taskId)
     {
     case STATE_LOAD:
         CreateMainMenu(task->tSelectedOption, &task->tWindowId);
-        LoadMessageBoxAndBorderGfx();
-        DrawDialogueFrame(0, FALSE);
-        FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, TEXT_SKIP_DRAW, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-        CopyWindowToVram(0, COPYWIN_FULL);
-        CopyWindowToVram(task->tWindowId, COPYWIN_FULL);
         task->tState++;
         break;
     case STATE_FADE_IN:
@@ -1797,90 +1791,21 @@ static void Task_PCMainMenu(u8 taskId)
             task->tState++;
         break;
     case STATE_HANDLE_INPUT:
-        task->tInput = Menu_ProcessInput();
-        switch(task->tInput)
-        {
-        case MENU_NOTHING_CHOSEN:
-            task->tNextOption = task->tSelectedOption;
-            if (JOY_NEW(DPAD_UP) && --task->tNextOption < 0)
-                task->tNextOption = OPTIONS_COUNT - 1;
-            if (JOY_NEW(DPAD_DOWN) && ++task->tNextOption > OPTIONS_COUNT - 1)
-                task->tNextOption = 0;
-
-            if (task->tSelectedOption != task->tNextOption)
-            {
-                task->tSelectedOption = task->tNextOption;
-                FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-            }
-            break;
-        case MENU_B_PRESSED:
-        case OPTION_EXIT:
-            ClearStdWindowAndFrame(task->tWindowId, TRUE);
-            UnlockPlayerFieldControls();
-            ScriptContext_Enable();
-            RemoveWindow(task->tWindowId);
-            DestroyTask(taskId);
-            break;
-        default:
-            if (task->tInput == OPTION_WITHDRAW && CountPartyMons() == PARTY_SIZE)
-            {
-                // Can't withdraw
-                FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, FONT_NORMAL, gText_PartyFull, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-                task->tState = STATE_ERROR_MSG;
-            }
-            else if (task->tInput == OPTION_DEPOSIT && CountPartyMons() == 1)
-            {
-                // Can't deposit
-                FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, FONT_NORMAL, gText_JustOnePkmn, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-                task->tState = STATE_ERROR_MSG;
-            }
-            else
-            {
-                // Enter PC
-                FadeScreen(FADE_TO_BLACK, 0);
-                task->tState = STATE_ENTER_PC;
-            }
-            break;
-        }
+        // Enter PC
+        FadeScreen(FADE_TO_BLACK, 0);
+        task->tState = STATE_ENTER_PC;
         break;
     case STATE_ERROR_MSG:
-        // Printed "can't do PC option message"
-        // Wait for new input after message
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
-        {
-            FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-            task->tState = STATE_HANDLE_INPUT;
-        }
-        else if (JOY_NEW(DPAD_UP))
-        {
-            if (--task->tSelectedOption < 0)
-                task->tSelectedOption = OPTIONS_COUNT - 1;
-            Menu_MoveCursor(-1);
-            task->tSelectedOption = Menu_GetCursorPos();
-            FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-            task->tState = STATE_HANDLE_INPUT;
-        }
-        else if (JOY_NEW(DPAD_DOWN))
-        {
-            if (++task->tSelectedOption >= OPTIONS_COUNT - 1)
-                task->tSelectedOption = 0;
-            Menu_MoveCursor(1);
-            task->tSelectedOption = Menu_GetCursorPos();
-            FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
-            task->tState = STATE_HANDLE_INPUT;
-        }
+        UnlockPlayerFieldControls();
+        ScriptContext_Enable();
+        DestroyTask(taskId);
         break;
     case STATE_ENTER_PC:
         if (!gPaletteFade.active)
         {
             LoadTemplePokemonStorage();
             CleanupOverworldWindowsAndTilemaps();
+            task->tInput = OPTION_WITHDRAW; // Emerald Temple - only enter in Withdraw mode
             EnterPokeStorage(task->tInput);
             RemoveWindow(task->tWindowId);
             DestroyTask(taskId);
@@ -1902,10 +1827,15 @@ static void FieldTask_ReturnToPcMenu(void)
     u8 taskId;
     MainCallback vblankCb = gMain.vblankCallback;
 
+    // Emerald Temple - verify that 2 party members were withdrawn
+    if(gPlayerPartyCount == 2)
+        gSpecialVar_Result = 1;
+    else
+        gSpecialVar_Result = 0;
+
     SetVBlankCallback(NULL);
     taskId = CreateTask(Task_PCMainMenu, 80);
-    gTasks[taskId].tState = 0;
-    gTasks[taskId].tSelectedOption = sPreviousBoxOption;
+    gTasks[taskId].tState = STATE_ERROR_MSG;
     Task_PCMainMenu(taskId);
     SetVBlankCallback(vblankCb);
     FadeInFromBlack();
@@ -2239,6 +2169,8 @@ static void CB2_PokeStorage(void)
 
 static void EnterPokeStorage(u8 boxOption)
 {
+    LoadTemplePokemonStorage();
+
     ResetTasks();
     sCurrentBoxOption = boxOption;
     sStorage = Alloc(sizeof(*sStorage));
@@ -2811,9 +2743,28 @@ static void Task_HidePartyPokemon(u8 taskId)
     case 2:
         if (!UpdateCursorPos())
         {
-            if (sStorage->setMosaic)
-                StartDisplayMonMosaicEffect();
-            SetPokeStorageTask(Task_PokeStorageMain);
+            if(gPlayerPartyCount == 1) // Close PC after withdrawing with 1 mon already in party
+            {
+                PlaySE(SE_PC_OFF);
+                ComputerScreenCloseEffect(20, 0, 1);
+                sStorage->state++;
+                break;
+            }
+            else
+            {
+                if (sStorage->setMosaic)
+                    StartDisplayMonMosaicEffect();
+                SetPokeStorageTask(Task_PokeStorageMain);
+            }
+        }
+        break;
+    case 3:
+        if (!IsComputerScreenCloseEffectActive())
+        {
+            UpdateBoxToSendMons();
+            gPlayerPartyCount = CalculatePlayerPartyCount();
+            sStorage->screenChangeType = SCREEN_CHANGE_EXIT_BOX;
+            SetPokeStorageTask(Task_ChangeScreen);
         }
         break;
     }

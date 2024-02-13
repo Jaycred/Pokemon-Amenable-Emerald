@@ -1191,7 +1191,7 @@ static void Cmd_accuracycheck(void)
 static void Cmd_attackstring(void)
 {
     if (gBattleControllerExecFlags)
-        return;
+         return;
 
     if (!(gHitMarker & (HITMARKER_NO_ATTACKSTRING | HITMARKER_ATTACKSTRING_PRINTED)))
     {
@@ -1755,8 +1755,8 @@ static void Cmd_attackanimation(void)
     else
     {
         if ((gBattleMoves[gCurrentMove].target & MOVE_TARGET_BOTH
-            || gBattleMoves[gCurrentMove].target & MOVE_TARGET_FOES_AND_ALLY
-            || gBattleMoves[gCurrentMove].target & MOVE_TARGET_DEPENDS)
+             || gBattleMoves[gCurrentMove].target & MOVE_TARGET_FOES_AND_ALLY
+             || gBattleMoves[gCurrentMove].target & MOVE_TARGET_DEPENDS)
             && gBattleScripting.animTargetsHit)
         {
             gBattlescriptCurrInstr++;
@@ -1876,7 +1876,7 @@ static void Cmd_datahpupdate(void)
                 gHpDealt = gDisableStructs[gActiveBattler].substituteHP;
                 gDisableStructs[gActiveBattler].substituteHP = 0;
             }
-
+            
             if (gDisableStructs[gActiveBattler].substituteHP == 0)
             {
                 // Substitute fades
@@ -2519,6 +2519,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
         }
         else
         {
+            u8 moveEffect = gBattleCommunication[MOVE_EFFECT_BYTE];
             u8 side;
             switch (gBattleCommunication[MOVE_EFFECT_BYTE])
             {
@@ -2654,15 +2655,18 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     gBattlescriptCurrInstr = BattleScript_StatUp;
                 }
                 break;
-            case MOVE_EFFECT_ATK_MINUS_1:
             case MOVE_EFFECT_DEF_MINUS_1:
+            case MOVE_EFFECT_SP_DEF_MINUS_1:
+                if(FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    moveEffect = MOVE_EFFECT_DEF_MINUS_1;
+                else moveEffect = MOVE_EFFECT_SP_DEF_MINUS_1;
+            case MOVE_EFFECT_ATK_MINUS_1:
             case MOVE_EFFECT_SPD_MINUS_1:
             case MOVE_EFFECT_SP_ATK_MINUS_1:
-            case MOVE_EFFECT_SP_DEF_MINUS_1:
             case MOVE_EFFECT_ACC_MINUS_1:
             case MOVE_EFFECT_EVS_MINUS_1:
                 if (ChangeStatBuffs(SET_STAT_BUFF_VALUE(1) | STAT_BUFF_NEGATIVE,
-                                    gBattleCommunication[MOVE_EFFECT_BYTE] - MOVE_EFFECT_ATK_MINUS_1 + 1,
+                                    moveEffect - MOVE_EFFECT_ATK_MINUS_1 + 1,
                                     affectsUser, 0))
                 {
                     gBattlescriptCurrInstr++;
@@ -2738,20 +2742,20 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     side = GetBattlerSide(gBattlerAttacker);
                     if (GetBattlerSide(gBattlerAttacker) == B_SIDE_OPPONENT
                         && !(gBattleTypeFlags &
-                            (BATTLE_TYPE_EREADER_TRAINER
-                            | BATTLE_TYPE_FRONTIER
-                            | BATTLE_TYPE_LINK
-                            | BATTLE_TYPE_RECORDED_LINK
-                            | BATTLE_TYPE_SECRET_BASE)))
+                             (BATTLE_TYPE_EREADER_TRAINER
+                              | BATTLE_TYPE_FRONTIER
+                              | BATTLE_TYPE_LINK
+                              | BATTLE_TYPE_RECORDED_LINK
+                              | BATTLE_TYPE_SECRET_BASE)))
                     {
                         gBattlescriptCurrInstr++;
                     }
                     else if (!(gBattleTypeFlags &
-                            (BATTLE_TYPE_EREADER_TRAINER
-                            | BATTLE_TYPE_FRONTIER
-                            | BATTLE_TYPE_LINK
-                            | BATTLE_TYPE_RECORDED_LINK
-                            | BATTLE_TYPE_SECRET_BASE))
+                          (BATTLE_TYPE_EREADER_TRAINER
+                           | BATTLE_TYPE_FRONTIER
+                           | BATTLE_TYPE_LINK
+                           | BATTLE_TYPE_RECORDED_LINK
+                           | BATTLE_TYPE_SECRET_BASE))
                         && (gWishFutureKnock.knockedOffMons[side] & gBitTable[gBattlerPartyIndexes[gBattlerAttacker]]))
                     {
                         gBattlescriptCurrInstr++;
@@ -2830,7 +2834,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 break;
             case MOVE_EFFECT_ATK_DEF_DOWN: // SuperPower
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
-                gBattlescriptCurrInstr = BattleScript_AtkDefDown;
+                if(!FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    gBattlescriptCurrInstr = BattleScript_SAtkSDefDown;
+                else
+                    gBattlescriptCurrInstr = BattleScript_AtkDefDown;
                 break;
             case MOVE_EFFECT_RECOIL_33: // Double Edge
                 gBattleMoveDamage = gHpDealt / 3;
@@ -2888,7 +2895,10 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 break;
             case MOVE_EFFECT_SP_ATK_TWO_DOWN: // Overheat
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
-                gBattlescriptCurrInstr = BattleScript_SAtkDown2;
+                if(FlagGet(FLAG_DID_PHYSICAL_MOVE))
+                    gBattlescriptCurrInstr = BattleScript_AtkDown2;
+                else
+                    gBattlescriptCurrInstr = BattleScript_SAtkDown2;
                 break;
             }
         }

@@ -1855,7 +1855,7 @@ static const u8 sMonAnimationDelayTable[NUM_SPECIES - 1] =
 #define PP_UP_SHIFTS_INV(val) (u8)~(val), (u8)~((val) << 2), (u8)~((val) << 4), (u8)~((val) << 6)
 
 // PP Up bonuses are stored for a Pokémon as a single byte.
-// There are 2 bits (a value 0-3) for each move slot that
+// There are 2 bits (a value 0-3) for each move slot that 
 // represent how many PP Ups have been applied.
 // The following arrays take a move slot id and return:
 // gPPUpGetMask - A mask to get the number of PP Ups applied to that move slot
@@ -3111,6 +3111,9 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     u8 attackerHoldEffect;
     u8 attackerHoldEffectParam;
 
+    bool8 hasStab;
+    bool8 doPhysical;
+
     if (!powerOverride)
         gBattleMovePower = gBattleMoves[move].power;
     else
@@ -3126,7 +3129,11 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     spAttack = attacker->spAttack;
     spDefense = defender->spDefense;
 
-    // Get attacker hold item info
+    //Extra check stab
+    if(attacker->type1 == type || attacker->type2 == type) hasStab = 1;
+    else hasStab = 0;
+
+    // Get attacker hold item info    
     if (attacker->item == ITEM_ENIGMA_BERRY)
     {
         attackerHoldEffect = gEnigmaBerries[battlerIdAtk].holdEffect;
@@ -3196,7 +3203,10 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     // Apply abilities / field sports
     if (defender->ability == ABILITY_THICK_FAT && (type == TYPE_FIRE || type == TYPE_ICE))
+    {
         spAttack /= 2;
+        attack /= 2;
+    }
     if (attacker->ability == ABILITY_HUSTLE)
         attack = (150 * attack) / 100;
     if (attacker->ability == ABILITY_PLUS && ABILITY_ON_FIELD2(ABILITY_MINUS))
@@ -3224,8 +3234,20 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
         defense /= 2;
 
-    if (IS_TYPE_PHYSICAL(type))
+    //Do we do physical or special attack?
+    if(hasStab == 1)
     {
+        //On STAB, check which attack stat is higher
+        if(attack > spAttack) doPhysical = 1;
+        else doPhysical = 0;
+    }
+    else if (IS_TYPE_PHYSICAL(type)) doPhysical = 1;
+    else doPhysical = 0;
+
+    //Physical damage calculation
+    if (doPhysical == 1)
+    {
+        FlagSet(FLAG_DID_PHYSICAL_MOVE);
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost attack stat stages then ignore stat drop
@@ -3267,9 +3289,50 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
                 damage /= 2;
         }
 
+        // Apply effects specific to certain Special-type moves
         // Moves hitting both targets do half damage in double battles
         if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && gBattleMoves[move].target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
             damage /= 2;
+
+        // Are effects of weather negated with cloud nine or air lock
+        if (WEATHER_HAS_EFFECT2)
+        {
+            // Rain weakens Fire, boosts Water
+            if (gBattleWeather & B_WEATHER_RAIN_TEMPORARY)
+            {
+                switch (type)
+                {
+                case TYPE_FIRE:
+                    damage /= 2;
+                    break;
+                case TYPE_WATER:
+                    damage = (15 * damage) / 10;
+                    break;
+                }
+            }
+
+            // Any weather except sun weakens solar beam
+            if ((gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_HAIL)) && gCurrentMove == MOVE_SOLAR_BEAM)
+                damage /= 2;
+
+            // Sun boosts Fire, weakens Water
+            if (gBattleWeather & B_WEATHER_SUN)
+            {
+                switch (type)
+                {
+                case TYPE_FIRE:
+                    damage = (15 * damage) / 10;
+                    break;
+                case TYPE_WATER:
+                    damage /= 2;
+                    break;
+                }
+            }
+        }
+
+        // Flash fire triggered
+        if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
+            damage = (15 * damage) / 10;
 
         // Moves always do at least 1 damage.
         if (damage == 0)
@@ -3279,8 +3342,10 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (type == TYPE_MYSTERY)
         damage = 0; // is ??? type. does 0 damage.
 
-    if (IS_TYPE_SPECIAL(type))
+    //Special damage calculation
+    if (doPhysical == 0)
     {
+        FlagClear(FLAG_DID_PHYSICAL_MOVE);
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost sp. attack stat stages then ignore stat drop
@@ -4054,7 +4119,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->worldRibbon << 26);
         }
         break;
-    default:
+        default:
         break;
     }
 
@@ -4374,7 +4439,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3->spDefenseIV = (ivs >> 25) & MAX_IV_MASK;
         break;
     }
-    default:
+        default:
         break;
     }
 
@@ -5223,7 +5288,7 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                     case 4: // ITEM5_PP_MAX
                         dataUnsigned = (GetMonData(mon, MON_DATA_PP_BONUSES, NULL) & gPPUpGetMask[moveIndex]) >> (moveIndex * 2);
                         temp2 = CalculatePPWithBonus(GetMonData(mon, MON_DATA_MOVE1 + moveIndex, NULL), GetMonData(mon, MON_DATA_PP_BONUSES, NULL), moveIndex);
-
+                        
                         // Check if 3 PP Ups have been applied already, and that the move has a total PP of at least 5 (excludes Sketch)
                         if (dataUnsigned < 3 && temp2 >= 5)
                         {
@@ -6207,20 +6272,20 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
     {
         return 0;
     }
-
+    
     // Fewer than 64 moves, use GF's method (for matching).
     if (sizeof(struct TMHMLearnset) <= 8)
     {
         if (tm < 32)
-        {
-            u32 mask = 1 << tm;
-            return gTMHMLearnsets[species].as_u32s[0] & mask;
-        }
-        else
-        {
-            u32 mask = 1 << (tm - 32);
-            return gTMHMLearnsets[species].as_u32s[1] & mask;
-        }
+    {
+        u32 mask = 1 << tm;
+        return gTMHMLearnsets[species].as_u32s[0] & mask;
+    }
+    else
+    {
+        u32 mask = 1 << (tm - 32);
+        return gTMHMLearnsets[species].as_u32s[1] & mask;
+}
     }
     else
     {
@@ -6240,15 +6305,15 @@ u32 CanSpeciesLearnTMHM(u16 species, u8 tm)
     if (sizeof(struct TMHMLearnset) <= 8)
     {
         if (tm < 32)
-        {
-            u32 mask = 1 << tm;
-            return gTMHMLearnsets[species].as_u32s[0] & mask;
-        }
-        else
-        {
-            u32 mask = 1 << (tm - 32);
-            return gTMHMLearnsets[species].as_u32s[1] & mask;
-        }
+    {
+        u32 mask = 1 << tm;
+        return gTMHMLearnsets[species].as_u32s[0] & mask;
+    }
+    else
+    {
+        u32 mask = 1 << (tm - 32);
+        return gTMHMLearnsets[species].as_u32s[1] & mask;
+}
     }
     else
     {
@@ -6419,7 +6484,7 @@ u16 GetBattleBGM(void)
                 return MUS_VS_RIVAL;
             if (!StringCompare(gTrainers[gTrainerBattleOpponent_A].trainerName, gText_BattleWallyName))
                 return MUS_VS_TRAINER;
-            return MUS_VS_RIVAL;
+                        return MUS_VS_RIVAL;
         case TRAINER_CLASS_ELITE_FOUR:
             return MUS_VS_ELITE_FOUR;
         case TRAINER_CLASS_SALON_MAIDEN:
@@ -6958,7 +7023,7 @@ static bool8 ShouldSkipFriendshipChange(void)
 // Only the 'default' mode (MON_SPR_GFX_MODE_NORMAL) is used, which is set
 // up to allocate 4 sprites using the battler sprite templates (gBattlerSpriteTemplates).
 // MON_SPR_GFX_MODE_BATTLE is identical but never used.
-// MON_SPR_GFX_MODE_FULL_PARTY is set up to allocate 7 sprites (party + trainer?)
+// MON_SPR_GFX_MODE_FULL_PARTY is set up to allocate 7 sprites (party + trainer?) 
 // using a generic 64x64 template, and is also never used.
 
 // Between the unnecessarily large sizes below, a mistake allocating the spritePointers
@@ -7018,7 +7083,7 @@ struct MonSpritesGfxManager *CreateMonSpritesGfxManager(u8 managerId, u8 mode)
         gfx->dataSize = 1;
         gfx->mode = MON_SPR_GFX_MODE_FULL_PARTY;
         break;
- // case MON_SPR_GFX_MODE_BATTLE:
+ // case MON_SPR_GFX_MODE_BATTLE:       
     case MON_SPR_GFX_MODE_NORMAL:
     default:
         gfx->numSprites = MAX_BATTLERS_COUNT;

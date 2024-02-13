@@ -193,9 +193,18 @@ BattleFrontier_BattlePyramidLobby_EventScript_HintGiver::
 	lockall
 	applymovement LOCALID_HINT_GIVER, Common_Movement_FacePlayer
 	waitmovement 0
-	msgbox BattleFrontier_BattlePyramidLobby_Text_TellYouWhatMisfortunesAwait, MSGBOX_DEFAULT
-	call BattleFrontier_BattlePyramidLobby_EventScript_GiveHint
+	goto_if_set FLAG_UNUSED_RS_LEGENDARY_BATTLE_DONE, BattleFrontier_BattlePyramidLobby_EventScript_HintGiverAlreadyTalked
+	msgbox BattleFrontier_BattlePyramidLobby_Text_TellYouWhatMisfortunesAwait, MSGBOX_YESNO
+	setflag FLAG_UNUSED_RS_LEGENDARY_BATTLE_DONE
+	goto BattleFrontier_BattlePyramidLobby_EventScript_HintGiverWarpCheck
+BattleFrontier_BattlePyramidLobby_EventScript_HintGiverAlreadyTalked::
+	msgbox BattleFrontier_BattlePyramidLobby_Text_HintParalysis, MSGBOX_YESNO
+BattleFrontier_BattlePyramidLobby_EventScript_HintGiverWarpCheck::
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_BattlePyramidLobby_EventScript_WarpEnd
+	warp MAP_BATTLE_FRONTIER_BATTLE_FACTORY_LOBBY, 9, 11
+	waitstate
 	msgbox BattleFrontier_BattlePyramidLobby_Text_BelieveMyFortunesOrNot, MSGBOX_DEFAULT
+BattleFrontier_BattlePyramidLobby_EventScript_WarpEnd::
 	releaseall
 	end
 
@@ -668,8 +677,10 @@ BattleFrontier_BattlePyramidLobby_Text_HereIsPrize:
 
 BattleFrontier_BattlePyramidLobby_Text_TellYouWhatMisfortunesAwait:
 	.string "Welcome…\p"
-	.string "I shall be pleased to tell you what\n"
-	.string "misfortunes await in the PYRAMID…$"
+	.string "I know of a facility buried beneath\n"
+	.string "the PYRAMID…\p"
+	.string "I could transport you there,\n"
+	.string "if you wish…$"
 
 BattleFrontier_BattlePyramidLobby_Text_Aah:
 	.string "… … … … … …\n"
@@ -678,9 +689,8 @@ BattleFrontier_BattlePyramidLobby_Text_Aah:
 	.string "Aah!$"
 
 BattleFrontier_BattlePyramidLobby_Text_HintParalysis:
-	.string "I see a shower of sparks…\p"
-	.string "…And in it, I see your POKéMON\n"
-	.string "struggling with paralysis…$"
+	.string "Do you wish to go to the\n"
+	.string "lower facility?$"
 
 BattleFrontier_BattlePyramidLobby_Text_HintPoison:
 	.string "I see poison…\p"
@@ -789,10 +799,7 @@ BattleFrontier_BattlePyramidLobby_Text_HintNormal:
 	.string "from enormously powerful moves…$"
 
 BattleFrontier_BattlePyramidLobby_Text_BelieveMyFortunesOrNot:
-	.string "Whether you believe my fortunes\n"
-	.string "or not, the choice is yours…\p"
-	.string "The future can be changed anytime…\n"
-	.string "I wish you safe passage…$"
+	.string "Here we are…$"
 
 BattleFrontier_BattlePyramidLobby_Text_TrainersNoticeRunning:
 	.string "Did you know?\p"

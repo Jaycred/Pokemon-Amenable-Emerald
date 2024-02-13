@@ -661,7 +661,6 @@ static const struct MenuAction MultichoiceList_BattleFactoryRules[] =
     {gText_SwapPartners},
     {gText_SwapNumber},
     {gText_SwapNotes},
-    {gText_OpenLevel3},
     {gText_Exit},
 };
 
@@ -695,7 +694,6 @@ static const struct MenuAction MultichoiceList_BattlePikeRules[] =
 static const struct MenuAction MultichoiceList_GoOnRecordRestRetire[] =
 {
     {gText_GoOn},
-    {gText_Record2},
     {gText_Rest},
     {gText_Retire},
 };

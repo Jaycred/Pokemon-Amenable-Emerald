@@ -62,7 +62,7 @@ BattleFrontier_BattleFactoryLobby_EventScript_GiveBattlePoints::
 	factory_save 0
 	playse SE_SAVE
 	waitse
-	goto BattleFrontier_BattleFactoryLobby_EventScript_AskRecordBattle
+	goto BattleFrontier_BattleFactoryLobby_EventScript_EndRecordBattle
 	end
 
 BattleFrontier_BattleFactoryLobby_EventScript_LostChallenge::
@@ -76,19 +76,6 @@ BattleFrontier_BattleFactoryLobby_EventScript_LostChallenge::
 	playse SE_SAVE
 	waitse
 
-BattleFrontier_BattleFactoryLobby_EventScript_AskRecordBattle::
-	call BattleFrontier_EventScript_GetCantRecordBattle
-	goto_if_eq VAR_RESULT, TRUE, BattleFrontier_BattleFactoryLobby_EventScript_EndRecordBattle
-	message BattleFrontier_BattleFactoryLobby_Text_RecordLastMatch
-	waitmessage
-	multichoicedefault 20, 8, MULTI_YESNO, 1, FALSE
-	switch VAR_RESULT
-	case 1, BattleFrontier_BattleFactoryLobby_EventScript_EndRecordBattle
-	case 0, BattleFrontier_BattleFactoryLobby_EventScript_RecordBattle
-	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_EndRecordBattle
-
-BattleFrontier_BattleFactoryLobby_EventScript_RecordBattle::
-	call BattleFrontier_EventScript_SaveBattle
 BattleFrontier_BattleFactoryLobby_EventScript_EndRecordBattle::
 	msgbox BattleFrontier_BattleFactoryLobby_Text_LookForwardToNextVisit, MSGBOX_DEFAULT
 	closemessage
@@ -138,13 +125,7 @@ BattleFrontier_BattleFactoryLobby_EventScript_AskTakeChallenge::
 	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
 
 BattleFrontier_BattleFactoryLobby_EventScript_TryEnterChallenge::
-	message BattleFrontier_BattleFactoryLobby_Text_WhichLevelMode
-	waitmessage
-	multichoice 17, 6, MULTI_LEVEL_MODE, FALSE
-	switch VAR_RESULT
-	case FRONTIER_LVL_TENT, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
-	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_CancelChallenge
-	frontier_set FRONTIER_DATA_LVL_MODE, VAR_RESULT
+	frontier_set FRONTIER_DATA_LVL_MODE, FRONTIER_LVL_50
 	msgbox BattleFrontier_BattleFactoryLobby_Text_OkayToSaveBeforeChallenge, MSGBOX_YESNO
 	switch VAR_RESULT
 	case NO, BattleFrontier_BattleFactoryLobby_EventScript_LoadPartyAndCancelChallenge
@@ -264,9 +245,15 @@ BattleFrontier_BattleFactoryLobby_EventScript_Camper::
 	end
 
 BattleFrontier_BattleFactoryLobby_EventScript_Picnicker::
-	lock
-	msgbox BattleFrontier_BattleFactoryLobby_Text_NeedToCheckOpponentsMons, MSGBOX_DEFAULT
-	release
+	lockall
+	applymovement 3, Common_Movement_FacePlayer
+	waitmovement 0
+	msgbox BattleFrontier_BattleFactoryLobby_Text_NeedToCheckOpponentsMons, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, NO, BattleFrontier_BattleFactoryLobby_EventScript_WarpEnd
+	warp MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY, 13, 14
+	waitstate
+BattleFrontier_BattleFactoryLobby_EventScript_WarpEnd::
+	releaseall
 	end
 
 BattleFrontier_BattleFactoryLobby_EventScript_FatMan::
@@ -288,8 +275,7 @@ BattleFrontier_BattleFactoryLobby_EventScript_ReadRulesBoard::
 	case 1, BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapPartner
 	case 2, BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapNumber
 	case 3, BattleFrontier_BattleFactoryLobby_EventScript_RulesSwapNotes
-	case 4, BattleFrontier_BattleFactoryLobby_EventScript_RulesOpenLv
-	case 5, BattleFrontier_BattleFactoryLobby_EventScript_ExitRules
+	case 4, BattleFrontier_BattleFactoryLobby_EventScript_ExitRules
 	case MULTI_B_PRESSED, BattleFrontier_BattleFactoryLobby_EventScript_ExitRules
 	end
 
@@ -459,9 +445,7 @@ BattleFrontier_BattleFactoryLobby_Text_AwardBattlePoints:
 
 BattleFrontier_BattleFactoryLobby_Text_ExchangeMonsAndSave:
 	.string "Let me exchange your POKéMON\n"
-	.string "for our rental POKéMON.\p"
-	.string "I need to save the battle data,\n"
-	.string "so please wait.$"
+	.string "for our rental POKéMON.$"
 
 BattleFrontier_BattleFactoryLobby_Text_RecordLastMatch:
 	.string "Would you like to record your last\n"
@@ -469,28 +453,16 @@ BattleFrontier_BattleFactoryLobby_Text_RecordLastMatch:
 	.string "FRONTIER PASS?$"
 
 BattleFrontier_BattleFactoryLobby_Text_NeedKnowledgeOfMonsMoves:
-	.string "Hi!\n"
-	.string "You, there!\p"
-	.string "Are you thinking that the events here\n"
-	.string "are easy since you don't need to have\l"
-	.string "a raised team of POKéMON?\p"
-	.string "I wouldn't be too sure about winning\n"
-	.string "that easily.\p"
-	.string "If you don't have thorough knowledge\n"
-	.string "about POKéMON and their moves,\l"
-	.string "it will be tough to keep winning.$"
+	.string "Somehow the FACTORY got buried,\n"
+	.string "but they haven't shut it down yet.\p"
+	.string "I may as well keep battling!$"
 
 BattleFrontier_BattleFactoryLobby_Text_SwappedForWeakMon:
-	.string "I swapped for a weak POKéMON…\n"
-	.string "I thought it was a good kind to have…\p"
-	.string "They wiped the floor with us…$"
+	.string "The doors are blocked by\n"
+	.string "a wall of debris.$"
 
 BattleFrontier_BattleFactoryLobby_Text_NeedToCheckOpponentsMons:
-	.string "Things haven't been going my way\n"
-	.string "at all.\p"
-	.string "You need to check your opponent's\n"
-	.string "POKéMON during battle to see if\l"
-	.string "they're any good.$"
+	.string "Do you wish to return to the PYRAMID?$"
 
 BattleFrontier_BattleFactoryLobby_Text_CantFigureOutStaffHints:
 	.string "You know how the staff here give you\n"

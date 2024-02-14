@@ -54,6 +54,8 @@ static void FortreeBridgePerStepCallback(u8);
 static void PacifidlogBridgePerStepCallback(u8);
 static void SootopolisGymIcePerStepCallback(u8);
 static void CrackedFloorPerStepCallback(u8);
+static void PyramidTilePerStepCallback(u8);
+
 static void Task_MuddySlope(u8);
 
 static const TaskFunc sPerStepCallbacks[] =
@@ -65,7 +67,8 @@ static const TaskFunc sPerStepCallbacks[] =
     [STEP_CB_SOOTOPOLIS_ICE]    = SootopolisGymIcePerStepCallback,
     [STEP_CB_TRUCK]             = EndTruckSequence,
     [STEP_CB_SECRET_BASE]       = SecretBasePerStepCallback,
-    [STEP_CB_CRACKED_FLOOR]     = CrackedFloorPerStepCallback
+    [STEP_CB_CRACKED_FLOOR]     = CrackedFloorPerStepCallback,
+    [STEP_CB_PYRAMID_TILE]      = PyramidTilePerStepCallback
 };
 
 // Each array has 4 pairs of data, each pair representing two metatiles of a log and their relative position.
@@ -838,6 +841,20 @@ static void CrackedFloorPerStepCallback(u8 taskId)
             tFloor2X = x;
             tFloor2Y = y;
         }
+    }
+}
+
+static void PyramidTilePerStepCallback(u8 taskId)
+{
+    s16 x, y;
+    u16 metatileId;
+    
+    PlayerGetDestCoords(&x, &y);
+    metatileId = MapGridGetMetatileIdAt(x, y);
+    if(metatileId == METATILE_BattlePyramid_Floor || metatileId == 0x20B) //Darker floor tile
+    {
+        MapGridSetMetatileIdAt(x, y, 0x258); // Outside tile
+        CurrentMapDrawMetatileAt(x, y);
     }
 }
 

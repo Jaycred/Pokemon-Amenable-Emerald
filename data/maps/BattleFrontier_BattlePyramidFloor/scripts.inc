@@ -39,6 +39,7 @@ BattleFrontier_BattlePyramidFloor_EventScript_PlayPyramidMusic::
 BattleFrontier_BattlePyramidFloor_OnResume:
 	pyramid_setfloorpal
 	frontier_getstatus
+	setstepcallback STEP_CB_PYRAMID_TILE
 	switch VAR_TEMP_CHALLENGE_STATUS
 	case 0, BattleFrontier_BattlePyramidFloor_EventScript_ReadyChallenge
 	case CHALLENGE_STATUS_SAVING, BattleFrontier_BattlePyramid_EventScript_WarpToLobby

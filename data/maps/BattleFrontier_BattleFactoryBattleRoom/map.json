@@ -5,7 +5,7 @@
   "music": "MUS_B_FACTORY",
   "region_map_section": "MAPSEC_BATTLE_FRONTIER",
   "requires_flash": false,
-  "weather": "WEATHER_SHADE",
+  "weather": "WEATHER_NONE",
   "map_type": "MAP_TYPE_INDOOR",
   "allow_cycling": false,
   "allow_escaping": false,

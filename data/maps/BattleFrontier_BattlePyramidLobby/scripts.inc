@@ -149,8 +149,6 @@ BattleFrontier_BattlePyramidLobby_EventScript_SaveBeforeChallenge::
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
 	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePyramidLobby_EventScript_CancelChallengeSaveFailed
 BattleFrontier_BattlePyramidLobby_EventScript_EnterChallenge::
-	msgbox BattleFrontier_BattlePyramidLobby_Text_ShowYouIntoPyramid, MSGBOX_DEFAULT
-	closemessage
 	call BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, 0
 	setvar VAR_RESULT, 0
@@ -363,13 +361,8 @@ BattleFrontier_BattlePyramidLobby_EventScript_ShowResults::
 
 BattleFrontier_BattlePyramidLobby_EventScript_WalkToPanelAndReceiveBag::
 	msgbox BattleFrontier_BattlePyramidLobby_Text_WeWillHoldBagForSafekeeping, MSGBOX_DEFAULT
-	pyramid_get PYRAMID_DATA_WIN_STREAK
-	goto_if_eq VAR_RESULT, 0, BattleFrontier_BattlePyramidLobby_EventScript_ReceiveNewBattleBag
-	msgbox BattleFrontier_BattlePyramidLobby_Text_PleaseTakePreviousBattleBag, MSGBOX_DEFAULT
 	goto BattleFrontier_BattlePyramidLobby_EventScript_ReceiveBattleBag
 
-BattleFrontier_BattlePyramidLobby_EventScript_ReceiveNewBattleBag::
-	msgbox BattleFrontier_BattlePyramidLobby_Text_PleaseTakeThisBattleBag, MSGBOX_DEFAULT
 BattleFrontier_BattlePyramidLobby_EventScript_ReceiveBattleBag::
 	message BattleFrontier_BattlePyramidLobby_Text_ExchangedBagForBattleBag
 	waitmessage
@@ -560,12 +553,12 @@ BattleFrontier_BattlePyramidLobby_Text_OkayToSaveBeforeChallenge:
 	.string "the game must be saved. Is that okay?$"
 
 BattleFrontier_BattlePyramidLobby_Text_ShowYouIntoPyramid:
-	.string "Very good. I will now show you into\n"
+	.string "Great. Let me show you into\n"
 	.string "the BATTLE PYRAMID.$"
 
 BattleFrontier_BattlePyramidLobby_Text_WeWillHoldBagForSafekeeping:
-	.string "We will hold your BAG for safekeeping,\n"
-	.string "{PLAYER}, while you're exploring.$"
+	.string "We'll hold your BAG for safekeeping\n"
+	.string "while you're exploring.$"
 
 BattleFrontier_BattlePyramidLobby_Text_PleaseTakePreviousBattleBag:
 	.string "In exchange, please take this BATTLE\n"
@@ -580,11 +573,9 @@ BattleFrontier_BattlePyramidLobby_Text_ExchangedBagForBattleBag:
 	.string "the BATTLE BAG.$"
 
 BattleFrontier_BattlePyramidLobby_Text_StepOnFloorPanel:
-	.string "When you step on this floor panel,\n"
-	.string "you will be transported to a higher\l"
-	.string "floor in the PYRAMID.\p"
-	.string "I hope for your sake that your\n"
-	.string "quest goes safely!$"
+	.string "When you step on this panel,\n"
+	.string "you'll go to a higher floor.\p"
+	.string "Good luck!$"
 
 BattleFrontier_BattlePyramidLobby_Text_DidntSaveBeforeQuittingTakeBag:
 	.string "A major problem, explorer!\p"

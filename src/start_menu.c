@@ -388,6 +388,7 @@ static void BuildBattlePikeStartMenu(void)
 
 static void BuildBattlePyramidStartMenu(void)
 {
+    AddStartMenuAction(MENU_ACTION_POKEDEX);
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_PYRAMID_BAG);
     AddStartMenuAction(MENU_ACTION_PLAYER);

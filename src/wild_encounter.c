@@ -577,7 +577,7 @@ bool8 StandardWildEncounter(u16 curMetatileBehavior, u16 prevMetatileBehavior)
         }
         if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
         {
-            headerId = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
+            headerId = 0; // Don't rotate encounter tables
             if (prevMetatileBehavior != curMetatileBehavior && !AllowWildCheckOnNewMetatile())
                 return FALSE;
             else if (WildEncounterCheck(gBattlePyramidWildMonHeaders[headerId].landMonsInfo->encounterRate, FALSE) != TRUE)
@@ -715,7 +715,7 @@ bool8 SweetScentWildEncounter(void)
         }
         if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
         {
-            headerId = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
+            headerId = 0; // Don't rotate encounter tables
             if (TryGenerateWildMon(gBattlePyramidWildMonHeaders[headerId].landMonsInfo, WILD_AREA_LAND, 0) != TRUE)
                 return FALSE;
 

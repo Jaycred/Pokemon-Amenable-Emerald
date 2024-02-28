@@ -10,6 +10,7 @@
 #include "fieldmap.h"
 #include "party_menu.h"
 #include "palette.h"
+#include "pokemon_storage_system.h"
 #include "field_screen_effect.h"
 #include "field_message_box.h"
 #include "random.h"
@@ -103,6 +104,8 @@ static bool8 TrySetPyramidObjectEventPositionAtCoords(bool8, u8, u8, u8 *, u8, u
 
 #include "data/battle_frontier/battle_pyramid_level_50_wild_mons.h"
 #include "data/battle_frontier/battle_pyramid_open_level_wild_mons.h"
+
+static struct PyramidWildMon sOpenLevelWildMons[4];
 
 static const struct PyramidFloorTemplate sPyramidFloorTemplates[] =
 {
@@ -965,6 +968,21 @@ static void SeedPyramidFloor(void)
 {
     int i;
 
+    // Try to randomize wild encounter table?
+    for (i = 0; i < 4; i++)
+    {
+        struct PyramidWildMon randomMon;
+        u16 speciesLine = Random() % 203;
+
+        //while (species > 251 && species < 277)
+
+        randomMon.species = evoLines[speciesLine][0];
+        //randomMon.lvl = 15;
+        randomMon.abilityNum = ABILITY_RANDOM;
+
+        sOpenLevelWildMons[i] = randomMon;
+    }
+
     for (i = 0; i < (int)ARRAY_COUNT(gSaveBlock2Ptr->frontier.pyramidRandoms); i++)
         gSaveBlock2Ptr->frontier.pyramidRandoms[i] = Random();
 
@@ -1353,7 +1371,7 @@ void GenerateBattlePyramidWildMon(void)
         round = TOTAL_PYRAMID_ROUNDS - 1;
 
     if (lvl != FRONTIER_LVL_50)
-        wildMons = sOpenLevelWildMonPointers[round];
+        wildMons = sOpenLevelWildMons;
     else
         wildMons = sLevel50WildMonPointers[round];
 
@@ -1396,7 +1414,8 @@ void GenerateBattlePyramidWildMon(void)
     }
 
     for (i = 0; i < MAX_MON_MOVES; i++)
-        SetMonMoveSlot(&gEnemyParty[0], wildMons[id].moves[i], i);
+        SetMonMoveSlot(&gEnemyParty[0], MOVE_NONE, i);
+    GiveMonInitialMoveset(&gEnemyParty[0]);
 
     // UB: Reading outside the array as lvl was used for mon level instead of frontier lvl mode.
     #ifndef UBFIX

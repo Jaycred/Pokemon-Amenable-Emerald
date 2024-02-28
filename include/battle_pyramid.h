@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_PYRAMID_H
 #define GUARD_BATTLE_PYRAMID_H
 
+extern u16 evoLines[203][5];
+
 void CallBattlePyramidFunction(void);
 u16 LocalIdToPyramidTrainerId(u8 localId);
 bool8 GetBattlePyramidTrainerFlag(u8 eventId);

@@ -32,7 +32,6 @@ BattleFrontier_BattlePyramidFloor_EventScript_ShowMapName::
 	end
 
 BattleFrontier_BattlePyramidFloor_EventScript_PlayPyramidMusic::
-	playbgm MUS_B_PYRAMID, FALSE
 	setvar VAR_TEMP_PLAYING_PYRAMID_MUSIC, 1
 	end
 
@@ -78,6 +77,8 @@ BattleFrontier_BattlePyramidFloor_EventScript_ReadyChallenge::
 	end
 
 BattleFrontier_BattlePyramidFloor_OnTransition:
+	setweather VAR_DEOXYS_ROCK_STEP_COUNT
+	doweather
 	call BattleFrontier_BattlePyramidFloor_EventScript_SetLightRadius
 	setvar VAR_TEMP_F, 1
 	end

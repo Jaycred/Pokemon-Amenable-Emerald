@@ -832,6 +832,37 @@ static const u8 sBorderedSquareIds[][4] =
     {11, 14, -1, -1},
 };
 
+// Random floor modifiers: weather, music, type bias, event id
+static const u16 sFloorMods[][4] =
+{
+    {0, 461, 255, 0}, // No weather, regular music, no type bias, no event
+    {0, 422, 0, 0}, // No weather, Ever Grande City music, Normal type bias, no event
+    {0, 429, 1, 0}, // No weather, Victory Road music, Fighting type bias, no event
+    {10, 428, 2, 0}, // Underwater weather, Safari Zone music, Flying type bias, no event
+    {11, 468, 3, 0}, // Shade weather, Battle Pike music, Poison type bias, no event
+    {8, 409, 4, 0}, // Sandstorm weather, Route 111 music, Ground type bias, no event
+    {8, 418, 5, 0}, // Sandstorm weather, Route 113 music, Rock type bias, no event
+    {11, 428, 6, 0}, // Shade weather, Safari Zone music, Bug type bias, no event
+    {6, 432, 7, 0}, // Fog weather, Mt. Pyre music, Ghost type bias, no event
+    {0, 418, 8, 0}, // No weather, Route 113 music, Steel type bias, no event
+    {2, 406, 10, 0}, // Sunny weather, Mt. Chimney music, Fire type bias, no event
+    {3, 381, 11, 0}, // Rain weather, Abandoned Ship music, Water type bias, no event
+    {2, 366, 12, 0}, // Sunny weather, Petalburg Woods music, Grass type bias, no event
+    {5, 461, 13, 0}, // Thunderstorm weather, regular music, Electric type bias, no event
+    {6, 434, 14, 0}, // Fog weather, Mt. Pyre Ext. music, Psychic type bias, no event
+    {7, 432, 15, 0}, // Ash weather (looks like snow with palette), Mt. Pyre music, Ice type bias, no event
+    {0, 386, 16, 0}, // No weather, Cave of Origin music, Dragon type bias, no event
+    {11, 430, 17, 0}, // Shade weather, Magma/Aqua Hideout music, Dark type bias, no event
+
+    {0, 438, 15, 1}, // No weather, Sealed Chamber music, Ice type bias, Regice event
+    {0, 438, 5, 2}, // No weather, Sealed Chamber music, Rock type bias, Regirock event
+    {0, 438, 8, 3}, // No weather, Sealed Chamber music, Steel type bias, Registeel event
+    {0, 14, 0, 0}, // No weather, Trick House music, no type bias, Trick Master event
+    {0, 406, 0, 0}, // Abnormal weather, Mt. Chimney music, Dragon type bias, Rayquaza event
+    {0, 14, 0, 0}, // Drought weather, Drought music, Fire type bias, Groudon event
+    {0, 14, 0, 0} // Downpour weather, Downpour music, Water type bias, Kyogre event
+};
+
 static const u8 sPickupPercentages[PICKUP_ITEMS_PER_ROUND] = {30, 40, 50, 60, 70, 80, 85, 90, 95, 100};
 
 // code
@@ -967,12 +998,28 @@ static void GiveBattlePyramidPrize(void)
 static void SeedPyramidFloor(void)
 {
     int i;
+    int j;
 
-    // Try to randomize wild encounter table?
+    u8 floorModIndex = Random() % 18;
+    u8 typeBias = sFloorMods[floorModIndex][2];
+    u8 weather = sFloorMods[floorModIndex][0];
+    u16 music = sFloorMods[floorModIndex][1];
+
+    // Randomize wild encounter table
     for (i = 0; i < 4; i++)
     {
         struct PyramidWildMon randomMon;
         u16 speciesLine = Random() % 203;
+
+        //Apply type bias, reroll up to 4 times
+        for(j = 0; j < 4; j++)
+        {
+            if(typeBias != TYPE_NONE && gSpeciesInfo[evoLines[speciesLine][0]].types[0] != typeBias && gSpeciesInfo[evoLines[speciesLine][0]].types[1] != typeBias)
+            {
+                speciesLine = Random() % 203;
+            }
+            else break;
+        }
 
         //while (species > 251 && species < 277)
 
@@ -987,6 +1034,10 @@ static void SeedPyramidFloor(void)
         gSaveBlock2Ptr->frontier.pyramidRandoms[i] = Random();
 
     gSaveBlock2Ptr->frontier.pyramidTrainerFlags = 0;
+
+    // Set weather and music
+    VarSet(VAR_DEOXYS_ROCK_STEP_COUNT, weather); // Birth Island is inaccessible, so this var can be repurposed
+    VarSet(VAR_DEOXYS_ROCK_LEVEL, music); // Same here
 }
 
 static void SetPickupItem(void)

@@ -1097,6 +1097,12 @@ u16 GetCurrLocationDefaultMusic(void)
 {
     u16 music;
 
+    // Battle Pyramid dynamic music
+    if(gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR))
+    {
+        return VarGet(VAR_DEOXYS_ROCK_LEVEL);
+    }
+
     // Play the desert music only when the sandstorm is active on Route 111.
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111)
      && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE111)

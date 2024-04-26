@@ -3263,14 +3263,14 @@ static void Cmd_getexp(void)
     switch (gBattleScripting.getexpState)
     {
     case 0: // check if should receive exp at all
-        if (GetBattlerSide(gBattlerFainted) != B_SIDE_OPPONENT || (gBattleTypeFlags &
+        if (GetBattlerSide(gBattlerFainted) != B_SIDE_OPPONENT || (!(gBattleTypeFlags & BATTLE_TYPE_PYRAMID) && (gBattleTypeFlags &
              (BATTLE_TYPE_LINK
               | BATTLE_TYPE_RECORDED_LINK
               | BATTLE_TYPE_TRAINER_HILL
               | BATTLE_TYPE_FRONTIER
               | BATTLE_TYPE_SAFARI
               | BATTLE_TYPE_BATTLE_TOWER
-              | BATTLE_TYPE_EREADER_TRAINER)))
+              | BATTLE_TYPE_EREADER_TRAINER))))
         {
             gBattleScripting.getexpState = 6; // goto last case
         }
@@ -3338,13 +3338,17 @@ static void Cmd_getexp(void)
             else
                 holdEffect = ItemId_GetHoldEffect(item);
 
+            /* whole party is always eligible to gain exp
             if (holdEffect != HOLD_EFFECT_EXP_SHARE && !(gBattleStruct->sentInPokes & 1))
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.getexpState = 5;
                 gBattleMoveDamage = 0; // used for exp
             }
-            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL)
+            */
+            // don't gain exp from foes who are more than 3 levels behind
+            if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL
+                || GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) > gBattleMons[gBattlerFainted].level + 3)
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.getexpState = 5;
@@ -3362,18 +3366,12 @@ static void Cmd_getexp(void)
 
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
                 {
-                    if (gBattleStruct->sentInPokes & 1)
-                        gBattleMoveDamage = *exp;
-                    else
-                        gBattleMoveDamage = 0;
+                    struct Pokemon *mon = &gPlayerParty[gBattleStruct->expGetterMonId];
+                    u16 species = GetMonData(mon, MON_DATA_SPECIES);
+                    u8 level = GetMonData(mon, MON_DATA_LEVEL);
+                    gBattleMoveDamage = gExperienceTables[gSpeciesInfo[species].growthRate][level + 1] - gExperienceTables[gSpeciesInfo[species].growthRate][level];
 
-                    if (holdEffect == HOLD_EFFECT_EXP_SHARE)
-                        gBattleMoveDamage += gExpShareExp;
-                    if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
-                        gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-                    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-                        gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-
+                    /*
                     if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
                     {
                         // check if the Pokémon doesn't belong to the player
@@ -3416,6 +3414,7 @@ static void Cmd_getexp(void)
                     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff3, 5, gBattleMoveDamage);
 
                     PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
+                    */
                     MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
                 }
                 gBattleStruct->sentInPokes >>= 1;

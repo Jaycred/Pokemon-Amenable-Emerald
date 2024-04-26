@@ -426,24 +426,9 @@ bool8 TryRunFromBattle(u8 battler)
     }
     else if (gBattleMons[battler].ability == ABILITY_RUN_AWAY)
     {
-        if (InBattlePyramid())
-        {
-            gBattleStruct->runTries++;
-            pyramidMultiplier = GetPyramidRunMultiplier();
-            speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-            if (speedVar > (Random() & 0xFF))
-            {
-                gLastUsedAbility = ABILITY_RUN_AWAY;
-                gProtectStructs[battler].fleeType = FLEE_ABILITY;
-                effect++;
-            }
-        }
-        else
-        {
-            gLastUsedAbility = ABILITY_RUN_AWAY;
-            gProtectStructs[battler].fleeType = FLEE_ABILITY;
-            effect++;
-        }
+        gLastUsedAbility = ABILITY_RUN_AWAY;
+        gProtectStructs[battler].fleeType = FLEE_ABILITY;
+        effect++;
     }
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
@@ -457,7 +442,7 @@ bool8 TryRunFromBattle(u8 battler)
             {
                 pyramidMultiplier = GetPyramidRunMultiplier();
                 speedVar = (gBattleMons[battler].speed * pyramidMultiplier) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
-                if (speedVar > (Random() & 0xFF))
+                if (speedVar > (Random() & 0xFF) || gBattleMons[battler].level > gBattleMons[BATTLE_OPPOSITE(battler)].level + 3)
                     effect++;
             }
             else if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)

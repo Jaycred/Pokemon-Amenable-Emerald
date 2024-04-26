@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_tower.h"
+#include "battle_pyramid.h"
 #include "apprentice.h"
 #include "event_data.h"
 #include "battle_setup.h"
@@ -1640,6 +1641,8 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     u8 bfMonCount;
     const u16 *monSet = NULL;
     u32 otID = 0;
+    if (InBattlePyramid())
+        level = VarGet(VAR_PYRAMID_LEVEL_CAP);
 
     if (trainerId < FRONTIER_TRAINERS_COUNT)
     {

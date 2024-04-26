@@ -1005,6 +1005,9 @@ static void SeedPyramidFloor(void)
     u8 weather = sFloorMods[floorModIndex][0];
     u16 music = sFloorMods[floorModIndex][1];
 
+    // Save player highest mon level
+    VarSet(VAR_PYRAMID_LEVEL_CAP, GetHighestLevelInPlayerParty());
+
     // Randomize wild encounter table
     for (i = 0; i < 4; i++)
     {
@@ -1432,7 +1435,7 @@ void GenerateBattlePyramidWildMon(void)
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, &name);
     if (lvl != FRONTIER_LVL_50)
     {
-        lvl = SetFacilityPtrsGetLevel();
+        lvl = VarGet(VAR_PYRAMID_LEVEL_CAP);
         lvl = lvl - 3 + (Random() % 3);
     }
     else

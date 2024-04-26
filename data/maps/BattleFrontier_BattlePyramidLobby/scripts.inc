@@ -94,8 +94,6 @@ BattleFrontier_BattlePyramidLobby_EventScript_LostChallenge::
 	pyramid_save 0
 	playse SE_SAVE
 	waitse
-	msgbox BattleFrontier_BattlePyramidLobby_Text_LookForwardToNextChallenge, MSGBOX_DEFAULT
-	closemessage
 	setvar VAR_TEMP_CHALLENGE_STATUS, 255
 	releaseall
 	end
@@ -578,13 +576,10 @@ BattleFrontier_BattlePyramidLobby_Text_StepOnFloorPanel:
 	.string "Good luck!$"
 
 BattleFrontier_BattlePyramidLobby_Text_DidntSaveBeforeQuittingTakeBag:
-	.string "A major problem, explorer!\p"
-	.string "You did not save before ending\n"
-	.string "your challenge the last time.\p"
-	.string "Consequently, your challenge has\n"
-	.string "been disqualified, I'm sorry to say.\p"
-	.string "Here is the BAG we've been holding\n"
-	.string "for you.\p"
+	.string "Hey, you didn't save before ending\n"
+	.string "your challenge!\p"
+	.string "That means your challenge has\n"
+	.string "been disqualified.\p"
 	.string "{PLAYER} got the BAG back.$"
 
 BattleFrontier_BattlePyramidLobby_Text_YouveConqueredPyramid:
@@ -650,9 +645,7 @@ BattleFrontier_BattlePyramidLobby_Text_BagIsFull:
 	.string "your BAG's contents.$"
 
 BattleFrontier_BattlePyramidLobby_Text_DisappointingHereIsBag:
-	.string "How disappointing for you…\p"
-	.string "Here is the BAG we've been holding\n"
-	.string "for you.\p"
+	.string "Better luck next time. Heheheh…\p"
 	.string "{PLAYER} got the BAG back.$"
 
 BattleFrontier_BattlePyramidLobby_Text_LookForwardToNextChallenge:

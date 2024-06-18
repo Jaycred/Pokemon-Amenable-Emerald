@@ -1361,7 +1361,7 @@ static void AnimTask_Hail2(u8 taskId)
 
             if (++task->data[2] == 3)
             {
-                if (++task->data[3] == 10)
+                if (++task->data[3] == 5)
                     task->data[0]++;
                 else
                     task->data[0]--;
@@ -1424,7 +1424,7 @@ static bool8 GenerateHailParticle(u8 hailStructId, u8 affineAnimNum, u8 taskId, 
         battlerY = sHailCoordData[hailStructId].y;
     }
     spriteX = battlerX - ((battlerY + 8) / 2);
-    id = CreateSprite(&gHailParticleSpriteTemplate, spriteX, -8, 18);
+    id = CreateSprite(&gHailParticleSpriteTemplate, spriteX, -4, 18);
     if (id == MAX_SPRITES)
     {
         return FALSE;

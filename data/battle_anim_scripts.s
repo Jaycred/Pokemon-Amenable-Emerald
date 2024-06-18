@@ -3487,7 +3487,7 @@ Move_HAIL:
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 3, 0, 6, RGB_BLACK
 	waitforvisualfinish
 	createvisualtask AnimTask_Hail, 5
-	loopsewithpan SE_M_HAIL, 0, 8, 10
+	loopsewithpan SE_M_HAIL, 0, 8, 5
 	waitforvisualfinish
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 3, 6, 0, RGB_BLACK
 	end
@@ -6342,18 +6342,20 @@ Move_SANDSTORM:
 	createvisualtask AnimTask_LoadSandstormBackground, 5, FALSE
 	delay 16
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 10, 2304, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 90, 2048, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 50, 2560, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 20, 2304, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 70, 1984, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 0, 2816, 96, 0
-	delay 10
+	delay 3
 	createsprite gFlyingSandCrescentSpriteTemplate, ANIM_ATTACKER, 40, 60, 2560, 96, 0
+	waitforvisualfinish
+	stopsound
 	end
 
 Move_WHIRLPOOL:
@@ -10509,7 +10511,6 @@ General_Rain:
 	waitforvisualfinish
 	createvisualtask AnimTask_CreateRaindrops, 2, 0, 3, 60
 	createvisualtask AnimTask_CreateRaindrops, 2, 0, 3, 60
-	delay 50
 	waitforvisualfinish
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG | F_PAL_BATTLERS_2, 2, 4, 0, RGB_BLACK
 	waitforvisualfinish

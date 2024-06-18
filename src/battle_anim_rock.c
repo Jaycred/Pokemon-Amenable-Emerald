@@ -446,7 +446,7 @@ static void AnimTask_LoadSandstormBackground_Step(u8 taskId)
         }
         break;
     case 1:
-        if (++gTasks[taskId].data[11] == 101)
+        if (++gTasks[taskId].data[11] == 21)
         {
             gTasks[taskId].data[11] = 7;
             gTasks[taskId].data[12]++;

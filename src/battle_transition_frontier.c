@@ -395,7 +395,7 @@ static bool8 FadeInCenterLogoCircle(struct Task *task)
 
     if (task->tBlend == 16)
     {
-        if (task->tFadeTimer == 31)
+        if (task->tFadeTimer == 15)
         {
             BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 0x10, RGB_BLACK);
             task->tState++;
@@ -540,11 +540,11 @@ static bool8 CirclesMeetInSeq_CreateSprites(struct Task *task)
     {
         task->tCircle1SpriteId = CreateSlidingLogoCircleSprite(120, -51, 0, 0, 0, 4,  0);
     }
-    else if (task->tTimer == 16)
+    else if (task->tTimer == 8)
     {
         task->tCircle2SpriteId = CreateSlidingLogoCircleSprite(-7,  193, 0, 0, 4, -4, 1);
     }
-    else if (task->tTimer == 32)
+    else if (task->tTimer == 16)
     {
         task->tCircle3SpriteId = CreateSlidingLogoCircleSprite(247, 193, 0, 0, -4, -4, 2);
         task->tState++;
@@ -576,11 +576,11 @@ static bool8 CirclesCrossInSeq_CreateSprites(struct Task *task)
     {
         task->tCircle1SpriteId = CreateSlidingLogoCircleSprite(120, 197, 0, 0, 0, -8,  0);
     }
-    else if (task->tTimer == 16)
+    else if (task->tTimer == 8)
     {
         task->tCircle2SpriteId = CreateSlidingLogoCircleSprite(241, 78,  0, 0, -8, 1,  1);
     }
-    else if (task->tTimer == 32)
+    else if (task->tTimer == 16)
     {
         task->tCircle3SpriteId = CreateSlidingLogoCircleSprite(-1,  78,  0, 0, 8,  1,  2);
         task->tState++;
@@ -612,11 +612,11 @@ static bool8 CirclesAsymmetricSpiralInSeq_CreateSprites(struct Task *task)
     {
         task->tCircle1SpriteId = CreateSpiralingLogoCircleSprite(120, 45, 12,  4, 128, 0, -4, 0);
     }
-    else if (task->tTimer == 16)
+    else if (task->tTimer == 8)
     {
         task->tCircle2SpriteId = CreateSpiralingLogoCircleSprite(89,  97, 252, 4, 128, 0, -4, 1);
     }
-    else if (task->tTimer == 32)
+    else if (task->tTimer == 16)
     {
         task->tCircle3SpriteId = CreateSpiralingLogoCircleSprite(151, 97, 132, 4, 128, 0, -4, 2);
         task->tState++;
@@ -648,11 +648,11 @@ static bool8 CirclesSymmetricSpiralInSeq_CreateSprites(struct Task *task)
     {
         task->tCircle1SpriteId = CreateSpiralingLogoCircleSprite(120, 80, 284, 8, 131, 35, -3, 0);
     }
-    else if (task->tTimer == 16)
+    else if (task->tTimer == 8)
     {
         task->tCircle2SpriteId = CreateSpiralingLogoCircleSprite(120, 80, 44,  8, 131, 35, -3, 1);
     }
-    else if (task->tTimer == 32)
+    else if (task->tTimer == 16)
     {
         task->tCircle3SpriteId = CreateSpiralingLogoCircleSprite(121, 80, 164, 8, 131, 35, -3, 2);
         task->tState++;

@@ -1118,7 +1118,7 @@ static void Task_Intro(u8 taskId)
     if (gTasks[taskId].tState == 0)
     {
         gTasks[taskId].tState++;
-        CreateIntroTask(0, 0, 3, 2, 2);
+        CreateIntroTask(0, 0, 2, 3, 3);
     }
     else if (IsIntroTaskDone())
     {
@@ -1156,7 +1156,7 @@ static bool8 Blur_Main(struct Task *task)
     }
     else
     {
-        task->tDelay = 4;
+        task->tDelay = 2;
         if (++task->tCounter == 10)
             BeginNormalPaletteFade(PALETTES_ALL, -1, 0, 16, RGB_BLACK);
         SetGpuReg(REG_OFFSET_MOSAIC, (task->tCounter & 15) * 17);
@@ -2116,7 +2116,7 @@ static bool8 Ripple_Main(struct Task *task)
         gScanlineEffectRegBuffers[0][i] = sTransitionData->cameraY + Sin(sinIndex & 0xffff, amplitude);
     }
 
-    if (++task->tTimer == 81)
+    if (++task->tTimer == 41)
     {
         task->tFadeStarted++;
         BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_BLACK);
@@ -2864,7 +2864,7 @@ static bool8 ShredSplit_Init(struct Task *task)
 
     task->tDelayTimer = 0;
     task->tExtent = 0;
-    task->tDelay = 7;
+    task->tDelay = 1;
 
     EnableInterrupts(INTR_FLAG_HBLANK);
 
@@ -3787,13 +3787,13 @@ static bool8 GridSquares_Main(struct Task *task)
     if (task->tDelay == 0)
     {
         GetBg0TilemapDst(&tileset);
-        task->tDelay = 3;
+        task->tDelay = 1;
         task->tShrinkStage++;
         CpuSet(&sShrinkingBoxTileset[task->tShrinkStage * 8], tileset, 16);
         if (task->tShrinkStage > 13)
         {
             task->tState++;
-            task->tDelay = 16;
+            task->tDelay = 8;
         }
     }
 
@@ -4377,7 +4377,7 @@ static bool8 FrontierLogoWave_Main(struct Task *task)
         gScanlineEffectRegBuffers[0][i] = sTransitionData->cameraY + Sin(index & 0xff, amplitude);
     }
 
-    if (++task->tTimer == 101)
+    if (++task->tTimer == 51)
     {
         task->tStartedFade++;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);

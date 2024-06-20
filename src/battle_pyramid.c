@@ -327,6 +327,16 @@ static const u16 sPickupItemsLvlOpen[100] =
     ITEM_LUM_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_SALAC_BERRY, ITEM_SALAC_BERRY, ITEM_SALAC_BERRY,
 };
 
+static const u16 sVitamins[6] =
+{
+    ITEM_HP_UP,
+    ITEM_PROTEIN,
+    ITEM_IRON,
+    ITEM_CALCIUM,
+    ITEM_ZINC,
+    ITEM_CARBOS,
+};
+
 static const u8 sPickupItemSlots[][2] =
 {
     // Floor 0
@@ -1385,6 +1395,8 @@ static void MarkPyramidTrainerAsBattled(u16 trainerId)
     gSaveBlock1Ptr->objectEventTemplates[gSpecialVar_LastTalked - 1].movementType = MOVEMENT_TYPE_WANDER_AROUND;
     gObjectEvents[gSelectedObjectEvent].initialCoords.x = gObjectEvents[gSelectedObjectEvent].currentCoords.x;
     gObjectEvents[gSelectedObjectEvent].initialCoords.y = gObjectEvents[gSelectedObjectEvent].currentCoords.y;
+
+    AddBagItem(sVitamins[Random() % 6], 1);
 }
 
 void GenerateBattlePyramidWildMon(void)

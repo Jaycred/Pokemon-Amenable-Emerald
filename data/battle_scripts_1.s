@@ -3609,7 +3609,6 @@ BattleScript_WishButFullHp::
 BattleScript_IngrainTurnHeal::
 	playanimation BS_ATTACKER, B_ANIM_INGRAIN_HEAL
 	printstring STRINGID_PKMNABSORBEDNUTRIENTS
-	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
@@ -3742,7 +3741,6 @@ BattleScript_FocusPunchSetUp::
 
 BattleScript_MoveUsedIsAsleep::
 	printstring STRINGID_PKMNFASTASLEEP
-	waitmessage B_WAIT_TIME_LONG
 	statusanimation BS_ATTACKER
 	goto BattleScript_MoveEnd
 
@@ -3761,7 +3759,6 @@ BattleScript_MonWokeUpInUproar::
 
 BattleScript_PoisonTurnDmg::
 	printstring STRINGID_PKMNHURTBYPOISON
-	waitmessage B_WAIT_TIME_LONG
 BattleScript_DoStatusTurnDmg::
 	statusanimation BS_ATTACKER
 BattleScript_DoTurnDmg::
@@ -3775,12 +3772,10 @@ BattleScript_DoTurnDmgEnd::
 
 BattleScript_BurnTurnDmg::
 	printstring STRINGID_PKMNHURTBYBURN
-	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_DoStatusTurnDmg
 
 BattleScript_MoveUsedIsFrozen::
 	printstring STRINGID_PKMNISFROZEN
-	waitmessage B_WAIT_TIME_LONG
 	statusanimation BS_ATTACKER
 	goto BattleScript_MoveEnd
 
@@ -3798,7 +3793,6 @@ BattleScript_DefrostedViaFireMove::
 
 BattleScript_MoveUsedIsParalyzed::
 	printstring STRINGID_PKMNISPARALYZED
-	waitmessage B_WAIT_TIME_LONG
 	statusanimation BS_ATTACKER
 	cancelmultiturnmoves BS_ATTACKER
 	goto BattleScript_MoveEnd
@@ -3821,14 +3815,12 @@ BattleScript_ThrashConfuses::
 
 BattleScript_MoveUsedIsConfused::
 	printstring STRINGID_PKMNISCONFUSED
-	waitmessage B_WAIT_TIME_LONG
 	status2animation BS_ATTACKER, STATUS2_CONFUSION
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, FALSE, BattleScript_MoveUsedIsConfusedRet
 BattleScript_DoSelfConfusionDmg::
 	cancelmultiturnmoves BS_ATTACKER
 	adjustnormaldamage2
 	printstring STRINGID_ITHURTCONFUSION
-	waitmessage B_WAIT_TIME_LONG
 	effectivenesssound
 	hitanimation BS_ATTACKER
 	waitstate

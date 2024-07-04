@@ -10640,8 +10640,6 @@ General_IngrainHeal:
 	call AbsorbEffect
 	waitforvisualfinish
 	delay 15
-	call HealingEffect
-	waitforvisualfinish
 	createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, F_PAL_BG, 1, 4, 0, RGB(13, 31, 12)
 	waitforvisualfinish
 	clearmonbg ANIM_DEF_PARTNER

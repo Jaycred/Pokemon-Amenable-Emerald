@@ -2791,14 +2791,32 @@ static void CursorCb_Nickname(u8 taskId)
 
 static void CursorCb_Release(u8 taskId)
 {
-    PlaySE(SE_SELECT);
-    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
-    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_RELEASE);
-    DisplaySelectionWindow(SELECTWINDOW_RELEASE);
-    DisplayPartyMenuStdMessage(PARTY_MSG_CONFIRM_RELEASE);
-    gTasks[taskId].data[0] = 0xFF;
-    gTasks[taskId].func = Task_HandleSelectionMenuInput;
+    int i;
+    struct Pokemon *pokemon = gPlayerParty;
+    u8 numAliveMons = 0;
+
+    // Check for last unfainted mon
+    for (i = 0; i < PARTY_SIZE; i++, pokemon++)
+    {
+        u16 species = GetMonData(pokemon, MON_DATA_SPECIES_OR_EGG);
+        if (!(species == SPECIES_NONE || species == SPECIES_EGG) && GetMonData(pokemon, MON_DATA_HP) != 0)
+            numAliveMons++;
+    }
+    if (numAliveMons == 1 && GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HP) != 0)
+    {
+        PlaySE(SE_FAILURE);
+    }
+    else
+    {
+        PlaySE(SE_SELECT);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+        SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_RELEASE);
+        DisplaySelectionWindow(SELECTWINDOW_RELEASE);
+        DisplayPartyMenuStdMessage(PARTY_MSG_CONFIRM_RELEASE);
+        gTasks[taskId].data[0] = 0xFF;
+        gTasks[taskId].func = Task_HandleSelectionMenuInput;
+    }
 }
 
 static void CursorCb_Release2(u8 taskId)

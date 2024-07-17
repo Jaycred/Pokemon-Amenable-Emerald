@@ -1531,6 +1531,9 @@ static void CheckPutFrontierTVShowOnAir(void)
     s32 facility = VarGet(VAR_FRONTIER_FACILITY);
     s32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
 
+    // This function is called after ending a Battle Pyramid run. Reserve Slot should be cleared.
+    reserveSlotMon.level = 0;
+
     switch (facility)
     {
     case FRONTIER_FACILITY_TOWER:

@@ -9903,6 +9903,11 @@ static void Cmd_handleballthrow(void)
                     ballMultiplier = 40;
                 break;
             case ITEM_LUXURY_BALL:
+                if (gBattleMons[gBattlerTarget].level < 40)
+                    ballMultiplier = 50 - (gBattleMons[gBattlerTarget].level / 2);
+                else
+                    ballMultiplier = 30;
+                break;
             case ITEM_PREMIER_BALL:
                 ballMultiplier = 10;
                 break;
@@ -9983,30 +9988,22 @@ static void Cmd_givecaughtmon(void)
 {
     if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]]) != MON_GIVEN_TO_PARTY)
     {
-        if (!ShouldShowBoxWasFullMessage())
-        {
-            // Party is full
-            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SENT_SOMEONES_PC;
-            StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON)));
-            GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_NICKNAME, gStringVar2);
-        }
-        else
-        {
-            StringCopy(gStringVar1, GetBoxNamePtr(VarGet(VAR_PC_BOX_TO_SEND_MON))); // box the mon was sent to
-            GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_NICKNAME, gStringVar2);
-            StringCopy(gStringVar3, GetBoxNamePtr(GetPCBoxToSendMon())); //box the mon was going to be sent to
-            gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SOMEONES_BOX_FULL;
-        }
+        // Party is full
+        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SENT_SOMEONES_PC;
+        GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_NICKNAME, gStringVar2);
 
-        // Change to B_MSG_SENT_LANETTES_PC or B_MSG_LANETTES_BOX_FULL
-        if (FlagGet(FLAG_SYS_PC_LANETTE))
-            gBattleCommunication[MULTISTRING_CHOOSER]++;
+        // Set byte to trigger release prompt
+        gBattleCommunication[CURSOR_POSITION] = 1;
+    }
+    else
+    {
+        gBattleCommunication[CURSOR_POSITION] = 0;
     }
 
     gBattleResults.caughtMonSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_SPECIES, NULL);
     GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_NICKNAME, gBattleResults.caughtMonNick);
     gBattleResults.caughtMonBall = GetMonData(&gEnemyParty[gBattlerPartyIndexes[BATTLE_OPPOSITE(gBattlerAttacker)]], MON_DATA_POKEBALL, NULL);
-
+    
     gBattlescriptCurrInstr++;
 }
 

@@ -1,8 +1,7 @@
 gText_PkmnTransferredSomeonesPC::
-	.string "{STR_VAR_2} was transferred to\n"
-	.string "SOMEONE'S PC.\p"
-	.string "It was placed in \n"
-	.string "BOX “{STR_VAR_1}.”$"
+	.string "{STR_VAR_2} was set to the\n"
+	.string "Reserve Slot. Release a POKéMON\l"
+	.string "to make room for it.$"
 
 gText_PkmnTransferredLanettesPC::
 	.string "{STR_VAR_2} was transferred to\n"

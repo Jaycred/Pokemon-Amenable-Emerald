@@ -2829,6 +2829,13 @@ static void CursorCb_Release2(u8 taskId)
     // Free the party slot and close the menu
     ZeroMonData(mon);
     CompactPartySlots();
+
+    if(reserveSlotMon.level != 0)
+    {
+        GiveMonToPlayer(&reserveSlotMon);
+        reserveSlotMon.level = 0;
+    }
+
     sPartyMenuInternal->exitCallback = NULL;
     Task_ClosePartyMenu(taskId);
 }

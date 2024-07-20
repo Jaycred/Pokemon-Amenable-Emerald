@@ -1288,7 +1288,8 @@ void BattleSetup_StartTrainerBattle(void)
         }
         else
         {
-            gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
+            if (GetMonsStateToDoubles() == PLAYER_HAS_TWO_USABLE_MONS)
+                gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
             FillFrontierTrainerParty(2);
             ZeroMonData(&gEnemyParty[2]);
         }

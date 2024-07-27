@@ -1122,6 +1122,11 @@ void ItemUseInBattle_EnigmaBerry(u8 taskId)
     }
 }
 
+void ItemUseOutOfBattle_HeartScale(u8 taskId)
+{
+    ChooseMonForMoveRelearner();
+}
+
 void ItemUseOutOfBattle_CannotUse(u8 taskId)
 {
     DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);

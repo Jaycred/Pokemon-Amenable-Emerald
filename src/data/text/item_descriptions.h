@@ -432,8 +432,8 @@ static const u8 sNuggetDesc[] = _(
 
 static const u8 sHeartScaleDesc[] = _(
     "A lovely scale.\n"
-    "It is coveted by\n"
-    "collectors.");
+    "It holds the power\n"
+    "of recollection.");
 
 // Mail
 static const u8 sOrangeMailDesc[] = _(

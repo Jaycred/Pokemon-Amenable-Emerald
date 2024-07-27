@@ -1367,7 +1367,7 @@ const struct Item gItems[] =
         .description = sHeartScaleDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_HeartScale,
     },
 
     [ITEM_070] =
@@ -2389,7 +2389,7 @@ const struct Item gItems[] =
         .description = sEverstoneDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
     },
 
     [ITEM_FOCUS_BAND] =

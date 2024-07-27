@@ -39,6 +39,7 @@
 #include "menu_helpers.h"
 #include "menu_specialized.h"
 #include "metatile_behavior.h"
+#include "move_relearner.h"
 #include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
@@ -6328,7 +6329,10 @@ static void CB2_ChooseMonForMoveRelearner(void)
     else
         gSpecialVar_0x8005 = GetNumberOfRelearnableMoves(&gPlayerParty[gSpecialVar_0x8004]);
     gFieldCallback2 = CB2_FadeFromPartyMenu;
-    SetMainCallback2(CB2_ReturnToField);
+    if (gSpecialVar_0x8004 != PARTY_NOTHING_CHOSEN && gSpecialVar_0x8005 != 0)
+        SetMainCallback2(CB2_InitLearnMove);
+    else
+        SetMainCallback2(CB2_ReturnToField);
 }
 
 void DoBattlePyramidMonsHaveHeldItem(void)

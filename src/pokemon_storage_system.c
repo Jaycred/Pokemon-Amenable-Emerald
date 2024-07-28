@@ -1541,9 +1541,7 @@ void LoadTemplePokemonStorage(void)
 {
     u8 i;
     u8 j;
-    u8 berry[2];
-        berry[0] = ITEM_ORAN_BERRY;
-        berry[1] = ITEM_ORAN_BERRY >> 8;
+    u8 item[2];
 
     // Empty PC Boxes and Party
     ResetPokemonStorageSystem();
@@ -1560,7 +1558,46 @@ void LoadTemplePokemonStorage(void)
             {
                 // gEnemyParty[0] should safely be overwritten in next battle?
                 CreateMon(&gEnemyParty[0], evoLines[i][0], 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
-                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, berry);
+                switch(evoLines[i][0])
+                {
+                    case SPECIES_PICHU:
+                        item[0] = ITEM_LIGHT_BALL;
+                        item[1] = ITEM_LIGHT_BALL >> 8;
+                        break;
+                    case SPECIES_CHANSEY:
+                        item[0] = ITEM_LUCKY_PUNCH;
+                        item[1] = ITEM_LUCKY_PUNCH >> 8;
+                        break;
+                    case SPECIES_SHUCKLE:
+                        item[0] = ITEM_BERRY_JUICE;
+                        item[1] = ITEM_BERRY_JUICE >> 8;
+                        break;
+                    case SPECIES_CUBONE:
+                        item[0] = ITEM_THICK_CLUB;
+                        item[1] = ITEM_THICK_CLUB >> 8;
+                        break;
+                    case SPECIES_LUVDISC:
+                        item[0] = ITEM_HEART_SCALE;
+                        item[1] = ITEM_HEART_SCALE >> 8;
+                        break;
+                    case SPECIES_FARFETCHD:
+                        item[0] = ITEM_STICK;
+                        item[1] = ITEM_STICK >> 8;
+                        break;
+                    case SPECIES_CLAMPERL:
+                        item[0] = ITEM_DEEP_SEA_TOOTH;
+                        item[1] = ITEM_DEEP_SEA_TOOTH >> 8;
+                        break;
+                    case SPECIES_DITTO:
+                        item[0] = ITEM_METAL_POWDER;
+                        item[1] = ITEM_METAL_POWDER >> 8;
+                        break;
+                    default:
+                        item[0] = ITEM_ORAN_BERRY;
+                        item[1] = ITEM_ORAN_BERRY >> 8;
+                        break;
+                }
+                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, item);
                 CopyMonToPC(&gEnemyParty[0]);
                 break;
             }
@@ -1573,7 +1610,22 @@ void LoadTemplePokemonStorage(void)
         {
             // gEnemyParty[0] should be overwritten in next battle?
             CreateMon(&gEnemyParty[0], legends[i], 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
-            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, berry);
+            switch(legends[i])
+            {
+                case SPECIES_LATIAS:
+                    item[0] = ITEM_BLUE_FLUTE;
+                    item[1] = ITEM_BLUE_FLUTE >> 8;
+                    break;
+                case SPECIES_LATIOS:
+                    item[0] = ITEM_YELLOW_FLUTE;
+                    item[1] = ITEM_YELLOW_FLUTE >> 8;
+                    break;
+                default:
+                    item[0] = ITEM_ORAN_BERRY;
+                    item[1] = ITEM_ORAN_BERRY >> 8;
+                    break;
+            }
+            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, item);
             CopyMonToPC(&gEnemyParty[0]);
         }
     }

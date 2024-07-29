@@ -6332,7 +6332,7 @@ static void CB2_ChooseMonForMoveRelearner(void)
     if (gSpecialVar_0x8004 != PARTY_NOTHING_CHOSEN && gSpecialVar_0x8005 != 0)
         SetMainCallback2(CB2_InitLearnMove);
     else
-        SetMainCallback2(CB2_ReturnToField);
+        SetMainCallback2(CB2_ReturnToPyramidBagMenu);
 }
 
 void DoBattlePyramidMonsHaveHeldItem(void)

@@ -100,6 +100,14 @@ static void DrawTossNumberWindow(u8);
 static void UpdateSwapLinePos(u8);
 static void SetSwapLineInvisibility(bool8);
 static void SpriteCB_BagWaitForShake(struct Sprite *);
+static void BagAction_WaterStone(u8);
+static void BagAction_ThunderStone(u8);
+static void BagAction_FireStone(u8);
+static void BagAction_LeafStone(u8);
+static void BagAction_SunStone(u8);
+static void BagAction_MoonStone(u8);
+static void BagAction_KingsRock(u8);
+static void BagAction_MetalCoat(u8);
 static void BagAction_UseOnField(u8);
 static void BagAction_Toss(u8);
 static void BagAction_Give(u8);
@@ -170,6 +178,14 @@ enum {
     ACTION_CANCEL,
     ACTION_USE_BATTLE,
     ACTION_DUMMY,
+    ACTION_WATER_STONE,
+    ACTION_THUNDER_STONE,
+    ACTION_FIRE_STONE,
+    ACTION_LEAF_STONE,
+    ACTION_SUN_STONE,
+    ACTION_MOON_STONE,
+    ACTION_KINGS_ROCK,
+    ACTION_METAL_COAT,
 };
 
 static const struct MenuAction sMenuActions[] =
@@ -180,9 +196,19 @@ static const struct MenuAction sMenuActions[] =
     [ACTION_CANCEL] =       { gText_Cancel2, {BagAction_Cancel} },
     [ACTION_USE_BATTLE] =   { gMenuText_Use, {BagAction_UseInBattle} },
     [ACTION_DUMMY] =        { gText_EmptyString2, {NULL} },
+    [ACTION_WATER_STONE] =   { gText_WaterStone, {BagAction_WaterStone} },
+    [ACTION_THUNDER_STONE] = { gText_ThunderStone, {BagAction_ThunderStone} },
+    [ACTION_FIRE_STONE] =    { gText_FireStone, {BagAction_FireStone} },
+    [ACTION_LEAF_STONE] =    { gText_LeafStone, {BagAction_LeafStone} },
+    [ACTION_SUN_STONE] =     { gText_SunStone, {BagAction_SunStone} },
+    [ACTION_MOON_STONE] =    { gText_MoonStone, {BagAction_MoonStone} },
+    [ACTION_KINGS_ROCK] =    { gText_KingsRock, {BagAction_KingsRock} },
+    [ACTION_METAL_COAT] =    { gText_MetalCoat, {BagAction_MetalCoat} },
 };
 
 static const u8 sMenuActionIds_Field[] = {ACTION_USE_FIELD, ACTION_GIVE, ACTION_TOSS, ACTION_CANCEL};
+static const u8 sMenuActionIds_Everstone[] = {ACTION_WATER_STONE, ACTION_THUNDER_STONE, ACTION_FIRE_STONE, ACTION_LEAF_STONE,
+    ACTION_SUN_STONE, ACTION_MOON_STONE, ACTION_KINGS_ROCK, ACTION_METAL_COAT, ACTION_GIVE, ACTION_TOSS, ACTION_CANCEL, ACTION_DUMMY};
 static const u8 sMenuActionIds_ChooseToss[] = {ACTION_TOSS, ACTION_CANCEL};
 static const u8 sMenuActionIds_Battle[] = {ACTION_USE_BATTLE, ACTION_CANCEL};
 static const u8 sMenuActionIds_BattleCannotUse[] = {ACTION_CANCEL};
@@ -251,7 +277,7 @@ enum {
     MENU_WIN_1x1,
     MENU_WIN_1x2,
     MENU_WIN_2x2,
-    MENU_WIN_2x3,
+    MENU_WIN_2x6,
     MENU_WIN_YESNO,
 };
 
@@ -284,12 +310,12 @@ static const struct WindowTemplate sWindowTemplates_MenuActions[] =
         .paletteNum = 15,
         .baseBlock = 472
     },
-    [MENU_WIN_2x3] = { // Unused
+    [MENU_WIN_2x6] = { // Unused (until now)
         .bg = 1,
-        .tilemapLeft = 15,
-        .tilemapTop = 13,
-        .width = 14,
-        .height = 6,
+        .tilemapLeft = 11,
+        .tilemapTop = 7,
+        .width = 18,
+        .height = 12,
         .paletteNum = 15,
         .baseBlock = 472
     },
@@ -930,6 +956,7 @@ static void Task_HandlePyramidBagInput(u8 taskId)
 static void OpenContextMenu(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
+    u8 windowId;
 
     RemoveScrollArrow();
     PrintSelectorArrow(tListTaskId, COLORID_LIGHT_GRAY);
@@ -963,14 +990,23 @@ static void OpenContextMenu(u8 taskId)
     StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
     FillWindowPixelBuffer(WIN_INFO, PIXEL_FILL(0));
     PyramidBagPrint(WIN_INFO, gStringVar4, 3, 0, 0, 1, 0, COLORID_DARK_GRAY);
-    if (gPyramidBagMenu->menuActionsCount == 1)
+    if (gSpecialVar_ItemId == ITEM_EVERSTONE && gPyramidBagMenuState.location != PYRAMIDBAG_LOC_BATTLE && gPyramidBagMenuState.location != PYRAMIDBAG_LOC_CHOOSE_TOSS)
+    {
+        gPyramidBagMenu->menuActionIds = sMenuActionIds_Everstone;
+        gPyramidBagMenu->menuActionsCount = 11;
+        //PrintMenuActionText_MultiRow(OpenMenuActionWindowById(MENU_WIN_2x6), 2, 11);
+        windowId = OpenMenuActionWindowById(MENU_WIN_2x6);
+        PrintMenuActionGrid(windowId, FONT_NARROW, 8, 1, 68, 2, 6, sMenuActions, gPyramidBagMenu->menuActionIds);
+        InitMenuActionGrid(windowId, 68, 2, 6, 0);
+    }
+    else if (gPyramidBagMenu->menuActionsCount == 1)
         PrintMenuActionText_SingleRow(OpenMenuActionWindowById(MENU_WIN_1x1));
     else if (gPyramidBagMenu->menuActionsCount == 2)
         PrintMenuActionText_SingleRow(OpenMenuActionWindowById(MENU_WIN_1x2));
     else
         PrintMenuActionText_MultiRow(OpenMenuActionWindowById(MENU_WIN_2x2), 2, 2);
 
-    if (gPyramidBagMenu->menuActionsCount == 2 * 2) // Assumes any non 2x2 menu is single-row
+    if (gPyramidBagMenu->menuActionsCount == 2 * 2 || gSpecialVar_ItemId == ITEM_EVERSTONE) // Assumes any non 2x2 menu is single-row
         gTasks[taskId].func = HandleMenuActionInput_2x2;
     else
         gTasks[taskId].func = HandleMenuActionInput_SingleRow;
@@ -1079,8 +1115,51 @@ static void CloseMenuActionWindow(void)
         CloseMenuActionWindowById(MENU_WIN_1x1);
     else if (gPyramidBagMenu->menuActionsCount == 2)
         CloseMenuActionWindowById(MENU_WIN_1x2);
+    else if (gPyramidBagMenu->menuActionsCount == 11)
+        CloseMenuActionWindowById(MENU_WIN_2x6);
     else
         CloseMenuActionWindowById(MENU_WIN_2x2);
+}
+
+static void BagAction_WaterStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_WATER_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_ThunderStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_THUNDER_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_FireStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_FIRE_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_LeafStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_LEAF_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_SunStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_SUN_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_MoonStone(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_MOON_STONE;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_KingsRock(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_KINGS_ROCK;
+    BagAction_UseOnField(taskId);
+}
+static void BagAction_MetalCoat(u8 taskId)
+{
+    gSpecialVar_ItemId = ITEM_METAL_COAT;
+    BagAction_UseOnField(taskId);
 }
 
 static void BagAction_UseOnField(u8 taskId)

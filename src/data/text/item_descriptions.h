@@ -794,8 +794,8 @@ static const u8 sSmokeBallDesc[] = _(
     "from wild POKéMON.");
 
 static const u8 sEverstoneDesc[] = _(
-    "A wondrous hold\n"
-    "item that prevents\n"
+    "A wondrous item\n"
+    "related to\n"
     "evolution.");
 
 static const u8 sFocusBandDesc[] = _(

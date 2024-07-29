@@ -216,6 +216,16 @@ extern const u8 gMenuText_Confirm[];
 extern const u8 gMenuText_Show[];
 extern const u8 gMenuText_Give2[];
 
+// Everstone options
+extern const u8 gText_WaterStone[];
+extern const u8 gText_ThunderStone[];
+extern const u8 gText_FireStone[];
+extern const u8 gText_LeafStone[];
+extern const u8 gText_SunStone[];
+extern const u8 gText_MoonStone[];
+extern const u8 gText_KingsRock[];
+extern const u8 gText_MetalCoat[];
+
 extern const u8 gText_WithdrawPokemon[];
 extern const u8 gText_WithdrawMonDescription[];
 extern const u8 gText_DepositPokemon[];

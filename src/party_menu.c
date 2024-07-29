@@ -5271,7 +5271,7 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc task)
     }
     else
     {
-        RemoveBagItem(gSpecialVar_ItemId, 1);
+        RemoveBagItem(ITEM_EVERSTONE, 1);
         FreePartyPointers();
     }
 }

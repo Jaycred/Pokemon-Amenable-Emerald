@@ -96,6 +96,14 @@ static const struct MenuAction MultichoiceList_ChallengeInfo[] =
     {gText_Exit},
 };
 
+static const struct MenuAction MultichoiceList_ChallengeInfo2[] =
+{
+    {gText_Challenge},
+    {gText_Info3},
+    {gText_Uniform},
+    {gText_Exit},
+};
+
 static const struct MenuAction MultichoiceList_LevelMode[] =
 {
     {gText_Lv50},
@@ -804,8 +812,8 @@ static const struct MultichoiceListStruct sMultichoiceLists[] =
     [MULTI_UNUSED_19]                  = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_YESNOINFO_2]                = MULTICHOICE(MultichoiceList_YesNoInfo2),
     [MULTI_UNUSED_21]                  = MULTICHOICE(MultichoiceList_Exit),
-    [MULTI_UNUSED_22]                  = MULTICHOICE(MultichoiceList_Exit),
     [MULTI_CHALLENGEINFO]              = MULTICHOICE(MultichoiceList_ChallengeInfo),
+    [MULTI_CHALLENGEINFO2]             = MULTICHOICE(MultichoiceList_ChallengeInfo2),
     [MULTI_LEVEL_MODE]                 = MULTICHOICE(MultichoiceList_LevelMode),
     [MULTI_MECHADOLL1_Q1]              = MULTICHOICE(MultichoiceList_Mechadoll1_Q1),
     [MULTI_MECHADOLL1_Q2]              = MULTICHOICE(MultichoiceList_Mechadoll1_Q2),

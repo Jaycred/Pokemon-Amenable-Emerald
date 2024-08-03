@@ -290,30 +290,6 @@ static const u8 sFloorTemplateOffsets[FRONTIER_STAGES_PER_CHALLENGE] =
     0, 4, 9, 14, 19, 24, 29
 };
 
-static const u16 sPickupItemsLvl50[TOTAL_PYRAMID_ROUNDS][PICKUP_ITEMS_PER_ROUND] =
-{
-    {ITEM_HYPER_POTION, ITEM_FLUFFY_TAIL, ITEM_CHERI_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_BRIGHT_POWDER, ITEM_SHELL_BELL, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_DIRE_HIT, ITEM_PECHA_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_ATTACK, ITEM_RAWST_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_SCOPE_LENS, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_X_DEFEND, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_QUICK_CLAW, ITEM_KINGS_ROCK, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_SPEED, ITEM_CHESTO_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_BRIGHT_POWDER, ITEM_SHELL_BELL, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_X_ACCURACY, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_SPECIAL, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_SCOPE_LENS, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_GUARD_SPEC, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_QUICK_CLAW, ITEM_KINGS_ROCK, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_FLUFFY_TAIL, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_BRIGHT_POWDER, ITEM_SHELL_BELL, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_DIRE_HIT, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_ATTACK, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_SCOPE_LENS, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_X_DEFEND, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_QUICK_CLAW, ITEM_KINGS_ROCK, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_SPEED, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_BRIGHT_POWDER, ITEM_SHELL_BELL, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_X_ACCURACY, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_SPECIAL, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_SCOPE_LENS, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_GUARD_SPEC, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_QUICK_CLAW, ITEM_KINGS_ROCK, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_FLUFFY_TAIL, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_BRIGHT_POWDER, ITEM_SHELL_BELL, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_DIRE_HIT, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-    {ITEM_HYPER_POTION, ITEM_X_ATTACK, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LUM_BERRY, ITEM_REVIVE, ITEM_SCOPE_LENS, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_SACRED_ASH},
-    {ITEM_HYPER_POTION, ITEM_X_DEFEND, ITEM_LUM_BERRY, ITEM_ETHER, ITEM_LEPPA_BERRY, ITEM_REVIVE, ITEM_QUICK_CLAW, ITEM_KINGS_ROCK, ITEM_FULL_RESTORE, ITEM_MAX_ELIXIR},
-};
-
 static const u16 sPickupItemsLvlOpen[100] =
 {
     ITEM_SACRED_ASH, ITEM_SACRED_ASH, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE,
@@ -864,8 +840,6 @@ static const u16 sFloorMods[][4] =
     {0, 14, 0, 0} // Downpour weather, Downpour music, Water type bias, Kyogre event
 };
 
-static const u8 sPickupPercentages[PICKUP_ITEMS_PER_ROUND] = {30, 40, 50, 60, 70, 80, 85, 90, 95, 100};
-
 // code
 void CallBattlePyramidFunction(void)
 {
@@ -1008,6 +982,12 @@ static void SeedPyramidFloor(void)
     // Save player highest mon level
     VarSet(VAR_PYRAMID_LEVEL_CAP, GetHighestLevelInPlayerParty());
 
+    // 1% chance per floor to enable a legendary encounter on each floor
+    if (Random() % 100 < gSaveBlock2Ptr->frontier.curChallengeBattleNum)
+        FlagSet(FLAG_PYRAMID_LEGEND_ACTIVE);
+    else
+        FlagClear(FLAG_PYRAMID_LEGEND_ACTIVE);
+
     // Randomize wild encounter table
     for (i = 0; i < 4; i++)
     {
@@ -1026,12 +1006,117 @@ static void SeedPyramidFloor(void)
 
         randomMon.species = evoLines[speciesLine][0];
 
-        for (j = 0; j < 2; j++)
+        switch (randomMon.species)
         {
-            if (gEvolutionTable[randomMon.species][j].targetSpecies && gEvolutionTable[randomMon.species][j].method == EVO_LEVEL && gEvolutionTable[randomMon.species][j].param <= VarGet(VAR_PYRAMID_LEVEL_CAP))
+        // Odd cases: Gloom (Oddish), Poliwhirl (Poliwag), Eevee, Tyrogue, Wurmple, Clamperl
+        case SPECIES_ODDISH:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 40)
             {
-                randomMon.species = gEvolutionTable[randomMon.species][j].targetSpecies;
+                if (Random() % 2)
+                    randomMon.species = SPECIES_VILEPLUME;
+                else
+                    randomMon.species = SPECIES_BELLOSSOM;
             }
+            else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+                randomMon.species = SPECIES_GLOOM;
+            break;
+        case SPECIES_POLIWAG:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 40)
+            {
+                if (Random() % 2)
+                    randomMon.species = SPECIES_POLIWRATH;
+                else
+                    randomMon.species = SPECIES_POLITOED;
+            }
+            else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+                randomMon.species = SPECIES_POLIWHIRL;
+            break;
+        case SPECIES_EEVEE:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 30)
+            {
+                switch (Random() % 5)
+                {
+                case 0:
+                    randomMon.species = SPECIES_VAPOREON;
+                    break;
+                case 1:
+                    randomMon.species = SPECIES_JOLTEON;
+                    break;
+                case 2:
+                    randomMon.species = SPECIES_FLAREON;
+                    break;
+                case 3:
+                    randomMon.species = SPECIES_ESPEON;
+                    break;
+                case 4:
+                    randomMon.species = SPECIES_UMBREON;
+                    break;
+                }
+            }
+            break;
+        case SPECIES_TYROGUE:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+            {
+                switch (Random() % 3)
+                {
+                case 0:
+                    randomMon.species = SPECIES_HITMONCHAN;
+                    break;
+                case 1:
+                    randomMon.species = SPECIES_HITMONLEE;
+                    break;
+                case 2:
+                    randomMon.species = SPECIES_HITMONTOP;
+                    break;
+                }
+            }
+            break;
+        case SPECIES_WURMPLE:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 10)
+            {
+                if (Random() % 2)
+                    randomMon.species = SPECIES_BEAUTIFLY;
+                else
+                    randomMon.species = SPECIES_DUSTOX;
+            }
+            else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 7)
+            {
+                if (Random() % 2)
+                    randomMon.species = SPECIES_SILCOON;
+                else
+                    randomMon.species = SPECIES_CASCOON;
+            }
+            break;
+        case SPECIES_CLAMPERL:
+            if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 30)
+            {
+                if (Random() % 2)
+                    randomMon.species = SPECIES_HUNTAIL;
+                else
+                    randomMon.species = SPECIES_GOREBYSS;
+            }
+            break;
+        // Typical cases (and Nincada)
+        default:
+            // Check up to 2 evo methods
+            for (j = 0; j < 2; j++)
+            {
+                if (gEvolutionTable[randomMon.species][j].targetSpecies &&
+                (gEvolutionTable[randomMon.species][j].method == EVO_LEVEL || gEvolutionTable[randomMon.species][j].method == EVO_LEVEL_NINJASK) &&
+                gEvolutionTable[randomMon.species][j].param <= VarGet(VAR_PYRAMID_LEVEL_CAP))
+                {
+                    randomMon.species = gEvolutionTable[randomMon.species][j].targetSpecies;
+                    // Check for second evo
+                    for (j = 0; j < 2; j++)
+                    {
+                        if (gEvolutionTable[randomMon.species][j].targetSpecies && gEvolutionTable[randomMon.species][j].method == EVO_LEVEL && gEvolutionTable[randomMon.species][j].param <= VarGet(VAR_PYRAMID_LEVEL_CAP))
+                        {
+                            randomMon.species = gEvolutionTable[randomMon.species][j].targetSpecies;
+                        }
+                    }
+                }
+            }
+            break;
         }
 
         //if(gEvolutionTable[evoLines[speciesLine][0]])
@@ -1412,22 +1497,21 @@ void GenerateBattlePyramidWildMon(void)
 {
     u8 name[POKEMON_NAME_LENGTH + 1];
     int i;
-    const struct PyramidWildMon *wildMons;
-    u32 id;
+    const struct PyramidWildMon *wildMons= sOpenLevelWildMons;
+    u32 id = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL) - 1;
     u32 lvl = gSaveBlock2Ptr->frontier.lvlMode;
-    u16 round = (gSaveBlock2Ptr->frontier.pyramidWinStreaks[lvl] / FRONTIER_STAGES_PER_CHALLENGE) % TOTAL_PYRAMID_ROUNDS;
+    u16 species = wildMons[id].species;
+    // u16 round = (gSaveBlock2Ptr->frontier.pyramidWinStreaks[lvl] / FRONTIER_STAGES_PER_CHALLENGE) % TOTAL_PYRAMID_ROUNDS;
 
-    if (round >= TOTAL_PYRAMID_ROUNDS)
-        round = TOTAL_PYRAMID_ROUNDS - 1;
+    // 25% for legendary encounter if flag is active
+    if(FlagGet(FLAG_PYRAMID_LEGEND_ACTIVE) && Random() % 100 < 25)
+    {
+        species = legends[Random() % 21];
+        FlagClear(FLAG_PYRAMID_LEGEND_ACTIVE);
+    }
 
-    if (lvl != FRONTIER_LVL_50)
-        wildMons = sOpenLevelWildMons;
-    else
-        wildMons = sLevel50WildMonPointers[round];
-
-    id = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL) - 1;
-    SetMonData(&gEnemyParty[0], MON_DATA_SPECIES, &wildMons[id].species);
-    GetSpeciesName(name, wildMons[id].species);
+    SetMonData(&gEnemyParty[0], MON_DATA_SPECIES, &species);
+    GetSpeciesName(name, species);
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, &name);
     if (lvl != FRONTIER_LVL_50)
     {
@@ -1440,7 +1524,7 @@ void GenerateBattlePyramidWildMon(void)
     }
     SetMonData(&gEnemyParty[0],
                MON_DATA_EXP,
-               &gExperienceTables[gSpeciesInfo[wildMons[id].species].growthRate][lvl]);
+               &gExperienceTables[gSpeciesInfo[species].growthRate][lvl]);
 
     switch (wildMons[id].abilityNum)
     {
@@ -1450,7 +1534,7 @@ void GenerateBattlePyramidWildMon(void)
         break;
     case ABILITY_RANDOM:
     default:
-        if (gSpeciesInfo[wildMons[id].species].abilities[1])
+        if (gSpeciesInfo[species].abilities[1])
         {
             i = GetMonData(&gEnemyParty[0], MON_DATA_PERSONALITY, NULL) % 2;
             SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &i);

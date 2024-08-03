@@ -1127,6 +1127,26 @@ void ItemUseOutOfBattle_HeartScale(u8 taskId)
     ChooseMonForMoveRelearner();
 }
 
+void ItemUseOutOfBattle_Meteorite(u8 taskId)
+{
+    const u8 *str;
+    if(FlagGet(FLAG_DEOXYS_NORMAL))
+    {
+        FlagClear(FLAG_DEOXYS_NORMAL);
+        str = gText_DeoxysNormalDisabled;
+    }
+    else
+    {
+        FlagSet(FLAG_DEOXYS_NORMAL);
+        str = gText_DeoxysNormalEnabled;
+    }
+
+    if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
+        DisplayItemMessage(taskId, FONT_NORMAL, str, CloseItemMessage);
+    else
+        DisplayItemMessageOnField(taskId, str, Task_CloseCantUseKeyItemMessage);
+}
+
 void ItemUseOutOfBattle_CannotUse(u8 taskId)
 {
     DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);

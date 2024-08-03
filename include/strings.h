@@ -453,6 +453,8 @@ extern const u8 gText_DepositedVar2Var1s[];
 extern const u8 gText_NoRoomForItems[];
 extern const u8 gText_ThreeDashes[];
 extern const u8 *const gPocketNamesStringsTable[];
+extern const u8 gText_DeoxysNormalEnabled[];
+extern const u8 gText_DeoxysNormalDisabled[];
 
 // party menu text
 extern const u8 gText_PkmnHPRestoredByVar2[];
@@ -1083,6 +1085,7 @@ extern const u8 gText_SawIt[];
 extern const u8 gText_NotYet[];
 extern const u8 gText_Yes[];
 extern const u8 gText_No[];
+extern const u8 gText_Uniform[];
 extern const u8 gText_Challenge[];
 extern const u8 gText_Info3[];
 extern const u8 gTrickHouse_Mechadoll_Oddish[];

@@ -1,6 +1,7 @@
 #include "global.h"
 #include "malloc.h"
 #include "data.h"
+#include "event_data.h"
 #include "decompress.h"
 #include "pokemon.h"
 #include "text.h"
@@ -67,7 +68,8 @@ void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffe
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
-    DuplicateDeoxysTiles(buffer, species);
+    if (!FlagGet(FLAG_DEOXYS_NORMAL))
+        DuplicateDeoxysTiles(buffer, species);
 }
 
 void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
@@ -104,7 +106,8 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
     else
         LZ77UnCompWram(src->data, dest);
 
-    DuplicateDeoxysTiles(dest, species);
+    if (!FlagGet(FLAG_DEOXYS_NORMAL))
+        DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
@@ -306,7 +309,8 @@ void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void *buf
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
     else
         LZ77UnCompWram(src->data, buffer);
-    DuplicateDeoxysTiles(buffer, species);
+    if (!FlagGet(FLAG_DEOXYS_NORMAL))
+        DuplicateDeoxysTiles(buffer, species);
 }
 
 void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic) // a copy of LoadSpecialPokePic
@@ -331,7 +335,8 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
     else
         LZ77UnCompWram(src->data, dest);
 
-    DuplicateDeoxysTiles(dest, species);
+    if (!FlagGet(FLAG_DEOXYS_NORMAL))
+        DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
@@ -389,6 +394,8 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
     else
         LZ77UnCompWram(src->data, dest);
 
+    if (!FlagGet(FLAG_DEOXYS_NORMAL))
+        DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 

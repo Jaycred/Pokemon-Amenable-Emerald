@@ -410,7 +410,55 @@ static void DoStandardWildBattle(void)
         VarSet(VAR_TEMP_PLAYING_PYRAMID_MUSIC, 0);
         gBattleTypeFlags |= BATTLE_TYPE_PYRAMID;
     }
-    CreateBattleStartTask(GetWildBattleTransition(), 0);
+    switch (GetMonData(&gEnemyParty[0], MON_DATA_SPECIES, NULL))
+    {
+        default:
+            CreateBattleStartTask(GetWildBattleTransition(), 0);
+            break;
+        case SPECIES_ARTICUNO:
+        case SPECIES_MOLTRES:
+        case SPECIES_ZAPDOS:
+        case SPECIES_HO_OH:
+        case SPECIES_LUGIA:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_LEGEND);
+            break;
+        case SPECIES_SUICUNE:
+        case SPECIES_ENTEI:
+        case SPECIES_RAIKOU:
+        case SPECIES_LATIOS:
+        case SPECIES_LATIAS:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_C_VS_LEGEND_BEAST);
+            break;
+        case SPECIES_MEWTWO:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_MEWTWO);
+            break;
+        case SPECIES_MEW:
+        case SPECIES_JIRACHI:
+        case SPECIES_CELEBI:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_VS_MEW);
+            break;
+        case SPECIES_GROUDON:
+            CreateBattleStartTask(B_TRANSITION_GROUDON, MUS_VS_KYOGRE_GROUDON);
+            break;
+        case SPECIES_KYOGRE:
+            CreateBattleStartTask(B_TRANSITION_KYOGRE, MUS_VS_KYOGRE_GROUDON);
+            break;
+        case SPECIES_RAYQUAZA:
+            CreateBattleStartTask(B_TRANSITION_RAYQUAZA, MUS_VS_RAYQUAZA);
+            break;
+        case SPECIES_REGICE:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_VS_REGI);
+            break;
+        case SPECIES_REGIROCK:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_VS_REGI);
+            break;
+        case SPECIES_REGISTEEL:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_VS_REGI);
+            break;
+        case SPECIES_DEOXYS:
+            CreateBattleStartTask(GetWildBattleTransition(), MUS_RG_VS_DEOXYS);
+            break;
+    }
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     IncrementDailyWildBattles();

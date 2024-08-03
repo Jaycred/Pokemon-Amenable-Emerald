@@ -1515,25 +1515,28 @@ const u16 evoLines[185][5] =
     [183] = {[0] = SPECIES_BAGON, [1] = SPECIES_SHELGON, [2] = SPECIES_SALAMENCE},
     [184] = {[0] = SPECIES_BELDUM, [1] = SPECIES_METANG, [2] = SPECIES_METAGROSS},
 };
-const u16 legends[18] = {
-    [0] = SPECIES_MEWTWO,
-    [1] = SPECIES_MEW,
-    [2] = SPECIES_RAIKOU,
-    [3] = SPECIES_ENTEI,
-    [4] = SPECIES_SUICUNE,
-    [5] = SPECIES_LUGIA,
-    [6] = SPECIES_HO_OH,
-    [7] = SPECIES_CELEBI,
-    [8] = SPECIES_REGIROCK,
-    [9] = SPECIES_REGICE,
-    [10] = SPECIES_REGISTEEL,
-    [11] = SPECIES_LATIAS,
-    [12] = SPECIES_LATIOS,
-    [13] = SPECIES_KYOGRE,
-    [14] = SPECIES_GROUDON,
-    [15] = SPECIES_RAYQUAZA,
-    [16] = SPECIES_JIRACHI,
-    [17] = SPECIES_DEOXYS
+const u16 legends[21] = {
+    [0] = SPECIES_ZAPDOS,
+    [1] = SPECIES_MOLTRES,
+    [2] = SPECIES_ARTICUNO,
+    [3] = SPECIES_MEWTWO,
+    [4] = SPECIES_MEW,
+    [5] = SPECIES_RAIKOU,
+    [6] = SPECIES_ENTEI,
+    [7] = SPECIES_SUICUNE,
+    [8] = SPECIES_LUGIA,
+    [9] = SPECIES_HO_OH,
+    [10] = SPECIES_CELEBI,
+    [11] = SPECIES_REGIROCK,
+    [12] = SPECIES_REGICE,
+    [13] = SPECIES_REGISTEEL,
+    [14] = SPECIES_LATIAS,
+    [15] = SPECIES_LATIOS,
+    [16] = SPECIES_KYOGRE,
+    [17] = SPECIES_GROUDON,
+    [18] = SPECIES_RAYQUAZA,
+    [19] = SPECIES_JIRACHI,
+    [20] = SPECIES_DEOXYS
 };
 
 // Emerald Temple - load PC from Pokedex, to be called each time PC is opened
@@ -1604,7 +1607,7 @@ void LoadTemplePokemonStorage(void)
         }
     }
     // Do the same for legends
-    for(i = 0; i < 18; i++)
+    for(i = 0; i < 21; i++)
     {
         if(GetSetPokedexFlag(SpeciesToNationalPokedexNum(legends[i]), FLAG_GET_CAUGHT))
         {

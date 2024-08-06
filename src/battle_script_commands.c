@@ -603,7 +603,7 @@ static const struct StatFractions sAccuracyStageRatios[] =
 };
 
 // The chance is 1/N for each stage.
-static const u16 sCriticalHitChance[] = {16, 8, 4, 3, 2};
+static const u16 sCriticalHitChance[] = {16, 8, 2, 1, 1};
 
 static const u32 sStatusFlagsForMoveEffects[NUM_MOVE_EFFECTS] =
 {
@@ -1293,7 +1293,11 @@ static void Cmd_damagecalc(void)
     gBattleMoveDamage = CalculateBaseDamage(&gBattleMons[gBattlerAttacker], &gBattleMons[gBattlerTarget], gCurrentMove,
                                             sideStatus, gDynamicBasePower,
                                             gBattleStruct->dynamicMoveType, gBattlerAttacker, gBattlerTarget);
-    gBattleMoveDamage = gBattleMoveDamage * gCritMultiplier * gBattleScripting.dmgMultiplier;
+    // 1.5x crit damage
+    if (gCritMultiplier == 2)
+        gBattleMoveDamage = gBattleMoveDamage * gBattleScripting.dmgMultiplier * 15 / 10;
+    else
+        gBattleMoveDamage = gBattleMoveDamage * gCritMultiplier * gBattleScripting.dmgMultiplier;
 
     if (gStatuses3[gBattlerAttacker] & STATUS3_CHARGED_UP && gBattleMoves[gCurrentMove].type == TYPE_ELECTRIC)
         gBattleMoveDamage *= 2;

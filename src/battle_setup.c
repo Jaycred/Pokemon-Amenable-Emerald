@@ -514,7 +514,13 @@ static void DoTrainerBattle(void)
 static void DoBattlePyramidTrainerHillBattle(void)
 {
     if (InBattlePyramid())
-        CreateBattleStartTask(GetSpecialBattleTransition(B_TRANSITION_GROUP_B_PYRAMID), 0);
+    {
+        if (gBattleFrontierTrainers[gTrainerBattleOpponent_A].facilityClass == FACILITY_CLASS_PKMN_RANGER_M ||
+            gBattleFrontierTrainers[gTrainerBattleOpponent_A].facilityClass == FACILITY_CLASS_PKMN_RANGER_F)
+            CreateBattleStartTask(GetSpecialBattleTransition(B_TRANSITION_GROUP_B_PYRAMID), MUS_RG_VS_TRAINER);
+        else
+            CreateBattleStartTask(GetSpecialBattleTransition(B_TRANSITION_GROUP_B_PYRAMID), 0);
+    }
     else
         CreateBattleStartTask(GetSpecialBattleTransition(B_TRANSITION_GROUP_TRAINER_HILL), 0);
 

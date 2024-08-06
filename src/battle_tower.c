@@ -44,6 +44,7 @@ extern const u8 MossdeepCity_SpaceCenter_2F_EventScript_TabithaTrainer[];
 // EWRAM vars.
 EWRAM_DATA const struct BattleFrontierTrainer *gFacilityTrainers = NULL;
 EWRAM_DATA const struct FacilityMon *gFacilityTrainerMons = NULL;
+extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
 // IWRAM common
 u16 gFrontierTempParty[MAX_FRONTIER_PARTY_SIZE];
@@ -238,7 +239,7 @@ const u8 gTowerMaleTrainerGfxIds[30] =
     OBJ_EVENT_GFX_SAILOR,
     OBJ_EVENT_GFX_MANIAC,
     OBJ_EVENT_GFX_MAN_4,
-    OBJ_EVENT_GFX_CAMPER,
+    OBJ_EVENT_GFX_MAGMA_MEMBER_M,
     OBJ_EVENT_GFX_BUG_CATCHER,
     OBJ_EVENT_GFX_HIKER
 };
@@ -263,7 +264,7 @@ const u8 gTowerFemaleTrainerGfxIds[20] =
     OBJ_EVENT_GFX_RUNNING_TRIATHLETE_F,
     OBJ_EVENT_GFX_PICNICKER,
     OBJ_EVENT_GFX_WOMAN_2,
-    OBJ_EVENT_GFX_PICNICKER,
+    OBJ_EVENT_GFX_MAGMA_MEMBER_F,
     OBJ_EVENT_GFX_LASS
 };
 
@@ -1106,7 +1107,13 @@ u16 GetRandomScaledFrontierTrainerId(u8 challengeNum, u8 battleNum)
 {
     u16 trainerId;
 
-    if (challengeNum <= 7)
+    // 1/4 chance of a ranger
+    if (Random() % 4 == 0)
+    {
+        trainerId = (FRONTIER_TRAINER_MEGHAN - FRONTIER_TRAINER_JOVAN) + 1;
+        trainerId = FRONTIER_TRAINER_JOVAN + (Random() % trainerId);
+    }
+    else if (challengeNum <= 7)
     {
         if (battleNum == FRONTIER_STAGES_PER_CHALLENGE - 1)
         {
@@ -1692,65 +1699,282 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     otID = Random32();
     while (i != monCount)
     {
-        u16 monId = monSet[Random() % bfMonCount];
+        u16 monId;
+        u8 evSpread;
+        u16 itemId;
 
-        // "High tier" Pokémon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        if ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER)
-            continue;
-
-        // Ensure this Pokémon species isn't a duplicate.
-        for (j = 0; j < i + firstMonId; j++)
+        // Alternate generation process for Pyramid trainers (similar to wild mon plus IVs, EVs, and random held items)
+        if (InBattlePyramid())
         {
-            if (GetMonData(&gEnemyParty[j], MON_DATA_SPECIES, NULL) == gFacilityTrainerMons[monId].species)
+            // monId stores mon species in this case
+            monId = evoLines[Random() % 185][0];
+
+            // Apply evolution based on level
+            switch (monId)
+            {
+            // Odd cases: Gloom (Oddish), Poliwhirl (Poliwag), Eevee, Tyrogue, Wurmple, Clamperl
+            case SPECIES_ODDISH:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 40)
+                {
+                    if (Random() % 2)
+                        monId = SPECIES_VILEPLUME;
+                    else
+                        monId = SPECIES_BELLOSSOM;
+                }
+                else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+                    monId = SPECIES_GLOOM;
                 break;
-        }
-        if (j != i + firstMonId)
-            continue;
-
-        // Ensure this Pokemon's held item isn't a duplicate.
-        for (j = 0; j < i + firstMonId; j++)
-        {
-            if (GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) != ITEM_NONE
-             && GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) == gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId])
+            case SPECIES_POLIWAG:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 40)
+                {
+                    if (Random() % 2)
+                        monId = SPECIES_POLIWRATH;
+                    else
+                        monId = SPECIES_POLITOED;
+                }
+                else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+                    monId = SPECIES_POLIWHIRL;
                 break;
-        }
-        if (j != i + firstMonId)
-            continue;
-
-        // Ensure this exact Pokémon index isn't a duplicate. This check doesn't seem necessary
-        // because the species and held items were already checked directly above.
-        for (j = 0; j < i; j++)
-        {
-            if (chosenMonIndices[j] == monId)
+            case SPECIES_EEVEE:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 30)
+                {
+                    switch (Random() % 5)
+                    {
+                    case 0:
+                        monId = SPECIES_VAPOREON;
+                        break;
+                    case 1:
+                        monId = SPECIES_JOLTEON;
+                        break;
+                    case 2:
+                        monId = SPECIES_FLAREON;
+                        break;
+                    case 3:
+                        monId = SPECIES_ESPEON;
+                        break;
+                    case 4:
+                        monId = SPECIES_UMBREON;
+                        break;
+                    }
+                }
                 break;
-        }
-        if (j != i)
-            continue;
+            case SPECIES_TYROGUE:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 20)
+                {
+                    switch (Random() % 3)
+                    {
+                    case 0:
+                        monId = SPECIES_HITMONCHAN;
+                        break;
+                    case 1:
+                        monId = SPECIES_HITMONLEE;
+                        break;
+                    case 2:
+                        monId = SPECIES_HITMONTOP;
+                        break;
+                    }
+                }
+                break;
+            case SPECIES_WURMPLE:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 10)
+                {
+                    if (Random() % 2)
+                        monId = SPECIES_BEAUTIFLY;
+                    else
+                        monId = SPECIES_DUSTOX;
+                }
+                else if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 7)
+                {
+                    if (Random() % 2)
+                        monId = SPECIES_SILCOON;
+                    else
+                        monId = SPECIES_CASCOON;
+                }
+                break;
+            case SPECIES_CLAMPERL:
+                if (VarGet(VAR_PYRAMID_LEVEL_CAP) >= 30)
+                {
+                    if (Random() % 2)
+                        monId = SPECIES_HUNTAIL;
+                    else
+                        monId = SPECIES_GOREBYSS;
+                }
+                break;
+            // Typical cases (and Nincada)
+            default:
+                // Check up to 2 evo methods
+                for (j = 0; j < 2; j++)
+                {
+                    if (gEvolutionTable[monId][j].targetSpecies &&
+                    (gEvolutionTable[monId][j].method == EVO_LEVEL || gEvolutionTable[monId][j].method == EVO_LEVEL_NINJASK) &&
+                    gEvolutionTable[monId][j].param <= VarGet(VAR_PYRAMID_LEVEL_CAP))
+                    {
+                        monId = gEvolutionTable[monId][j].targetSpecies;
+                        // Check for second evo
+                        for (j = 0; j < 2; j++)
+                        {
+                            if (gEvolutionTable[monId][j].targetSpecies && gEvolutionTable[monId][j].method == EVO_LEVEL && gEvolutionTable[monId][j].param <= VarGet(VAR_PYRAMID_LEVEL_CAP))
+                            {
+                                monId = gEvolutionTable[monId][j].targetSpecies;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
 
-        chosenMonIndices[i] = monId;
+            // Ensure this Pokémon species isn't a duplicate.
+            for (j = 0; j < i + firstMonId; j++)
+            {
+                if (GetMonData(&gEnemyParty[j], MON_DATA_SPECIES, NULL) == monId)
+                    break;
+            }
+            if (j != i + firstMonId)
+                continue;
 
-        // Place the chosen Pokémon into the trainer's party.
-        CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i + firstMonId],
-                                             gFacilityTrainerMons[monId].species,
+            // Random EV spreads
+            switch (Random() % 6)
+            {
+            case 0:
+                evSpread = F_EV_SPREAD_SPEED | F_EV_SPREAD_ATTACK;
+                break;
+            case 1:
+                evSpread = F_EV_SPREAD_SPEED | F_EV_SPREAD_SP_ATTACK;
+                break;
+            case 2:
+                evSpread = F_EV_SPREAD_HP | F_EV_SPREAD_ATTACK;
+                break;
+            case 3:
+                evSpread = F_EV_SPREAD_HP | F_EV_SPREAD_SP_ATTACK;
+                break;
+            case 4:
+                evSpread = F_EV_SPREAD_HP | F_EV_SPREAD_DEFENSE;
+                break;
+            case 5:
+                evSpread = F_EV_SPREAD_HP | F_EV_SPREAD_SP_DEFENSE;
+                break;
+            }
+
+            // Place the chosen Pokémon into the trainer's party.
+            CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i + firstMonId],
+                                             monId,
                                              level,
-                                             gFacilityTrainerMons[monId].nature,
+                                             Random() % 25, // random nature
                                              fixedIV,
-                                             gFacilityTrainerMons[monId].evSpread,
+                                             evSpread,
                                              otID);
 
-        friendship = MAX_FRIENDSHIP;
-        // Give the chosen Pokémon its specified moves.
-        for (j = 0; j < MAX_MON_MOVES; j++)
-        {
-            SetMonMoveSlot(&gEnemyParty[i + firstMonId], gFacilityTrainerMons[monId].moves[j], j);
-            if (gFacilityTrainerMons[monId].moves[j] == MOVE_FRUSTRATION)
-                friendship = 0;  // Frustration is more powerful the lower the pokemon's friendship is.
+            // Random hold item, except species exclusives
+            switch(monId)
+            {
+            case SPECIES_PIKACHU:
+                itemId = ITEM_LIGHT_BALL;
+                break;
+            case SPECIES_CHANSEY:
+                itemId = ITEM_LUCKY_PUNCH;
+                break;
+            case SPECIES_MAROWAK:
+                itemId = ITEM_THICK_CLUB;
+                break;
+            case SPECIES_FARFETCHD:
+                itemId = ITEM_STICK;
+                break;
+            case SPECIES_CLAMPERL:
+                itemId = ITEM_DEEP_SEA_TOOTH;
+                break;
+            case SPECIES_DITTO:
+                itemId = ITEM_METAL_POWDER;
+                break;
+            default:
+                switch (Random() % 6)
+                {
+                case 0:
+                    itemId = ITEM_SITRUS_BERRY;
+                    break;
+                case 1:
+                    itemId = ITEM_LUM_BERRY;
+                    break;
+                case 2:
+                    itemId = ITEM_QUICK_CLAW;
+                    break;
+                case 3:
+                    itemId = ITEM_SCOPE_LENS;
+                    break;
+                case 4:
+                    itemId = ITEM_BRIGHT_POWDER;
+                    break;
+                case 5:
+                    itemId = ITEM_SALAC_BERRY;
+                    break;
+                }
+                break;
+            }
+
+            SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_FRIENDSHIP, &friendship);
+            SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_HELD_ITEM, &itemId);
         }
+        else
+        {
+            monId = monSet[Random() % bfMonCount];
 
-        SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_FRIENDSHIP, &friendship);
-        SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_HELD_ITEM, &gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId]);
+            // "High tier" Pokémon are only allowed on open level mode
+            // 20 is not a possible value for level here
+            if ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER)
+                continue;
 
+            // Ensure this Pokémon species isn't a duplicate.
+            for (j = 0; j < i + firstMonId; j++)
+            {
+                if (GetMonData(&gEnemyParty[j], MON_DATA_SPECIES, NULL) == gFacilityTrainerMons[monId].species)
+                    break;
+            }
+            if (j != i + firstMonId)
+                continue;
+
+            // Ensure this Pokemon's held item isn't a duplicate.
+            for (j = 0; j < i + firstMonId; j++)
+            {
+                if (GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) != ITEM_NONE
+                && GetMonData(&gEnemyParty[j], MON_DATA_HELD_ITEM, NULL) == gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId])
+                    break;
+            }
+            if (j != i + firstMonId)
+                continue;
+
+            // Ensure this exact Pokémon index isn't a duplicate. This check doesn't seem necessary
+            // because the species and held items were already checked directly above.
+            for (j = 0; j < i; j++)
+            {
+                if (chosenMonIndices[j] == monId)
+                    break;
+            }
+            if (j != i)
+                continue;
+
+            chosenMonIndices[i] = monId;
+
+            // Place the chosen Pokémon into the trainer's party.
+            CreateMonWithEVSpreadNatureOTID(&gEnemyParty[i + firstMonId],
+                                                gFacilityTrainerMons[monId].species,
+                                                level,
+                                                gFacilityTrainerMons[monId].nature,
+                                                fixedIV,
+                                                gFacilityTrainerMons[monId].evSpread,
+                                                otID);
+
+            friendship = MAX_FRIENDSHIP;
+            // Give the chosen Pokémon its specified moves.
+            for (j = 0; j < MAX_MON_MOVES; j++)
+            {
+                SetMonMoveSlot(&gEnemyParty[i + firstMonId], gFacilityTrainerMons[monId].moves[j], j);
+                if (gFacilityTrainerMons[monId].moves[j] == MOVE_FRUSTRATION)
+                    friendship = 0;  // Frustration is more powerful the lower the pokemon's friendship is.
+            }
+
+            SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_FRIENDSHIP, &friendship);
+            SetMonData(&gEnemyParty[i + firstMonId], MON_DATA_HELD_ITEM, &gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId]);
+        }
+        
         // The Pokémon was successfully added to the trainer's party, so it's safe to move on to
         // the next party slot.
         i++;

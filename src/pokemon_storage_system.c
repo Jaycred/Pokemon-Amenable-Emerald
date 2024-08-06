@@ -5352,6 +5352,9 @@ static u16 TryLoadMonIconTiles(u16 species)
 {
     u16 i, offset;
 
+    if (species == SPECIES_NONE)
+        return 0xFFFF;
+
     // Search icon list for this species
     for (i = 0; i < MAX_MON_ICONS; i++)
     {

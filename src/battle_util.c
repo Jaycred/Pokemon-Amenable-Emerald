@@ -3313,6 +3313,8 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
             case HOLD_EFFECT_RESTORE_HP:
                 if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
+                    if (battlerHoldEffectParam == 30)
+                        battlerHoldEffectParam = gBattleMons[battlerId].maxHP / 4;
                     gBattleMoveDamage = battlerHoldEffectParam;
                     if (gBattleMons[battlerId].hp + battlerHoldEffectParam > gBattleMons[battlerId].maxHP)
                         gBattleMoveDamage = gBattleMons[battlerId].maxHP - gBattleMons[battlerId].hp;

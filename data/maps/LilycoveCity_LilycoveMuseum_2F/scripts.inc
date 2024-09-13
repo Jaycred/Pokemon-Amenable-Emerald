@@ -63,23 +63,7 @@ LilycoveCity_LilycoveMuseum_2F_OnFrame:
 	.2byte 0
 
 LilycoveCity_LilycoveMuseum_2F_EventScript_ShowExhibitHall::
-	lockall
-	applymovement LOCALID_CURATOR, Common_Movement_FacePlayer
-	applymovement OBJ_EVENT_ID_PLAYER, LilycoveCity_LilycoveMuseum_2F_Movement_PlayerWalkInPlaceLeft
-	waitmovement 0
-	msgbox LilycoveCity_LilycoveMuseum_2F_Text_ThisIsExhibitHall, MSGBOX_SIGN
-	applymovement LOCALID_CURATOR, LilycoveCity_LilycoveMuseum_2F_Movement_FaceExhibitHall
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, LilycoveCity_LilycoveMuseum_2F_Movement_FaceExhibitHall
-	waitmovement 0
-	msgbox LilycoveCity_LilycoveMuseum_2F_Text_ExplainExhibitHall, MSGBOX_SIGN
-	applymovement LOCALID_CURATOR, Common_Movement_FacePlayer
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, LilycoveCity_LilycoveMuseum_2F_Movement_PlayerWalkInPlaceLeft
-	waitmovement 0
-	msgbox LilycoveCity_LilycoveMuseum_2F_Text_PleaseObtainPaintingsForExhibit, MSGBOX_SIGN
 	copyvar VAR_LILYCOVE_MUSEUM_2F_STATE, 1
-	releaseall
 	end
 
 LilycoveCity_LilycoveMuseum_2F_Movement_PlayerWalkInPlaceLeft:

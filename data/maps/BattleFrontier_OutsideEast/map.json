@@ -351,6 +351,13 @@
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 64,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_ARTISAN_CAVE_B1F",
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

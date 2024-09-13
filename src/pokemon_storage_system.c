@@ -1611,17 +1611,13 @@ void LoadTemplePokemonStorage(void)
     {
         if(GetSetPokedexFlag(SpeciesToNationalPokedexNum(legends[i]), FLAG_GET_CAUGHT))
         {
-            // gEnemyParty[0] should be overwritten in next battle?
             CreateMon(&gEnemyParty[0], legends[i], 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
             switch(legends[i])
             {
                 case SPECIES_LATIAS:
-                    item[0] = ITEM_BLUE_FLUTE;
-                    item[1] = ITEM_BLUE_FLUTE >> 8;
-                    break;
                 case SPECIES_LATIOS:
-                    item[0] = ITEM_YELLOW_FLUTE;
-                    item[1] = ITEM_YELLOW_FLUTE >> 8;
+                    item[0] = ITEM_SOUL_DEW;
+                    item[1] = ITEM_SOUL_DEW >> 8;
                     break;
                 default:
                     item[0] = ITEM_ORAN_BERRY;

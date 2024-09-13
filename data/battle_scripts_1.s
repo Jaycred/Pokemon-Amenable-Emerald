@@ -4410,6 +4410,11 @@ BattleScript_FocusBandActivates::
 	printstring STRINGID_PKMNHUNGONWITHX
 	waitmessage B_WAIT_TIME_LONG
 	return
+BattleScript_SturdyActivates::
+	playanimation BS_TARGET, B_ANIM_FOCUS_BAND
+	printstring STRINGID_PKMNHUNGONWITHX2
+	waitmessage B_WAIT_TIME_LONG
+	return
 
 BattleScript_BerryConfuseHealEnd2::
 	playanimation BS_ATTACKER, B_ANIM_HELD_ITEM_EFFECT

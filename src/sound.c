@@ -203,10 +203,10 @@ bool8 WaitFanfare(bool8 stop)
     }
 }
 
-// Unused
-void StopFanfareByFanfareNum(u8 fanfareNum)
+void StopFanfare()
 {
-    m4aSongNumStop(sFanfares[fanfareNum].songNum);
+    if (sFanfareCounter)
+        sFanfareCounter = 1;
 }
 
 void PlayFanfare(u16 songNum)

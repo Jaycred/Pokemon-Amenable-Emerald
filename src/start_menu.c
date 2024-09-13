@@ -481,6 +481,10 @@ static bool32 InitStartMenuStep(void)
 {
     s8 state = sInitStartMenuData[0];
 
+    // End active fanfare to prevent music lock-up if opening menus too fast
+    // There's a reason item pickups normally make you wait
+    StopFanfare();
+
     switch (state)
     {
     case 0:
@@ -1040,7 +1044,7 @@ static u8 SaveFileExistsCallback(void)
     }
     else
     {
-        ShowSaveMessage(gText_AlreadySavedFile, SaveConfirmOverwriteCallback);
+        sSaveDialogCallback = SaveSavingMessageCallback;
     }
 
     return SAVE_IN_PROGRESS;

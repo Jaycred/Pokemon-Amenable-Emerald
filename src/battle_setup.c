@@ -425,8 +425,6 @@ static void DoStandardWildBattle(void)
         case SPECIES_SUICUNE:
         case SPECIES_ENTEI:
         case SPECIES_RAIKOU:
-        case SPECIES_LATIOS:
-        case SPECIES_LATIAS:
             CreateBattleStartTask(GetWildBattleTransition(), MUS_C_VS_LEGEND_BEAST);
             break;
         case SPECIES_MEWTWO:

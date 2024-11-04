@@ -1614,6 +1614,10 @@ void LoadTemplePokemonStorage(void)
             CreateMon(&gEnemyParty[0], legends[i], 5, USE_RANDOM_IVS, FALSE, 0, OT_ID_PLAYER_ID, 0);
             switch(legends[i])
             {
+                case SPECIES_MEW:
+                    item[0] = ITEM_LAX_INCENSE;
+                    item[1] = ITEM_LAX_INCENSE >> 8;
+                    break;
                 case SPECIES_LATIAS:
                 case SPECIES_LATIOS:
                     item[0] = ITEM_SOUL_DEW;

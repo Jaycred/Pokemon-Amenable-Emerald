@@ -874,8 +874,8 @@
     {
       "id": "LAYOUT_HARBOR",
       "name": "Harbor_Layout",
-      "width": 24,
-      "height": 15,
+      "width": 32,
+      "height": 32,
       "primary_tileset": "gTileset_General",
       "secondary_tileset": "gTileset_Facility",
       "border_filepath": "data/layouts/Harbor/border.bin",

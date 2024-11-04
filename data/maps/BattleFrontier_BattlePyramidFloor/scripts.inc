@@ -92,11 +92,28 @@ BattlePyramid_WarpToNextFloor::
 	frontier_get FRONTIER_DATA_BATTLE_NUM  @ Floor number
 	addvar VAR_RESULT, 1
 	frontier_set FRONTIER_DATA_BATTLE_NUM, VAR_RESULT
-	goto_if_eq VAR_RESULT, 7, BattlePyramid_WarpToTop
+	goto_if_eq VAR_RESULT, 3, BattlePyramid_WarpToBoss1
+	goto_if_eq VAR_RESULT, 6, BattlePyramid_WarpToBoss2
+	goto_if_eq VAR_RESULT, 9, BattlePyramid_WarpToBoss3
+	goto_if_eq VAR_RESULT, 12, BattlePyramid_WarpToBoss4
+	goto_if_eq VAR_RESULT, 15, BattlePyramid_WarpToBoss5
+	goto_if_eq VAR_RESULT, 18, BattlePyramid_WarpToBoss6
+	goto_if_eq VAR_RESULT, 21, BattlePyramid_WarpToTop
 	pyramid_seedfloor
 	frontier_set FRONTIER_DATA_CHALLENGE_STATUS, 0
 	setvar VAR_RESULT, 0
 	warp MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR, 1, 1
+	waitstate
+	end
+
+BattlePyramid_WarpToBoss1::
+BattlePyramid_WarpToBoss2::
+BattlePyramid_WarpToBoss3::
+BattlePyramid_WarpToBoss4::
+BattlePyramid_WarpToBoss5::
+BattlePyramid_WarpToBoss6::
+BattlePyramid_FinishWarpToBoss::
+	warp MAP_BATTLE_FRONTIER_BATTLE_PALACE_BATTLE_ROOM, 7, 4
 	waitstate
 	end
 

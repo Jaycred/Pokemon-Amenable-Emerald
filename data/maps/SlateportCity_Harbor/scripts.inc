@@ -291,10 +291,6 @@ SlateportCity_Harbor_EventScript_FatMan::
 SlateportCity_Harbor_EventScript_CaptStern::
 	lock
 	faceplayer
-	goto_if_set FLAG_BADGE07_GET, SlateportCity_Harbor_EventScript_CaptSternFerryOrScannerComment
-	goto_if_set FLAG_EVIL_TEAM_ESCAPED_STERN_SPOKE, SlateportCity_Harbor_EventScript_NeedDive
-	goto_if_set FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, SlateportCity_Harbor_EventScript_TeamAquaLeftNeedDive
-	goto_if_eq VAR_SLATEPORT_HARBOR_STATE, 2, SlateportCity_Harbor_EventScript_WhyStealSubmarine
 	msgbox SlateportCity_Harbor_Text_SameThugsTriedToRobAtMuseum, MSGBOX_DEFAULT
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_FaceOriginalDirection
@@ -447,9 +443,9 @@ SlateportCity_Harbor_Text_SubTooSmallForMe:
 	.string "any room for the CAPTAIN…$"
 
 SlateportCity_Harbor_Text_SameThugsTriedToRobAtMuseum:
-	.string "CAPT. STERN: Those thugs…\p"
-	.string "They're the same lot who tried to rob\n"
-	.string "the DEVON GOODS at the MUSEUM.$"
+	.string "Sorry, the S.S. TIDAL…\p"
+	.string "The TIDAL is, uh, docked for repairs.\n"
+	.string "N-Nothing serious, though.$"
 
 SlateportCity_Harbor_Text_ArchieYouAgainHideoutInLilycove:
 	.string "ARCHIE: Oh?\n"

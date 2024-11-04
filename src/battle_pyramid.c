@@ -76,6 +76,7 @@ static void SavePyramidChallenge(void);
 static void SetBattlePyramidPrize(void);
 static void GiveBattlePyramidPrize(void);
 static void SeedPyramidFloor(void);
+static void Task_DisplayMysteriosityMessage(u8);
 static void SetPickupItem(void);
 static void HidePyramidItem(void);
 static void SetPyramidFacilityTrainers(void);
@@ -292,16 +293,16 @@ static const u8 sFloorTemplateOffsets[FRONTIER_STAGES_PER_CHALLENGE] =
 
 static const u16 sPickupItemsLvlOpen[100] =
 {
-    ITEM_SACRED_ASH, ITEM_SACRED_ASH, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE,
+    ITEM_SACRED_ASH, ITEM_FOCUS_BAND, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_MAX_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE, ITEM_REVIVE,
     ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY, ITEM_LEPPA_BERRY,
     ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE,
     ITEM_X_ATTACK, ITEM_X_ATTACK, ITEM_X_ATTACK, ITEM_X_SPECIAL, ITEM_X_SPECIAL, ITEM_X_SPECIAL, ITEM_FULL_RESTORE, ITEM_X_SPEED, ITEM_X_SPEED, ITEM_X_SPEED,
     ITEM_HEART_SCALE, ITEM_HEART_SCALE, ITEM_HEART_SCALE, ITEM_HEART_SCALE, ITEM_HEART_SCALE, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY,
-    ITEM_MASTER_BALL, ITEM_BRIGHT_POWDER, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_TM_TOXIC, ITEM_TM_TOXIC, ITEM_TM_PROTECT, ITEM_TM_PROTECT, ITEM_BRIGHT_POWDER, ITEM_LUM_BERRY,
+    ITEM_MASTER_BALL, ITEM_FOCUS_BAND, ITEM_HYPER_POTION, ITEM_HYPER_POTION, ITEM_TM_TOXIC, ITEM_TM_TOXIC, ITEM_TM_PROTECT, ITEM_TM_PROTECT, ITEM_BRIGHT_POWDER, ITEM_LUM_BERRY,
     ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_SHELL_BELL, ITEM_SHELL_BELL, ITEM_SHELL_BELL, ITEM_LEFTOVERS, ITEM_LEFTOVERS, ITEM_HYPER_POTION, ITEM_HYPER_POTION,
     ITEM_BRIGHT_POWDER, ITEM_BRIGHT_POWDER, ITEM_CHOICE_BAND, ITEM_CHOICE_BAND, ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY,
     ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY, ITEM_LUM_BERRY,
-    ITEM_LUM_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY, ITEM_SALAC_BERRY, ITEM_SALAC_BERRY, ITEM_SALAC_BERRY,
+    ITEM_LUM_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY, ITEM_FOCUS_BAND, ITEM_SALAC_BERRY, ITEM_SALAC_BERRY,
 };
 
 static const u16 sVitamins[6] =
@@ -979,10 +980,79 @@ static void SeedPyramidFloor(void)
     u8 weather = sFloorMods[floorModIndex][0];
     u16 music = sFloorMods[floorModIndex][1];
 
+    // Mysteriosity Events (3% chance per floor cleared)
+    FlagClear(FLAG_SHOW_MYSTERIOSITY_MESSAGE);
+    FlagClear(FLAG_MYSTERIOSITY_REVERSE_TYPE);
+    FlagClear(FLAG_MYSTERIOSITY_REVERSE_SPEED);
+    FlagClear(FLAG_MYSTERIOSITY_UNSTABLE_WEATHER);
+    FlagClear(FLAG_MYSTERIOSITY_BATTLE_BAG_DISABLED);
+    FlagClear(FLAG_MYSTERIOSITY_MECHADOLLS);
+    FlagClear(FLAG_MYSTERIOSITY_SAFARI);
+    FlagClear(FLAG_MYSTERIOSITY_CONTEST);
+    FlagClear(FLAG_MYSTERIOSITY_HAUNTED);
+    FlagClear(FLAG_MYSTERIOSITY_TREMORS);
+    if (Random() % 100 < gSaveBlock2Ptr->frontier.curChallengeBattleNum * 3)
+    {
+        FlagSet(FLAG_SHOW_MYSTERIOSITY_MESSAGE);
+
+        switch (Random() % 20)
+        {
+        case 0:
+        case 1:
+            FlagSet(FLAG_MYSTERIOSITY_REVERSE_TYPE);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 2:
+        case 3:
+            FlagSet(FLAG_MYSTERIOSITY_REVERSE_SPEED);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 4:
+        case 5:
+            FlagSet(FLAG_MYSTERIOSITY_HAUNTED);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 6:
+        case 7:
+            FlagSet(FLAG_MYSTERIOSITY_BATTLE_BAG_DISABLED);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 8:
+        case 9:
+            FlagSet(FLAG_MYSTERIOSITY_MECHADOLLS);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 10:
+        case 11:
+            FlagSet(FLAG_MYSTERIOSITY_SAFARI);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 12:
+        case 13:
+            FlagSet(FLAG_MYSTERIOSITY_CONTEST);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 14:
+        case 15:
+        case 16:
+            FlagSet(FLAG_MYSTERIOSITY_UNSTABLE_WEATHER);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        case 17:
+        case 18:
+        case 19:
+            FlagSet(FLAG_MYSTERIOSITY_TREMORS);
+            VarSet(VAR_MYSTERIOSITY_MESSAGE, *gText_TimesUpNoGoodPowder);
+            break;
+        }
+    }
+
+    
+
     // Save player highest mon level
     VarSet(VAR_PYRAMID_LEVEL_CAP, GetHighestLevelInPlayerParty());
 
-    // 1% chance per floor to enable a legendary encounter on each floor
+    // 1% chance per floor cleared to enable a legendary encounter on each floor
     if (Random() % 100 < gSaveBlock2Ptr->frontier.curChallengeBattleNum)
         FlagSet(FLAG_PYRAMID_LEGEND_ACTIVE);
     else
@@ -1506,7 +1576,11 @@ void GenerateBattlePyramidWildMon(void)
     // 25% for legendary encounter if flag is active
     if(FlagGet(FLAG_PYRAMID_LEGEND_ACTIVE) && Random() % 100 < 25)
     {
-        species = legends[Random() % 21];
+        // Mew and Mewtwo are obtained in unique ways and cannot be randomly encountered
+        do {
+            species = legends[Random() % 21];
+        }
+        while (species == SPECIES_MEW || species == SPECIES_MEWTWO);
         FlagClear(FLAG_PYRAMID_LEGEND_ACTIVE);
     }
 
@@ -1515,8 +1589,8 @@ void GenerateBattlePyramidWildMon(void)
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, &name);
     if (lvl != FRONTIER_LVL_50)
     {
-        lvl = VarGet(VAR_PYRAMID_LEVEL_CAP);
-        lvl = lvl - 3 + (Random() % 3);
+        lvl = 5 + (3 * gSaveBlock2Ptr->frontier.curChallengeBattleNum);
+        lvl = lvl - 4 + (Random() % 5);
     }
     else
     {

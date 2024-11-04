@@ -28,9 +28,17 @@ DesertUnderpass_EventScript_GiveRootFossil::
 	release
 	end
 
-@ Unused
-DesertUnderpass_Text_FoundRootFossil::
-	.string "{PLAYER} found the ROOT FOSSIL.$"
+DesertUnderpass_EventScript_SorryNothing::
+	lock
+	faceplayer
+	playse SE_PIKE_CURTAIN_OPEN
+	msgbox DesertUnderpass_Text_SorryNothing, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
+DesertUnderpass_Text_SorryNothing::
+	.string "SORRY NOTHING$"
 
 @ Unused
 DesertUnderpass_Text_FoundClawFossil::

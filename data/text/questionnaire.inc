@@ -1,6 +1,6 @@
 Questionnaire_Text_FillOut::
-	.string "There is a questionnaire.\n"
-	.string "Would you like to fill it out?$"
+	.string "“Step into the trees\n"
+	.string "to find your way to me.”$"
 
 Questionnaire_Text_ThankYou::
 	.string "Thank you for taking the time to\n"

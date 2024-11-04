@@ -29,6 +29,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "pokedex.h"
 #include "pokemon_storage_system.h"
 #include "random.h"
 #include "rayquaza_scene.h"
@@ -3579,9 +3580,10 @@ bool8 AbnormalWeatherHasExpired(void)
     }
 }
 
-void Unused_SetWeatherSunny(void)
+void SetMewDexFlags(void)
 {
-    SetCurrentAndNextWeather(WEATHER_SUNNY);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEW), FLAG_SET_SEEN);
+    GetSetPokedexFlag(SpeciesToNationalPokedexNum(SPECIES_MEW), FLAG_SET_CAUGHT);
 }
 
 // All mart employees have a local id of 1, so function always returns 1

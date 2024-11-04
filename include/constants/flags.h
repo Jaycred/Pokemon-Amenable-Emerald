@@ -1172,9 +1172,9 @@
 #define FLAG_ITEM_NEW_MAUVILLE_PARALYZE_HEAL                        0x463
 #define FLAG_ITEM_AQUA_HIDEOUT_B1F_MASTER_BALL                      0x464
 #define FLAG_PYRAMID_LEGEND_ACTIVE                                  0x465 // (Formerly) unused Flag, leftover from the Ruby Magma hideout
-#define FLAG_ITEM_BATTLE_FRONTIER_ITEMFINDER                        0x466 // Unused Flag, leftover from the Ruby Magma hideout - now for outside Battle Pyramid
+#define FLAG_ITEM_BATTLE_FRONTIER_ITEMFINDER                        0x466 // (Formerly) Unused Flag, leftover from the Ruby Magma hideout - now for outside Battle Pyramid
 #define FLAG_ITEM_OLD_MAGMA_HIDEOUT_B2F_NEST_BALL                   0x467 // Unused Flag, leftover from the Ruby Magma hideout
-#define FLAG_ITEM_BATTLE_FRONTIER_METEORITE                         0x468 // Unused Flag - now used for Meteorite outside Battle Pyramid
+#define FLAG_ITEM_BATTLE_FRONTIER_METEORITE                         0x468 // (Formerly) Unused Flag - now used for Meteorite outside Battle Pyramid
 #define FLAG_ITEM_MT_PYRE_2F_ULTRA_BALL                             0x469
 #define FLAG_ITEM_MT_PYRE_4F_SEA_INCENSE                            0x46A
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_WEST_MAX_REVIVE                 0x46B
@@ -1218,17 +1218,17 @@
 #define FLAG_ITEM_SAFARI_ZONE_NORTH_EAST_NUGGET                     0x491
 #define FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL                  0x492
 
-#define FLAG_UNUSED_0x493                                           0x493 // Unused Flag
-#define FLAG_UNUSED_0x494                                           0x494 // Unused Flag
-#define FLAG_UNUSED_0x495                                           0x495 // Unused Flag
-#define FLAG_UNUSED_0x496                                           0x496 // Unused Flag
-#define FLAG_UNUSED_0x497                                           0x497 // Unused Flag
-#define FLAG_UNUSED_0x498                                           0x498 // Unused Flag
-#define FLAG_UNUSED_0x499                                           0x499 // Unused Flag
-#define FLAG_UNUSED_0x49A                                           0x49A // Unused Flag
-#define FLAG_UNUSED_0x49B                                           0x49B // Unused Flag
-#define FLAG_UNUSED_0x49C                                           0x49C // Unused Flag
-#define FLAG_UNUSED_0x49D                                           0x49D // Unused Flag
+#define FLAG_SHOW_MYSTERIOSITY_MESSAGE                              0x493 // (Formerly) Unused Flag - start of Mysteriosity flags
+#define FLAG_MYSTERIOSITY_REVERSE_TYPE                              0x494
+#define FLAG_MYSTERIOSITY_REVERSE_SPEED                             0x495
+#define FLAG_MYSTERIOSITY_UNSTABLE_WEATHER                          0x496
+#define FLAG_MYSTERIOSITY_BATTLE_BAG_DISABLED                       0x497
+#define FLAG_MYSTERIOSITY_MECHADOLLS                                0x498
+#define FLAG_MYSTERIOSITY_SAFARI                                    0x499
+#define FLAG_MYSTERIOSITY_CONTEST                                   0x49A
+#define FLAG_MYSTERIOSITY_HAUNTED                                   0x49B
+#define FLAG_MYSTERIOSITY_TREMORS                                   0x49C
+#define FLAG_FOUND_FUJI                                             0x49D
 #define FLAG_UNUSED_0x49E                                           0x49E // Unused Flag
 #define FLAG_UNUSED_0x49F                                           0x49F // Unused Flag
 #define FLAG_UNUSED_0x4A0                                           0x4A0 // Unused Flag

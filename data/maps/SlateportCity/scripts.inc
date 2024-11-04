@@ -1,7 +1,7 @@
 .set LOCALID_FAT_MAN, 1
 .set LOCALID_MAN_1, 2
 .set LOCALID_RICH_BOY, 3
-.set LOCALID_GRUNT_1, 5
+.set LOCALID_GRUNT_1, 9
 .set LOCALID_COOK, 6
 .set LOCALID_OLD_WOMAN, 7
 .set LOCALID_GIRL, 8
@@ -368,23 +368,22 @@ SlateportCity_EventScript_Man2::
 	end
 
 SlateportCity_EventScript_AquaGrunt1::
-	lock
-	faceplayer
+	lockall
 	msgbox SlateportCity_Text_QuitPushing, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_GRUNT_1, Common_Movement_FaceOriginalDirection
-	waitmovement 0
-	release
+	multichoice 17, 6, MULTI_UNUSED_SSTIDAL_1, TRUE
+	switch VAR_RESULT
+	case 0, SlateportCity_EventScript_AquaGrunt2
+	msgbox SlateportCity_Text_BossIsBrilliant, MSGBOX_DEFAULT
+	warpteleport MAP_BATTLE_FRONTIER_OUTSIDE_EAST, 58, 15
+	waitstate
+	releaseall
 	end
 
 SlateportCity_EventScript_AquaGrunt2::
-	lock
-	faceplayer
 	msgbox SlateportCity_Text_AquaHasPolicy, MSGBOX_DEFAULT
 	closemessage
-	applymovement LOCALID_GRUNT_2, Common_Movement_FaceOriginalDirection
-	waitmovement 0
-	release
+	releaseall
 	end
 
 SlateportCity_EventScript_AquaGrunt3::
@@ -1002,7 +1001,7 @@ SlateportCity_Text_HowTownIsBornAndGrows:
 SlateportCity_Text_SlateportWonderfulPlace:
 	.string "Shopping where you can breathe the\n"
 	.string "scent of the ocean…\p"
-	.string "SLATEPORT is such a wonderful place!$"
+	.string "SOMNIPORT is such a wonderful place!$"
 
 SlateportCity_Text_BuyBricksSoDecorWontGetDirty:
 	.string "If you put DOLLS or CUSHIONS on\n"
@@ -1041,18 +1040,20 @@ SlateportCity_Text_VisitedMuseumOften:
 	.string "the sea after seeing the exhibits.$"
 
 SlateportCity_Text_QuitPushing:
-	.string "Hey, there! Quit pushing!\n"
-	.string "This is the line, can't you see?$"
+	.string "The sea is calm today.\n"
+	.string "It's the perfect time to paint.\p"
+	.string "But what to depict?$"
 
 SlateportCity_Text_AquaHasPolicy:
-	.string "TEAM AQUA has a policy of\n"
-	.string "assembling and dispersing at\l"
-	.string "the operation site.$"
+	.string "The BATTLE TOWER?\p"
+	.string "Hmm… I cannot seem to picture it.\p"
+	.string "Its great contours of girders and glass\n"
+	.string "evade my brush.$"
 
 SlateportCity_Text_BossIsBrilliant:
-	.string "Our BOSS is brilliant.\p"
-	.string "What would he want to do with\n"
-	.string "a MUSEUM now?$"
+	.string "The BATTLE PYRAMID?\p"
+	.string "Yes, I see it now. It is slowly\n"
+	.string "materializing on the canvas…$"
 
 SlateportCity_Text_WhatsNewSchemeIWonder:
 	.string "What's the new scheme, I wonder?\p"
@@ -1131,7 +1132,7 @@ SlateportCity_Text_CantChangeTradeMonName:
 
 SlateportCity_Text_BattleTentBuiltRecently:
 	.string "Recently, a BATTLE TENT was built\n"
-	.string "in SLATEPORT.\p"
+	.string "in SOMNIPORT.\p"
 	.string "GYMS are fun, but the BATTLE TENT's\n"
 	.string "awesome in its own way.\p"
 	.string "You should go find tough POKéMON\n"
@@ -1229,8 +1230,8 @@ SlateportCity_Text_PleaseComeWithMe:
 	.string "Please, come with me!$"
 
 SlateportCity_Text_BattleTentSign:
-	.string "BATTLE TENT SLATEPORT SITE\n"
-	.string "“Find it! The ultimate POKéMON!”$"
+	.string "BATTLE TENT SOMNIPORT SITE\n"
+	.string "“Find it! The invisible path…”$"
 
 SlateportCity_Text_SternsShipyardWantedSign:
 	.string "STERN'S SHIPYARD\p"
@@ -1241,11 +1242,11 @@ SlateportCity_Text_SternsShipyardNearsCompletion:
 	.string "STERN'S SHIPYARD\p"
 	.string "“The ferry S.S. TIDAL nears\n"
 	.string "completion for serving the ports of\l"
-	.string "SLATEPORT and LILYCOVE.”$"
+	.string "SOMNIPORT and LILYCOVE.”$"
 
 SlateportCity_Text_SternsShipyardFerryComplete:
 	.string "STERN'S SHIPYARD\p"
-	.string "“Boarding of the SLATEPORT-LILYCOVE\n"
+	.string "“Boarding of the SOMNIPORT-LILYCOVE\n"
 	.string "ferry S.S. TIDAL is handled at the\l"
 	.string "HARBOR.”$"
 
@@ -1259,23 +1260,23 @@ SlateportCity_Text_OceanicMuseumSign:
 	.string "OCEANIC MUSEUM$"
 
 SlateportCity_Text_CitySign:
-	.string "SLATEPORT CITY\p"
+	.string "SOMNIPORT CITY\p"
 	.string "“The port where people and POKéMON\n"
 	.string "cross paths.”$"
 
 SlateportCity_Text_MarketSign:
-	.string "SLATEPORT MARKET\n"
+	.string "SOMNIPORT MARKET\n"
 	.string "“Unique items found nowhere else!”$"
 
 SlateportCity_Text_HarborFerryUnderConstruction:
-	.string "SLATEPORT HARBOR\p"
+	.string "SOMNIPORT HARBOR\p"
 	.string "“The ferry S.S. TIDAL is under\n"
 	.string "construction in the SHIPYARD.\p"
 	.string "“Service is scheduled to begin\n"
 	.string "shortly.”$"
 
 SlateportCity_Text_HarborSign:
-	.string "SLATEPORT HARBOR\p"
+	.string "SOMNIPORT HARBOR\p"
 	.string "“Enjoy a delightful cruise on\n"
 	.string "the ferry S.S. TIDAL.”$"
 

@@ -107,11 +107,11 @@ BattleFrontier_BattlePalaceLobby_EventScript_ResumeChallenge::
 	goto BattleFrontier_BattlePalaceLobby_EventScript_EnterChallenge
 
 BattleFrontier_BattlePalaceLobby_EventScript_SinglesAttendant::
-	lock
-	faceplayer
-	setvar VAR_FRONTIER_FACILITY, FRONTIER_FACILITY_PALACE
-	setvar VAR_FRONTIER_BATTLE_MODE, FRONTIER_MODE_SINGLES
-	goto BattleFrontier_BattlePalaceLobby_EventScript_Attendant
+	lockall
+	msgbox BattleFrontier_BattlePalaceLobby_Text_NowSelectThreeMons, MSGBOX_DEFAULT
+	setflag FLAG_FOUND_FUJI
+	removeobject LOCALID_ATTENDANT_SINGLES
+	releaseall
 	end
 
 BattleFrontier_BattlePalaceLobby_EventScript_DoublesAttendant::
@@ -444,8 +444,9 @@ BattleFrontier_BattlePalaceLobby_Text_NotEnoughValidMonsLvOpen:
 	.string "your preparations.$"
 
 BattleFrontier_BattlePalaceLobby_Text_NowSelectThreeMons:
-	.string "Good. Now, you must select your\n"
-	.string "three POKéMON.$"
+	.string "If any human…sets foot here…\n"
+	.string "again…et it be a kindhearted pers…\p"
+	.string "…ith that hope, I depar…$"
 
 BattleFrontier_BattlePalaceLobby_Text_MustSaveBeforeChallenge2:
 	.string "I must save before I show you to\n"

@@ -348,12 +348,16 @@ BattleFrontier_BattleDomeLobby_EventScript_ShowPrevTourneyTree::
 	end
 
 BattleFrontier_BattleDomeLobby_EventScript_PrevTourneyResultsSinglesLv50::
-	msgbox BattleFrontier_BattleDomeLobby_Text_PrevTourneyResultsSinglesLv50, MSGBOX_SIGN
-	return
+	lockall
+	msgbox BattleFrontier_BattleDomeLobby_Text_HereIsYourPrize, MSGBOX_DEFAULT
+	releaseall
+	end
 
 BattleFrontier_BattleDomeLobby_EventScript_PrevTourneyResultsDoublesLv50::
-	msgbox BattleFrontier_BattleDomeLobby_Text_PrevTourneyResultsDoublesLv50, MSGBOX_SIGN
-	return
+	lockall
+	msgbox BattleFrontier_BattleDomeLobby_Text_BagFullMakeRoom, MSGBOX_DEFAULT
+	releaseall
+	end
 
 BattleFrontier_BattleDomeLobby_EventScript_PrevTourneyResultsSinglesLvOpen::
 	msgbox BattleFrontier_BattleDomeLobby_Text_PrevTourneyResultsSinglesLvOpen, MSGBOX_SIGN
@@ -515,8 +519,7 @@ BattleFrontier_BattleDomeLobby_Text_CongratsForWinningTourney:
 
 @ Unused
 BattleFrontier_BattleDomeLobby_Text_HereIsYourPrize:
-	.string "Here is your prize for your Battle\n"
-	.string "Tournament victory.$"
+	.string "The board is empty.$"
 
 @ Used by Verdanturf Tent
 BattleFrontier_BattleDomeLobby_Text_ReceivedPrize:
@@ -525,9 +528,7 @@ BattleFrontier_BattleDomeLobby_Text_ReceivedPrize:
 
 @ Unused
 BattleFrontier_BattleDomeLobby_Text_BagFullMakeRoom:
-	.string "Oh, your BAG appears to be full.\p"
-	.string "Please make room in your BAG, then come\n"
-	.string "see me.$"
+	.string "The screen is dead.$"
 
 BattleFrontier_BattleDomeLobby_Text_ThankYouForPlaying:
 	.string "Thank you for playing!$"

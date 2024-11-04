@@ -579,9 +579,8 @@ static const struct MenuAction MultichoiceList_FrontierGamblerBet[] =
 
 static const struct MenuAction MultichoiceList_UnusedSSTidal1[] =
 {
-    {gText_SouthernIsland},
-    {gText_BirthIsland},
-    {gText_Exit},
+    {gText_BattleTower},
+    {gText_BattlePyramid},
 };
 
 static const struct MenuAction MultichoiceList_UnusedSSTidal2[] =

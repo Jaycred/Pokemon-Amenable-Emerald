@@ -10,7 +10,7 @@
   "allow_cycling": true,
   "allow_escaping": false,
   "allow_running": true,
-  "show_map_name": true,
+  "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": [
     {
@@ -29,38 +29,61 @@
       "direction": "emerge"
     }
   ],
-  "object_events": [],
+  "object_events": [
+    {
+      "graphics_id": "OBJ_EVENT_GFX_DITTO_DOLL",
+      "x": 45,
+      "y": 61,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_NONE",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "NULL",
+      "flag": "FLAG_HIDE_MEW"
+    }
+  ],
   "warp_events": [
     {
       "x": 45,
       "y": 65,
       "elevation": 0,
-      "dest_map": "MAP_UNDERWATER_SOOTOPOLIS_CITY",
+      "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PIKE_LOBBY",
       "dest_warp_id": "0"
+    },
+    {
+      "x": 41,
+      "y": 19,
+      "elevation": 0,
+      "dest_map": "MAP_UNDERWATER_ROUTE126",
+      "dest_warp_id": "1"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+
+  ],
   "bg_events": [
     {
       "type": "hidden_item",
-      "x": 30,
-      "y": 17,
+      "x": 25,
+      "y": 15,
       "elevation": 3,
       "item": "ITEM_HEART_SCALE",
       "flag": "FLAG_HIDDEN_ITEM_UNDERWATER_126_HEART_SCALE"
     },
     {
       "type": "hidden_item",
-      "x": 41,
-      "y": 19,
+      "x": 27,
+      "y": 20,
       "elevation": 3,
       "item": "ITEM_ULTRA_BALL",
       "flag": "FLAG_HIDDEN_ITEM_UNDERWATER_126_ULTRA_BALL"
     },
     {
       "type": "hidden_item",
-      "x": 63,
-      "y": 19,
+      "x": 68,
+      "y": 10,
       "elevation": 3,
       "item": "ITEM_STARDUST",
       "flag": "FLAG_HIDDEN_ITEM_UNDERWATER_126_STARDUST"
@@ -91,8 +114,8 @@
     },
     {
       "type": "hidden_item",
-      "x": 65,
-      "y": 60,
+      "x": 72,
+      "y": 68,
       "elevation": 3,
       "item": "ITEM_BIG_PEARL",
       "flag": "FLAG_HIDDEN_ITEM_UNDERWATER_126_BIG_PEARL"

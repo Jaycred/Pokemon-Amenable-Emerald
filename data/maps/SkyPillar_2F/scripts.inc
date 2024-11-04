@@ -5,7 +5,6 @@ SkyPillar_2F_MapScripts::
 	.byte 0
 
 SkyPillar_2F_OnTransition:
-	call_if_lt VAR_SKY_PILLAR_STATE, 2, SkyPillar_2F_EventScript_CleanFloor
 	copyvar VAR_ICE_STEP_COUNT, 1
 	end
 

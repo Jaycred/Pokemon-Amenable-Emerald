@@ -2,7 +2,7 @@
   "id": "MAP_SKY_PILLAR_1F",
   "name": "SkyPillar_1F",
   "layout": "LAYOUT_SKY_PILLAR_1F",
-  "music": "MUS_MT_CHIMNEY",
+  "music": "MUS_RG_SLOW_PALLET",
   "region_map_section": "MAPSEC_SKY_PILLAR",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
@@ -10,24 +10,26 @@
   "allow_cycling": true,
   "allow_escaping": true,
   "allow_running": true,
-  "show_map_name": true,
+  "show_map_name": false,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": null,
-  "object_events": [],
+  "connections": 0,
+  "object_events": [
+
+  ],
   "warp_events": [
     {
       "x": 6,
       "y": 13,
       "elevation": 3,
-      "dest_map": "MAP_SKY_PILLAR_OUTSIDE",
-      "dest_warp_id": "1"
+      "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PALACE_CORRIDOR",
+      "dest_warp_id": "2"
     },
     {
       "x": 7,
       "y": 13,
       "elevation": 3,
-      "dest_map": "MAP_SKY_PILLAR_OUTSIDE",
-      "dest_warp_id": "1"
+      "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PALACE_CORRIDOR",
+      "dest_warp_id": "2"
     },
     {
       "x": 10,
@@ -37,6 +39,10 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
-  "bg_events": []
+  "coord_events": [
+
+  ],
+  "bg_events": [
+
+  ]
 }

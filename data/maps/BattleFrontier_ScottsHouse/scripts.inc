@@ -6,10 +6,7 @@ BattleFrontier_ScottsHouse_MapScripts::
 BattleFrontier_ScottsHouse_EventScript_Scott::
 	lock
 	faceplayer
-	goto_if_set FLAG_TEMP_4, BattleFrontier_ScottsHouse_EventScript_GivenBerry
-	goto_if_set FLAG_TEMP_3, BattleFrontier_ScottsHouse_EventScript_GivenShield
-	goto_if_set FLAG_TEMP_2, BattleFrontier_ScottsHouse_EventScript_GivenBattlePoints
-	goto BattleFrontier_ScottsHouse_EventScript_CheckGiveItems
+	goto BattleFrontier_ScottsHouse_EventScript_RandomComment
 	end
 
 BattleFrontier_ScottsHouse_EventScript_CheckGiveItems::
@@ -68,9 +65,6 @@ BattleFrontier_ScottsHouse_EventScript_GivenBerry::
 	end
 
 BattleFrontier_ScottsHouse_EventScript_RandomComment::
-	random 3
-	goto_if_eq VAR_RESULT, 1, BattleFrontier_ScottsHouse_EventScript_FrontierBrainComment
-	goto_if_eq VAR_RESULT, 2, BattleFrontier_ScottsHouse_EventScript_ArtisanCaveComment
 	msgbox BattleFrontier_ScottsHouse_Text_WhyIGoSeekingTrainers, MSGBOX_DEFAULT
 	release
 	end
@@ -254,16 +248,11 @@ BattleFrontier_ScottsHouse_Text_ExpectingGreatThings:
 	.string "I'm expecting great things from you!$"
 
 BattleFrontier_ScottsHouse_Text_WhyIGoSeekingTrainers:
-	.string "SCOTT: Every TRAINER is an individual.\n"
-	.string "They all lead lives of their own.\p"
-	.string "But when they're in a battle,\n"
-	.string "it doesn't matter who they are.\p"
-	.string "They're all the same!\p"
-	.string "I love the purity of battle,\n"
-	.string "where everyone is equal.\p"
-	.string "That's why I go everywhere seeking\n"
-	.string "TRAINERS who are serious about\l"
-	.string "battling, and invite them here.$"
+	.string "It's terrible, what happened to\n"
+	.string "the BATTLE FRONTIER…\p"
+	.string "But there's no time to dwell on it!\p"
+	.string "Get out there and salvage what's left,\n"
+	.string "alright? Save my dream!$"
 
 BattleFrontier_ScottsHouse_Text_HaveYouMetFrontierBrain:
 	.string "SCOTT: Have you met any of\n"

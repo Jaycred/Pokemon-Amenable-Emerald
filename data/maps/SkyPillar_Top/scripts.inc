@@ -1,9 +1,7 @@
 .set LOCALID_RAYQUAZA_SLEEPING, 1
+.set LOCALID_MEW, 2
 
 SkyPillar_Top_MapScripts::
-	map_script MAP_SCRIPT_ON_RESUME, SkyPillar_Top_OnResume
-	map_script MAP_SCRIPT_ON_TRANSITION, SkyPillar_Top_OnTransition
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, SkyPillar_Top_OnWarp
 	.byte 0
 
 SkyPillar_Top_OnResume:
@@ -177,9 +175,61 @@ SkyPillar_Top_Movement_CameraPanUp:
 SkyPillar_Top_Movement_CameraPanDown:
 	walk_slow_down
 	walk_slow_down
-	walk_slow_down
+	delay_16
+	walk_down
+	delay_16
+	walk_faster_down
+	walk_faster_down
 	step_end
 
+SkyPillar_Top_Movement_MewJump:
+	jump_in_place_down
+	step_end
+
+SkyPillar_Top_EventScript_Mew::
+	lockall
+	removeobject LOCALID_RAYQUAZA_SLEEPING
+	msgbox SkyPillar_Top_Text_RayquazaFlewOff, MSGBOX_DEFAULT
+	closemessage
+	delay 30
+	applymovement LOCALID_MEW, SkyPillar_Top_Movement_CameraPanDown
+	waitmovement 0
+	waitse
+	playmoncry SPECIES_MEW, CRY_MODE_NORMAL
+	applymovement LOCALID_MEW, SkyPillar_Top_Movement_MewJump
+	waitmoncry
+	waitmovement 0
+	special SetMewDexFlags
+	playfanfare MUS_RG_OBTAIN_KEY_ITEM
+	message SkyPillar_Top_Text_AddedToDex
+	waitfanfare
+	message SkyPillar_Top_Text_UsedTeleport
+	delay 80
+	closemessage
+	setflag FLAG_HIDE_MEW
+	warpteleport MAP_SLATEPORT_CITY, 18, 6
+	waitstate
+	releaseall
+	end
+
 SkyPillar_Top_Text_RayquazaFlewOff:
-	.string "The awakened RAYQUAZA flew off…$"
+	.string "Someone left a note here.\p"
+	.string "“I tried to stop my friend from\n"
+	.string "hurting everyone, but it wasn't alone.\p"
+	.string "A human made it attack.\p"
+	.string "Humans can be scary,\n"
+	.string "but you might be fun.\p"
+	.string "You were curious enough to\n"
+	.string "play along and meet me here.\p"
+	.string "I think you want to help, too.\p"
+	.string "The PYRAMID's tyrant is\n"
+	.string "asking for it.\p"
+	.string "Let's stop the bad guys\n"
+	.string "and free my friend.”$"
+
+SkyPillar_Top_Text_AddedToDex:
+	.string "MEW's entry was added to your POKéDEX.$"
+
+SkyPillar_Top_Text_UsedTeleport:
+	.string "MEW used TELEPORT!$"
 

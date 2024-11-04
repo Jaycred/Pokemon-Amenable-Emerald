@@ -255,6 +255,17 @@ extern const u8 gText_ClockHasBeenReset[];
 extern const u8 gText_SaveCompleted[];
 extern const u8 gText_SaveFailed[];
 
+// Mysteriosity message texts
+extern const u8 gText_TypeMatchupsReversed[];
+extern const u8 gText_SpeedReversed[];
+extern const u8 gText_UnstableWeatherAdvisory[];
+extern const u8 gText_BattleBagDisabled[];
+extern const u8 gText_TrickMasterBreached[];
+extern const u8 gText_LetsGo[];
+extern const u8 gText_ContestTime[];
+extern const u8 gText_HauntedFloor[];
+extern const u8 gText_Tremors[];
+
 // menu texts
 extern const u8 gText_MenuPokedex[];
 extern const u8 gText_MenuPokemon[];

@@ -3,7 +3,6 @@ SkyPillar_5F_MapScripts::
 	.byte 0
 
 SkyPillar_5F_OnTransition:
-	call_if_lt VAR_SKY_PILLAR_STATE, 2, SkyPillar_5F_EventScript_CleanFloor
 	return
 
 SkyPillar_5F_EventScript_CleanFloor::

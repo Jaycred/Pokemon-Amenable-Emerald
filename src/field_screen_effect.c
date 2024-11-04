@@ -9,6 +9,7 @@
 #include "event_object_movement.h"
 #include "field_player_avatar.h"
 #include "field_screen_effect.h"
+#include "field_message_box.h"
 #include "field_special_scene.h"
 #include "field_weather.h"
 #include "gpu_regs.h"
@@ -24,6 +25,7 @@
 #include "overworld.h"
 #include "scanline_effect.h"
 #include "script.h"
+#include "strings.h"
 #include "sound.h"
 #include "start_menu.h"
 #include "task.h"
@@ -403,6 +405,7 @@ static void Task_ExitNonAnimDoor(u8 taskId)
 
 static void Task_ExitNonDoor(u8 taskId)
 {
+    u8 mystMessage = VarGet(VAR_MYSTERIOSITY_MESSAGE);
     switch (gTasks[taskId].tState)
     {
     case 0:
@@ -413,10 +416,22 @@ static void Task_ExitNonDoor(u8 taskId)
     case 1:
         if (WaitForWeatherFadeIn())
         {
-            UnfreezeObjectEvents();
-            UnlockPlayerFieldControls();
-            DestroyTask(taskId);
+            ScriptContext_Stop();
+            if (FlagGet(FLAG_SHOW_MYSTERIOSITY_MESSAGE))
+            {
+                FlagClear(FLAG_SHOW_MYSTERIOSITY_MESSAGE);
+                if (gMapHeader.mapLayoutId != 360) // Don't trigger in Pyramid Lobby (on reset without saving)
+                    ShowPokenavFieldMessage(gText_LinkCableBattles);
+            }
+            else if (IsFieldMessageBoxHidden())
+                gTasks[taskId].tState++;
         }
+        break;
+    case 2:
+        UnfreezeObjectEvents();
+        UnlockPlayerFieldControls();
+        ScriptContext_Enable();
+        DestroyTask(taskId);
         break;
     }
 }

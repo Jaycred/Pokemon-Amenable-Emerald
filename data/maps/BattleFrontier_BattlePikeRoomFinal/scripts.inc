@@ -1,8 +1,6 @@
 .set LOCALID_ATTENDANT, 1
 
 BattleFrontier_BattlePikeRoomFinal_MapScripts::
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, BattleFrontier_BattlePikeRoomFinal_OnFrame
-	map_script MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE, BattleFrontier_BattlePikeRoomFinal_OnWarp
 	.byte 0
 
 BattleFrontier_BattlePikeRoomFinal_OnFrame:
@@ -36,7 +34,17 @@ BattleFrontier_BattlePikeRoomFinal_EventScript_TurnPlayerNorth::
 	turnobject OBJ_EVENT_ID_PLAYER, DIR_NORTH
 	end
 
+BattleFrontier_BattlePikeRoomFinal_EventScript_Lucy::
+	lock
+	faceplayer
+	msgbox BattleFrontier_BattlePikeRoomFinal_Text_CongratsThisWayPlease, MSGBOX_DEFAULT
+	closemessage
+	release
+	end
+
 BattleFrontier_BattlePikeRoomFinal_Text_CongratsThisWayPlease:
-	.string "Congratulations…\n"
-	.string "Now, this way, please…$"
+	.string "… … … … … …\p"
+	.string "Looks like my luck finally ran out…\n"
+	.string "Humph…\p"
+	.string "I hope the others were more fortunate…$"
 

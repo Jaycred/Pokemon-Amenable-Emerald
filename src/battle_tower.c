@@ -1649,7 +1649,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
     const u16 *monSet = NULL;
     u32 otID = 0;
     if (InBattlePyramid())
-        level = VarGet(VAR_PYRAMID_LEVEL_CAP);
+        level = 5 + (3 * gSaveBlock2Ptr->frontier.curChallengeBattleNum);
 
     if (trainerId < FRONTIER_TRAINERS_COUNT)
     {
